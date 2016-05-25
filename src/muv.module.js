@@ -29,6 +29,12 @@ define(['./muv.controller'], function(Controller) {
                 };
             }
         };
+        this.src = function(path) {
+          return this.getPath(app.pathTypes.src, path);
+        };
+        this.template = function(path) {
+          return this.getPath(app.pathTypes.templates, path);
+        }
     };
     return Module;
 });

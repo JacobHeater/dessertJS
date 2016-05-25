@@ -9,7 +9,8 @@ define(function() {
         model: 'muv-model',
         mask: 'muv-mask',
         src: 'muv-src',
-        rpt: 'muv-repeat'
+        rpt: 'muv-repeat',
+        page: 'muv-page'
     };
     var selectors = {
         app: '[$app]'.replace('$app', attrs.app),
@@ -20,7 +21,8 @@ define(function() {
         model: '[$model]'.replace('$model', attrs.model),
         mask: '[$mask]'.replace('$mask', attrs.mask),
         src: '[$src]'.replace('$src', attrs.src),
-        rpt: '[$rpt]'.replace('$rpt', attrs.rpt)
+        rpt: '[$rpt]'.replace('$rpt', attrs.rpt),
+        page: '[$page]'.replace('$page', attrs.page)
     };
     var regex = {};
     var pathTypes = {
