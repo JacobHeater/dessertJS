@@ -59,7 +59,7 @@
 			<br/>
 		&emsp;});
 		<br/>
-		&emsp;return app;
+		&emsp;muv.init();
 		<br/>
 	});
 </p>
