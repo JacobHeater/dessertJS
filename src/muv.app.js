@@ -1,5 +1,5 @@
 ﻿define(['./muv.module', './muv.common'], function (Module, Common) {
-    var App = function (name, muv) {
+    var App = function (name, muv, $app) {
         this.name = name || "";
         var modules = {};
         this.module = function (name, app, globals) {
@@ -18,8 +18,10 @@
         this.init = function(args) {
           muv.init(args);
         };
+        this.$app = $app;
         this.src = "";
         this.templates = "";
+        this.muvPath = "";
         this.pathTypes =  Common.pathTypes;
     };
     return App;

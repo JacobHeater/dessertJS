@@ -1,10 +1,10 @@
 ﻿
 define(['./muv.controller'], function(Controller) {
-    var Module = function(name, app, globals) {
+    var Module = function(name, app, $module, globals) {
         var controllers = {};
         this.name = name || "";
         this.controller = function(name, implementation) {
-            controllers[name] = new Controller(name, implementation);
+            controllers[name] = new Controller(name, this, undefined, implementation);
             return controllers[name];
         };
         this.controllers = {
@@ -16,6 +16,7 @@ define(['./muv.controller'], function(Controller) {
                 return this;
             }
         };
+        this.$module = $module;
         this.globals = globals || {};
         this.app = app;
         this.getPath = function(pathType, path) {

@@ -1,19 +1,24 @@
-﻿define(function () {
+﻿
+define(function() {
     //A View is a collection of Controls
-    var View = function (name, controller) {
+    var View = function(name, controller, $view) {
         this.name = name || "";
         this.controller = controller;
+        this.$view = $view;
+        this.destroy = function() {
+          this.$view.remove();
+        };
         this.controls = {
-            add: function (control) {
+            add: function(control) {
                 if (control && control.muv) {
                     this[control.muv.name] = control;
                 }
                 return this;
             },
-            get: function (name) {
+            get: function(name) {
                 return this[name];
             },
-            remove: function (name) {
+            remove: function(name) {
                 delete this[name];
                 return this;
             }
