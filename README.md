@@ -173,3 +173,10 @@ define([
     return muv;
 });
 ```
+## Facts about muvJS
+
+muvJS is built on top of jQuery. It does not require vast knowledge of selectors to begin using this framework. In fact, quite contrary, it allows you to leverage all of the powerful features of jQuery without relying on selectors to get access to DOM elements. muvJS makes it super easy to access your controls in a view where you can tap into jQuery event listeners, and use the muv extension of the jQuery object, which introduces muv specific capabilities such as repeaters, asynchronous module loading, and more.
+
+muvJS is all about modules. Modules are the core of muvJS and their very purpose is to encourage code reuse, and a cleaner design. Inside each module are controllers, and inside controllers are views. Views contain controls, and controls can be manipulated in the controller. You get all of this without having to know a single CSS selector!
+
+muvJS is leverages the power of require.js and because of that, your design will revolve heavily around AMD principles. Require.js encourages proper separation of modules, and makes it easy to only get the dependencies that you need when you need them! Probably one of the greatest benefits of using require is the cleanliness of the code, and HTML files are no longer bloated with tons of `<script>` tags. 
