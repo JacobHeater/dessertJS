@@ -29,10 +29,20 @@ define(function() {
         src: 1,
         templates: 2
     };
+    var utils = {
+        getOuterHtml: function($context) {
+            var elem = $context;
+            var wrapped = elem.wrap('<div />');
+            var html = wrapped.parent().html();
+            elem.unwrap('<div />');
+            return html;
+        }
+    };
     return {
         attrs: attrs,
         selectors: selectors,
         regex: regex,
+        utils:utils,
         pathTypes: pathTypes
     };
 });

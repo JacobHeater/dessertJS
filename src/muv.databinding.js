@@ -3,14 +3,15 @@ define(['./muv.common'], function(common) {
     var attrs = common.attrs;
     return {
         bindTemplate: function(template, data) {
-            var regex = /\{\{[\w\d\s+()!@#$%^&*:;<>,."'\\/_-]+\}\}/gmi;
-            var brackets = /\{|\}/gm;
-            var fnCall = /[\w\d_]+\(/gmi;
+            var regex = /\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-]+\}\}/gmi;
+            var brackets = /^\{\{|\}\}$/gm;
+            var fnCall = /^[\w\d_]+\(/gmi;
+            var allowed = /for|while|do/gmi;
             var rpt = "";
             var matches = template.match(regex);
             var tmpl = template;
             var $tmpl = $(tmpl);
-            var inner = $tmpl.find(selectors.rpt).length > 0 ? $this.outerHtml($tmpl.find(selectors.rpt)) : tmpl;
+            var inner = $tmpl.find(selectors.rpt).length > 0 ? common.utils.getOuterHtml($tmpl.find(selectors.rpt)) : tmpl;
             var $output;
             var placeholder;
             var stripped;
@@ -24,7 +25,7 @@ define(['./muv.common'], function(common) {
                 trimmed = stripped.trim();
                 fns = trimmed.match(fnCall);
                 value = "";
-                if (fns === null) {
+                if (allowed.test(trimmed) || fns === null) {
                     value = (function() {
                         return eval(trimmed);
                     }).call(data);

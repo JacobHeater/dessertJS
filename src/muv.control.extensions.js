@@ -28,6 +28,11 @@ define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.ini
                 path: path
             };
         };
+        element.muv.on = function(event, handler) {
+          element.on(event, handler);
+          return this;
+        };
+        element.muv.jq = element;
         element.muv.load = function(path, callback) {
             var app = element.muv.view.controller.module.app;
             var muvPath = app.muvPath;
@@ -47,11 +52,7 @@ define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.ini
             });
         };
         element.muv.outerHtml = function($elem) {
-            var elem = $elem || element;
-            var wrapped = elem.wrap('<div />');
-            var html = wrapped.parent().html();
-            elem.unwrap('<div />');
-            return html;
+            return common.utils.getOuterHtml($elem);
         };
         element.muv.repeat = repeater(selectors, attrs, element);
     };

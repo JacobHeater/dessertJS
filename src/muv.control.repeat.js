@@ -1,9 +1,14 @@
-define(['./muv.databinding', './muv.ajax'], function(db, ajax) {
+define(['./muv.databinding', './muv.ajax', './muv.common'], function(db, ajax, common) {
+    var attrs = common.attrs;
+    var selectors = common.selectors;
     return function(selectors, attrs, element) {
         return function(sequence, template, config) {
             var $this = this;
             var iterateSequence;
             var bindTemplate;
+            var bindable;
+            var outer;
+            var $bindable;
             var $output = [];
             var buildOutput = function(output) {
                 var html = output.map(function(elem) {
@@ -12,14 +17,11 @@ define(['./muv.databinding', './muv.ajax'], function(db, ajax) {
                 if (_config.clear === true) {
                     element.children().remove();
                 }
-                element.append(html);
+                element.append(!!outer ? outer.append(html) : html);
             };
-            var _config = {
-                clear: false
-            };
-            if (typeof config === 'function') {
-                _config = config(_config) || _config;
-            }
+            var _config = $.extend({
+              clear: true
+            }, config);
             if (sequence && sequence.length) {
                 iterateSequence = function(callback) {
                     for (var i = 0; i < sequence.length; i++) {
@@ -28,16 +30,32 @@ define(['./muv.databinding', './muv.ajax'], function(db, ajax) {
                 };
                 bindTemplate = db.bindTemplate;
                 if (typeof template === 'string') {
+                    bindable = template;
+                    outer = "";
+                    $bindable = $(bindable);
+                    if ($bindable.find(selectors.rpt).length === 1) {
+                        bindable = $bindable.find(selectors.rpt).eq(0).html();
+                        $bindable.find(selectors.rpt).remove();
+                        outer = $bindable;
+                    }
                     iterateSequence(function(obj) {
-                        $elem = bindTemplate(template, obj);
+                        $elem = bindTemplate(bindable, obj);
                         $output.push($elem);
                     });
                     buildOutput($output);
                 } else if (typeof template === 'object') {
                     ajax.get(template.path)
                         .then(function(data) {
+                            bindable = data;
+                            outer = "";
+                            $bindable = $(bindable);
+                            if ($bindable.find(selectors.rpt).length === 1) {
+                                bindable = $bindable.find(selectors.rpt).eq(0).html();
+                                $bindable.find(selectors.rpt).remove();
+                                outer = $bindable;
+                            }
                             iterateSequence(function(obj) {
-                                $elem = bindTemplate(data, obj);
+                                $elem = bindTemplate(bindable, obj);
                                 $output.push($elem);
                             })
                             buildOutput($output);

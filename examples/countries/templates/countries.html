@@ -1,0 +1,41 @@
+<div>
+    <p>These are the countries that were found using your search term.</p>
+    <hr />
+    <div muv-repeat>
+        <div style="border: 1px solid black; padding: 10px 5px; margin: 5px 0;">
+          <h3>Details About {{ this.name }}</h3>
+          <table style="border: 1px solid black; border-collapse: collapse;">
+            <tbody>
+              <tr>
+                <td style="border: 1px solid black; padding: 5px;">Name</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ this.name }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 5px;">Native Name</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ this.nativeName }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 5px;">Population</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ this.population }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 5px;">Capital</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ this.capital || "Unlisted" }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 5px;">Currencies</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ this.currencies.join(', '); }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 5px;">Time Zones</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ !!this.timezones ? this.timezones.join('<br />') : "Unlisted" }}</td>
+              </tr>
+              <tr>
+                <td style="border: 1px solid black; padding: 5px;">Region</td>
+                <td style="border: 1px solid black; padding: 5px;">{{ this.region || "Unlisted" }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+</div>

@@ -27,15 +27,17 @@ define([
                 handler.call(this);
                 return this;
             },
-            init: function() {
-                $muv.init();
+            init: function(dependencies) {
+                require(dependencies, function(){
+                  $muv.init();
+                });
             },
             app: function(name) {
                 var app = new App(name, $muv);
                 return {
                     onInit: function(handler) {
                         if (typeof handler === 'function') {
-                            handler.call(app);
+                            handler.call(app, app);
                         }
                         return this;
                     },
