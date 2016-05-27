@@ -8,7 +8,7 @@ define(['./app'], function(app) {
         var tbPlaceholder = controls.tbPlaceholder;
         var loader = controls.loader.hide();
 
-        tbCountry.muv.bind(model).watch(function() {
+        tbCountry.muv.bind(model).jq.keyup(function() {
             if (!loader.is(':visible')) {
               loader.show();
             }
@@ -24,6 +24,10 @@ define(['./app'], function(app) {
                         });
                     }).fail(function(xhr) {
                         console.log(xhr);
+                        countryDetail.html("<h3 style='color: red;'>No results found from your query</h3>");
+                        if (loader.is(':visible')) {
+                          loader.hide();
+                        }
                     });
             } else {
                 countryDetail.children().remove();
