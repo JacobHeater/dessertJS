@@ -2,17 +2,14 @@
 - - -
 The purpose of this example is to show a practical use case of some of the more interesting aspects of this framework. The country lookup uses any API to search for country details about any country whose name contains the substring in the lookup textbox. When the results are retrieved, the results are enumerated and bound to a template using the muvJS data binding library. This allows for the use of handlebars to bind a JavaScript object to an HTML template.
 
-## Setting up the example
+## Quick Start
 
-I am using IIS to quickly host the example, and I am pointing the physical location to the root of the muvJS source code.
-
-`{your path}\muvJS\`
-
-When I open up chrome to run the example I type in the url
-
-`127.0.0.1:{port}/examples/countries`
-
-I don't believe it matters what server you use to host the example in, but do understand that if the example isn't hosted from the root of the project, then the relative paths will not resolve correctly, causing require to get a `404 error` when it tries to download the modules.
+- Ensure that you have the NodeJS runtime installed. If you don't, get it [here](https://nodejs.org/en/download/).
+- In a command line window, navigate to the repository directory `<RepositoryDirectory>\muvJS`.
+- Run `npm install`, which will install the muvjs package from the `package.json` file.
+- Run `node server`, which will start the express server, and open a new chrome window with the app running.
+- Begin using the example `country search` app.
+- Implement your own app using muvJS. **`:-)`**
 
 ## Highlights
 

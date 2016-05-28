@@ -1,0 +1,30 @@
+{
+  "name": "muvjs",
+  "version": "0.0.1",
+  "description": "A powerful, feature-rich, easy-to-use client-side MVC framework for building awesome web applications!",
+  "main": "server.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JacobHeater/muvJS.git"
+  },
+  "keywords": [
+    "MVC",
+    "JavaScript"
+  ],
+  "author": "Jacob Heater",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JacobHeater/muvJS/issues"
+  },
+  "homepage": "https://github.com/JacobHeater/muvJS#readme",
+  "devDependencies": {
+    "express": "^4.13.4"
+  }
+}
