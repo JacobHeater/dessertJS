@@ -1,0 +1,28 @@
+<div muv-module="autoSaveTextbox">
+    <h3>Event Driven Module Example</h3>
+    <p style="width: 60%;">
+      This module offers three events that we can leverage to auto save the contents of the textboxes. We can use the
+      <b>view.nameChanged</b> event to track when the name textbox value changes. We can also use the <b>view.ageChanged</b> event
+      to track when the age textbox value changes. Finally, we can use the <b>view.doneEditing</b> event to track when the user
+      is finished editing the textboxes, where I have created a simple mock REST call to save the data.
+    </p>
+    <div muv-controller="autoSaveTextboxController">
+        <div muv-view="autoSaveTextboxView">
+            <div muv-control="wrapper">
+                <input type="text" placeholder="Enter your name" muv-control="name" muv-model />
+                <input type="text" placeholder="Enter your age" muv-control="age" muv-model />
+                <input type="button" value="Edit" muv-control="edit" />
+            </div>
+            <div>
+              <br/>
+              <input type="button" value="Clear" muv-control="clear" />
+              <br/>
+              <br/>
+            </div>
+            <fieldset>
+              <legend>Console</legend>
+              <div muv-control="console"></div>
+            </fieldset>
+        </div>
+    </div>
+</div>

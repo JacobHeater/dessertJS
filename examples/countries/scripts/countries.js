@@ -1,5 +1,5 @@
 define(['./app'], function(app) {
-    var module = app.module('countries', app);
+    var module = app.module('countries');
     module.controller('countriesController', function(view, model, module, page) {
 
         var controls = view.controls;

@@ -2,8 +2,8 @@
     var App = function (name, muv, $app) {
         this.name = name || "";
         var modules = {};
-        this.module = function (name, app, globals) {
-            modules[name] = new Module(name, app, globals);
+        this.module = function (name, globals) {
+            modules[name] = new Module(name, this, globals);
             return modules[name];
         };
         this.modules = {
