@@ -36,13 +36,29 @@ define(function() {
             var html = wrapped.parent().html();
             elem.unwrap('<div />');
             return html;
+        },
+        cleanPath: function(path) {
+            var protocol = /[a-z]+:\/\//gmi;
+            var duplFwdSlash = /\/\//gmi;
+            var pathSplit = path.split(protocol);
+            var pathLeft = "";
+            var pathRight = "";
+            if (pathSplit.length > 1) {
+              pathLeft = pathSplit[0];
+              pathRight = pathSplit[1];
+              pathRight = pathRight.replace(duplFwdSlash, '/');
+            } else {
+              pathLeft = pathSplit[0];
+              pathLeft = pathLeft.replace(duplFwdSlash, '/');
+            }
+            return pathLeft + pathRight;
         }
     };
     return {
         attrs: attrs,
         selectors: selectors,
         regex: regex,
-        utils:utils,
+        utils: utils,
         pathTypes: pathTypes
     };
 });

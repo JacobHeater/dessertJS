@@ -18,6 +18,9 @@
         this.init = function(args) {
           muv.init(args);
         };
+        this.pageInit = function(args) {
+          muv.pageInit(args);
+        };
         this.$app = $app;
         this.src = "";
         this.templates = "";

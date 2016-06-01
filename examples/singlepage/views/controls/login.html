@@ -1,0 +1,16 @@
+<div muv-module="loginModule">
+  <div muv-controller="loginController">
+    <div muv-view="loginView">
+      <div class="loginContainer">
+        <label for="userName">User Name</label>
+        <input type="text" muv-control="userName" id="userName" placeholder="Enter user name" muv-model />
+        <br />
+        <label for="password">Password</label>
+        <input type="password" muv-control="password" id="password" placeholder="Enter password" muv-model />
+        <br />
+        <input type="button" value="Log In" muv-control="btnLogin" />
+        <div muv-control="lblErrorMsg" style="color: red;"></div>
+      </div>
+    </div>
+  </div>
+</div>

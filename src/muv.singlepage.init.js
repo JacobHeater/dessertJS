@@ -1,0 +1,12 @@
+define(['./muv.routing', './muv.common'], function(routing, common) {
+    var selectors = common.selectors;
+    var attrs = common.attrs;
+    return function(app, $page) {
+        var path = routing.getRoute();
+        var args = routing.getParams();
+        if (path && args) {
+            $page.attr(attrs.src, path);
+            app.pageInit(args);
+        }
+    };
+});

@@ -1,15 +1,14 @@
-define(['./muv.common'], function(common) {
+define(['./muv.common', './muv.routing'], function(common, routing) {
     var selectors = common.selectors;
     var attrs = common.attrs;
 
     var Page = function(app, $page, args) {
         this.app = app;
-        this.src = function(src, args) {
-            $(selectors.page).attr(attrs.src, this.app.src + src);
-            this.app.init(args);
+        this.route = function(src, args) {
+            routing.setRoute(src, args);
         };
         this.$page = $page;
-        this.args = args || {};
+        this.args = args || [];
     };
 
     return Page;

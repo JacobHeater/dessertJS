@@ -1,4 +1,4 @@
-define(['./muv.controller.init', './muv.common', './muv.page'], function(controllerInit, common, Page) {
+define(['./muv.controller.init', './muv.common', './muv.page', './muv.routing'], function(controllerInit, common, Page, routing) {
     var selectors = common.selectors;
     var attrs = common.attrs;
     return function($context, app, args, callback) {
@@ -22,6 +22,9 @@ define(['./muv.controller.init', './muv.common', './muv.page'], function(control
         $page = $context.find(selectors.page).eq(0);
         if ($page && $page.length > 0) {
             page = new Page(app, $page, args);
+            if (!routing.hasRoute()) {
+              routing.setRoute($page.attr(attrs.page), args);
+            }
         }
         modules.each(function(i) {
             $module = $(this);

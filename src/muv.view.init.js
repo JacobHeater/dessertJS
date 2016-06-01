@@ -43,6 +43,5 @@ define(['./muv.common', './muv.view', './muv.control', './muv.model'], function(
                 muvController = new controller.ctor(view, model, module, page);
             }
         });
-        $(selectors.mask).show();
     };
 })
