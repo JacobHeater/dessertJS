@@ -1,4 +1,5 @@
 define(['./muv.common', './muv.ajax'], function(common, ajax) {
+    "use strict";
     return function($context, app) {
         var selectors = common.selectors;
         var attrs = common.attrs;

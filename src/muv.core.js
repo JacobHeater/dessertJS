@@ -7,6 +7,7 @@ define([
         './muv.routing'
     ],
     function(App, common, init, spa, routing) {
+        "use strict";
         var selectors = common.selectors;
         var attrs = common.attrs;
         var regex = common.regex;

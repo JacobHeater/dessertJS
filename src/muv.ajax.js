@@ -1,4 +1,5 @@
 define([], function() {
+  "use strict";
   return {
     get: function(url) {
       return $.ajax({

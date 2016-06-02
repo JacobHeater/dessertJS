@@ -1,5 +1,6 @@
 ﻿
 define(['./muv.common', './muv.control.extensions'], function(common, extender, view) {
+    "use strict";
     var attrs = common.attrs;
     var selectors = common.selectors;
     //A Control is a wrapper for an element in a view.

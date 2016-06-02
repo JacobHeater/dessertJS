@@ -1,4 +1,5 @@
 define(['./muv.routing', './muv.common'], function(routing, common) {
+    "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
     return function(app, $page) {

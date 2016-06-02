@@ -1,4 +1,5 @@
 define([], function() {
+    "use strict";
     var location = window.location;
 
     function parseArgs(args) {

@@ -1,4 +1,5 @@
 define(['./muv.databinding', './muv.ajax', './muv.common'], function(db, ajax, common) {
+    "use strict";
     var attrs = common.attrs;
     var selectors = common.selectors;
     return function(selectors, attrs, element) {

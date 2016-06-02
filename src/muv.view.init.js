@@ -1,4 +1,5 @@
 define(['./muv.common', './muv.view', './muv.control', './muv.model'], function(common, View, Control, Model) {
+    "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
     return function($controller, controller, module, $module, app, args, page, callback) {

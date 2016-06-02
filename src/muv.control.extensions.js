@@ -1,4 +1,5 @@
 define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.init'], function(repeater, common, ajax, contextInit) {
+    "use strict";
     var attrs = common.attrs;
     var selectors = common.selectors;
     //The $ factory element result to extend with the muv object.

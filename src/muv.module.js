@@ -1,5 +1,6 @@
 ﻿
 define(['./muv.controller'], function(Controller) {
+    "use strict";
     var Module = function(name, app, $module, globals) {
         var controllers = {};
         this.name = name || "";
@@ -31,10 +32,10 @@ define(['./muv.controller'], function(Controller) {
             }
         };
         this.src = function(path) {
-          return this.getPath(app.pathTypes.src, path);
+            return this.getPath(app.pathTypes.src, path);
         };
         this.template = function(path) {
-          return this.getPath(app.pathTypes.templates, path);
+            return this.getPath(app.pathTypes.templates, path);
         }
     };
     return Module;

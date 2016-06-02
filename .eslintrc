@@ -1,0 +1,11 @@
+{
+    "rules": {
+        "curly": "error",
+        "comma-dangle": 2,
+        "no-console": 2,
+        "no-debugger": 2,
+        "eqeqeq": 2,
+        "dot-notation": 2,
+        "no-unreachable": 1
+    }
+}

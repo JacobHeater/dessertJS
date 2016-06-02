@@ -1,4 +1,5 @@
 ﻿define(['./muv.module', './muv.common'], function (Module, Common) {
+    "use strict";
     var App = function (name, muv, $app) {
         this.name = name || "";
         var modules = {};

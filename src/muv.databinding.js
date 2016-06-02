@@ -1,4 +1,5 @@
 define(['./muv.common'], function(common) {
+    "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
     return {

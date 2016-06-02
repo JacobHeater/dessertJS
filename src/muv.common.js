@@ -1,5 +1,6 @@
 ﻿
 define(function() {
+    "use strict";
     var attrs = {
         app: 'muv-app',
         module: 'muv-module',
