@@ -4,7 +4,7 @@
     var cache = require('gulp-cached');
     var config = {
         baseUrl: "src",
-        out: "./built/muv.min.js",
+        out: "./bin/muv.min.js",
         name: "muv.core"
     };
     gulp.task('muv-build', function(done) {
