@@ -1,0 +1,34 @@
+<div class="book-detail">
+    <hr />
+    <div muv-repeat>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="{{ this.volumeInfo.imageLinks.thumbnail }}" title="{{ this.volumeInfo.title }}" />
+                    </td>
+                    <td>
+                        <h3>{{ this.volumeInfo.title }}</h3>
+                        <p>
+                          {{ this.volumeInfo.description || "No description provided" }}
+                        </p>
+                        <ul>
+                          <li>
+                            Rating: {{ this.volumeInfo.averageRating || "UNKOWN" }}
+                          </li>
+                          <li>
+                            Number of Pages: {{ this.volumeInfo.pageCount }}
+                          </li>
+                          <li>Author(s): {{ this.volumeInfo.authors ? this.volumeInfo.authors.join(', ').replace(/, $/, '') : "Unspecified" }}</li>
+                          <li>
+                              Publisher: {{ this.volumeInfo.publisher }}
+                          </li>
+                          <li>Publish Date: {{ this.volumeInfo.publishedDate }}</li>
+                          <li>Categories: {{ this.volumeInfo.categories ? this.volumeInfo.categories.join(', ').replace(/, $/, '') : "Unspecified" }}</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

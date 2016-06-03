@@ -15,8 +15,13 @@ define([], function() {
         return result;
     };
 
+    function cleanHash(path) {
+      return path.replace(/[#]+/g, '');
+    }
+
     function hasRoute(path) {
-        return path.indexOf("#") > -1;
+        var routeRegex = /(#\/[\w\d\/&=:]+)/gi;
+        return routeRegex.test(path);
     }
 
     function hasArgs(path) {
@@ -36,7 +41,7 @@ define([], function() {
             if (hasRoute(location.href)) {
                 href = location.href.split("#")[0]; //Take the left side of the split
             }
-            location.href = href.concat("#").concat(path);
+            location.href = cleanHash(href).concat("#").concat(path);
         },
         getRoute: function(path) {
             var href = path || location.href;
@@ -70,9 +75,13 @@ define([], function() {
             return params;
         },
         initBackButtonHandler: function(handler) {
+            var $this = this;
             if (!window.onhashchange) {
                 window.onhashchange = function() {
-                    handler();
+                    //Handle hash change when there is truly only a hash in the url.
+                    if ($this.hasRoute()) {
+                      handler();
+                    }
                 };
             }
         }

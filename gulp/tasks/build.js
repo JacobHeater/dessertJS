@@ -14,6 +14,4 @@
             done();
         }, done);
     });
-
-    gulp.watch('src/**/*.js', ['muv-build']);
 })();

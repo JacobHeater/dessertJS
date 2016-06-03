@@ -4,7 +4,7 @@ define(['./muv.common'], function(common) {
     var attrs = common.attrs;
     return {
         bindTemplate: function(template, data) {
-            var regex = /\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-]+\}\}/gmi;
+            var regex = /((\{\{[\w\d\s+()!@#$%^&*:;,.?"<>'\\\|\{\}_-]+\}\})|(\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-].*\}\}))/gmi;
             var brackets = /^\{\{|\}\}$/gm;
             var fnCall = /^[\w\d_]+\(/gmi;
             var allowed = /for|while|do/gmi;
@@ -19,7 +19,7 @@ define(['./muv.common'], function(common) {
             var trimmed;
             var fns;
             var value;
-            var replacable;
+            var replaceable;
             for (var m = 0; m < matches.length; m++) {
                 placeholder = matches[m];
                 stripped = placeholder.replace(brackets, '');

@@ -16,6 +16,8 @@ define([
             init: function(args, isPage) {
                 var $muv = this;
                 var apps = $(selectors.app);
+                var $app;
+                var app;
                 apps.each(function(h) {
                     $app = $(this);
                     app = appCache[$app.attr(attrs.app)]; //Lookup the app in the cache

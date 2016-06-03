@@ -11,6 +11,7 @@ define(['./muv.databinding', './muv.ajax', './muv.common'], function(db, ajax, c
             var outer;
             var $bindable;
             var $output = [];
+            var $elem;
             var buildOutput = function(output) {
                 var html = output.map(function(elem) {
                     return $('<div />').append($(elem).clone()).html();
