@@ -2,14 +2,33 @@ define(['./muv.common'], function(common) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
+    var dataMuvExtensions = {
+        getMarkup: function(tag, attrs) {
+            var elem = $(tag);
+            if (attrs && attrs.length && attrs.splice) {
+                attrs.forEach(function(attr) {
+                    var split = attr.split('|').map(function(str) {
+                        return str.trim();
+                    });
+                    var key = split[0];
+                    var value = split[1];
+                    elem.attr(key, value);
+                });
+            } else if (attrs) {
+                elem.attr(attrs);
+            }
+            return elem.wrap('<div />').parent().html();
+        }
+    };
     return {
         bindTemplate: function(template, data) {
-            var regex = /((\{\{[\w\d\s+()!@#$%^&*:;,.?"<>'\\\|\{\}_-]+\}\})|(\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-].*\}\}))/gmi;
-            var brackets = /^\{\{|\}\}$/gm;
+            //var regex = /((\{\{[\w\d\s+()!@#$%^&*:;,.?"<>'\\\|\{\}_-]+\}\})|(\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-].*\}\}))/gmi;
+            var bindingRegex = /((<muvCode>[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>\{\}+#]+[\s]+<\/muvCode>)|(\{\{[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>+#]+[\s]+\}\}))/gmi;
+            var brackets = /((^{\{|\}\}$)|(^<muvCode>|<\/muvCode>$))/gmi;
             var fnCall = /^[\w\d_]+\(/gmi;
             var allowed = /for|while|do/gmi;
             var rpt = "";
-            var matches = template.match(regex);
+            var matches = template.match(bindingRegex);
             var tmpl = template;
             var $tmpl = $(tmpl);
             var inner = $tmpl.find(selectors.rpt).length > 0 ? common.utils.getOuterHtml($tmpl.find(selectors.rpt)) : tmpl;
@@ -27,6 +46,7 @@ define(['./muv.common'], function(common) {
                 fns = trimmed.match(fnCall);
                 value = "";
                 if (allowed.test(trimmed) || fns === null) {
+                    data.muv = dataMuvExtensions;
                     value = (function() {
                         return eval(trimmed);
                     }).call(data);

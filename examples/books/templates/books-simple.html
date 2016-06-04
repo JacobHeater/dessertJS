@@ -1,0 +1,39 @@
+<div class="book-detail">
+    <br/>
+    <i>Click a book image for more details, if available.</i>
+    <hr />
+    <div muv-repeat>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                       <muvCode>
+                          var info = this.volumeInfo;
+                          var isbn10 = info.industryIdentifiers.filter(function(id) {
+                            return id.type === "ISBN_10";
+                          })[0];
+                          var isbn13 = info.industryIdentifiers.filter(function(id) {
+                            return id.type === "ISBN_13";
+                          })[0];
+                          var attrs = {
+                            src: info.imageLinks.thumbnail,
+                            title: info.title
+                          };
+                          var img = this.muv.getMarkup("<img />", attrs);
+                          var html = isbn10 || isbn13 ?
+                          '<a href="#/bookdetails/:isbn=$isbn">$img</a>'.replace('$img', img).replace('$isbn', (isbn10 || isbn13).identifier) :
+                          img;
+                          html;
+                        </muvCode>
+                    </td>
+                    <td>
+                        <h3>{{ this.volumeInfo.title }}</h3>
+                        <p>
+                          {{ this.volumeInfo.description || "No description provided" }}
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

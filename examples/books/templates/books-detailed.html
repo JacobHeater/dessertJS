@@ -1,11 +1,17 @@
 <div class="book-detail">
-    <hr />
     <div muv-repeat>
         <table>
             <tbody>
                 <tr>
                     <td>
-                        <img src="{{ this.volumeInfo.imageLinks.thumbnail }}" title="{{ this.volumeInfo.title }}" />
+                       <muvCode>
+                          var info = this.volumeInfo;
+                          var attrs = {
+                            src: info.imageLinks.thumbnail,
+                            title: info.title
+                          };
+                          this.muv.getMarkup("<img />", attrs);
+                        </muvCode>
                     </td>
                     <td>
                         <h3>{{ this.volumeInfo.title }}</h3>
