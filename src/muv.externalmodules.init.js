@@ -1,34 +1,36 @@
 define(['./muv.common', './muv.ajax'], function(common, ajax) {
     "use strict";
-    return function($context, app) {
+    return function externalModulesInit($context, app) {
         var selectors = common.selectors;
         var attrs = common.attrs;
         var utils = common.utils;
-        externalModules = $context.find(selectors.src);
-        var externalModules;
+        var externalModules = $context.find(selectors.src);
+        var processedModules = [];
         var $exMod;
         var url;
-        return function processExternalModules(index, complete) {
-            if (externalModules.length > 0 && index < externalModules.length) {
-                $exMod = externalModules.eq(index);
+        
+        function processExternalModules(done) {
+            function processExternalModulesRecursive(i) {
+                $exMod = externalModules.eq(i);
                 url = utils.cleanPath("$base$modulePath.html".replace("$base", app.src).replace("$modulePath", $exMod.attr(attrs.src)));
                 ajax.get(url)
-                    .then(function(data) {
-                        $exMod.children().remove();
-                        $exMod.append(data).removeAttr(attrs.src); //Remove the muv-src attribute so this doesn't get reprocessed.
-                        setTimeout(function() {
-                            processExternalModules(index + 1, complete);
-                        }, 0);
+                    .done(function(data) {
+                        $exMod.html("");
+                        $exMod.append(data).removeAttr(attrs.src);
+                        if ((i + 1) < externalModules.length) {
+                            processExternalModulesRecursive(i + 1);
+                        } else { //Let's run the module init again until there aren't any left
+                            externalModulesInit($context, app)(done);
+                        }
                     });
-            } else if (index >= externalModules.length && externalModules.length > 0) {
-                setTimeout(function() {
-                    externalModules = $context.find(selectors.src);
-                    processExternalModules(0, complete); //Restart at zero and look for any missing links.
-                }, 0);
-            } else {
-                //This means that all external modules have been processed. Call next event.
-                complete();
             }
-        };
+            if (externalModules.length > 0) {
+                processExternalModulesRecursive(0);
+            } else {
+                done();
+            }
+        }
+
+        return processExternalModules;
     };
 });

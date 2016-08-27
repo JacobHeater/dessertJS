@@ -8,6 +8,7 @@ define([
     ],
     function(App, common, init, spa, routing) {
         "use strict";
+        var appCache = {};
         var selectors = common.selectors;
         var attrs = common.attrs;
         var regex = common.regex;
@@ -16,16 +17,18 @@ define([
             init: function(args, isPage) {
                 var $muv = this;
                 var apps = $(selectors.app);
+                var $page = $(selectors.page);
                 var $app;
                 var app;
+                var $context;
                 apps.each(function(h) {
                     $app = $(this);
+                    $context = isPage ? $page : $app;
                     app = appCache[$app.attr(attrs.app)]; //Lookup the app in the cache
-                    init($app, app, args);
-                    if (!isPage) {
-                        var page = $(selectors.page);
-                        if (page.length > 0) {
-                            spa(app, page);
+                    init($context, app, args);
+                    if (!isPage) { //Don't init the page if it's the page init method.
+                        if ($page.length > 0) {
+                            spa(app, $page);
                         }
                     }
                 });
@@ -37,8 +40,6 @@ define([
                 return this;
             }
         };
-        //Extend the $ object with the muv namespace
-        var appCache = {};
         var _module = {
             preinit: function(handler) {
                 handler.call(this);

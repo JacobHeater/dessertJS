@@ -1,3 +1,7 @@
+/********************************
+@file A wrapper module for making async calls, which returns the promise.
+@author Jacob Heater
+*********************************/
 define([], function() {
   "use strict";
   return {

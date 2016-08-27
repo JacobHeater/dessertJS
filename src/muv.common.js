@@ -1,4 +1,8 @@
-﻿
+
+/**************************
+@file A module that exposes common methods that are shared througouht the muvJS framework. This common module contains mostly helper methods and common variables.
+@author Jacob Heater
+**************************/
 define(function() {
     "use strict";
     var attrs = {
