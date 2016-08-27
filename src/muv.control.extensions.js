@@ -1,3 +1,7 @@
+/**********************************
+@file Extensions of the muvJS Control, which be nature is just a jQuery object. These are simply just extensions of the jQuery object, which are added to the muv "namespace."
+@author Jacob Heater
+***********************************/
 define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.init'], function(repeater, common, ajax, contextInit) {
     "use strict";
     var attrs = common.attrs;

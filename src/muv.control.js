@@ -1,4 +1,7 @@
-﻿
+/***********************************
+@file The muvJS Control class is simply just a decorator that adds some muvJS dependencies to the jQuery element that is given as the element argument.
+@author Jacob Heater
+************************************/
 define(['./muv.common', './muv.control.extensions'], function(common, extender, view) {
     "use strict";
     var attrs = common.attrs;
