@@ -3,7 +3,7 @@ define(['./muv.common', './muv.routing'], function(common, routing) {
     var selectors = common.selectors;
     var attrs = common.attrs;
 
-    var Page = function(app, $page, args) {
+    function Page(app, $page, args) {
         this.app = app;
         this.route = function(src, args) {
             routing.setRoute(src, args);

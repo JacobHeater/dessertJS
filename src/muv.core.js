@@ -1,5 +1,4 @@
-﻿
-define([
+﻿define([
         './muv.app',
         './muv.common',
         './muv.init',
@@ -14,7 +13,8 @@ define([
         var regex = common.regex;
         //This is a private wrapper for our $.muv object
         var $muv = {
-            init: function(args, isPage) {
+            init: function(done, args, isPage, isHash) {
+                //TODO: figure out why when the hash changes that the old page url is getting requested again.
                 var $muv = this;
                 var apps = $(selectors.app);
                 var $page = $(selectors.page);
@@ -23,31 +23,32 @@ define([
                 var $context;
                 apps.each(function(h) {
                     $app = $(this);
-                    $context = isPage ? $page : $app;
                     app = appCache[$app.attr(attrs.app)]; //Lookup the app in the cache
-                    init($context, app, args);
-                    if (!isPage) { //Don't init the page if it's the page init method.
-                        if ($page.length > 0) {
-                            spa(app, $page);
-                        }
+                    init($app, app, args, isPage, isHash, done);
+                    if (!isPage && $page.length > 0) { //Don't init the page if it's the page init method.
+                        spa(app, $page);
                     }
                 });
                 $(selectors.mask).removeAttr(attrs.mask);
                 return this;
             },
             pageInit: function(args) {
-                this.init(args, true);
+                this.init(null, args, true, false);
+                return this;
+            },
+            hashInit: function(args) {
+                this.init(null, args, false, true);
                 return this;
             }
         };
-        var _module = {
+        var muvModule = {
             preinit: function(handler) {
                 handler.call(this);
                 return this;
             },
-            init: function(dependencies) {
+            init: function(dependencies, done) {
                 require(dependencies, function() {
-                    $muv.init();
+                    $muv.init(done);
                 });
             },
             app: function(name) {
@@ -66,7 +67,7 @@ define([
                     ready: function() {
                         if (appCache[app.name] === app) {
                             routing.initBackButtonHandler(function() {
-                                $muv.init();
+                                $muv.hashInit([]);
                             });
                             return appCache[app.name];
                         }
@@ -75,6 +76,6 @@ define([
                 };
             }
         };
-        return _module;
+        return muvModule;
     }
 );

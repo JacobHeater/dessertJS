@@ -35,5 +35,8 @@ define(['./muv.controller.init', './muv.common', './muv.page', './muv.routing'],
             }
             controllerInit($module, module, app, args, page, callback);
         });
+        if (typeof callback === "function") {
+            callback(app, $context, args);
+        }
     };
 });
