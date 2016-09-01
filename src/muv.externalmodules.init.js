@@ -8,21 +8,34 @@ define(['./muv.common', './muv.ajax'], function(common, ajax) {
         var processedModules = [];
         var $exMod;
         var url;
+        var qStringParams;
+        var cleanedPath;
+        var $data;
         
         function processExternalModules(done, syncModulesDone) {
             function processExternalModulesRecursive(i) {
                 $exMod = externalModules.eq(i);
-                url = utils.cleanPath("$base$modulePath.html".replace("$base", app.src).replace("$modulePath", $exMod.attr(attrs.src)));
-                ajax.get(url)
+                qStringParams = utils.parseQueryString($exMod.attr(attrs.src));
+                cleanedPath = utils.cleanQueryString($exMod.attr(attrs.src));
+                url = utils.cleanPath("$base$modulePath.html".replace("$base", app.src).replace("$modulePath", cleanedPath));
+                if (url && url.indexOf("undefined") === -1) {
+                    ajax.get(url)
                     .done(function(data) {
+                        $data = $(data);
                         $exMod.html("");
-                        $exMod.append(data).removeAttr(attrs.src);
+                        $exMod.append($data).removeAttr(attrs.src);
+                        
+                        if (qStringParams && qStringParams.unwrap) {
+                            $data.unwrap();
+                        }
+
                         if ((i + 1) < externalModules.length) {
                             processExternalModulesRecursive(i + 1);
                         } else { //Let's run the module init again until there aren't any left
                             externalModulesInit($context, app)(done, syncModulesDone);
                         }
                     });
+                }
             }
             if (externalModules.length > 0) {
                 processExternalModulesRecursive(0);

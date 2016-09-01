@@ -4,7 +4,9 @@
  * @author Jacob Heater 
  */
 define(function() {
+    
     "use strict";
+
     var attrs = {
         app: 'muv-app',
         module: 'muv-module',
@@ -17,6 +19,7 @@ define(function() {
         rpt: 'muv-repeat',
         page: 'muv-page'
     };
+    
     var selectors = {
         app: '[$app]'.replace('$app', attrs.app),
         module: '[$module]'.replace('$module', attrs.module),
@@ -29,11 +32,14 @@ define(function() {
         rpt: '[$rpt]'.replace('$rpt', attrs.rpt),
         page: '[$page]'.replace('$page', attrs.page)
     };
+    
     var regex = {};
+    
     var pathTypes = {
         src: 1,
         templates: 2
     };
+    
     var utils = {
         /**
          * Gets the outer html of the given jQuery element. 
@@ -61,6 +67,41 @@ define(function() {
                 pathLeft = pathLeft.replace(duplFwdSlash, '/');
             }
             return pathLeft + pathRight;
+        },
+        /**
+         * Parses a query string from the given path using a ? separator.
+         * 
+         * @param {String} path The path to parse.
+         * @returns {Object} A hash table of key value pairs.
+         */
+        parseQueryString: function(path) {
+            var obj = {};
+            if (path && path.indexOf("?") > -1) {
+                var pathSplit = path.split("?");
+                var qStr = pathSplit[1];
+                var pairs = qStr.split("&");
+                pairs.forEach(function(p) {
+                    var kvp = p.split("=");
+                    var key = kvp[0];
+                    var value = kvp[1];
+                    try {
+                        value = JSON.parse(value);
+                    } catch (err) {
+                        value = kvp[1];
+                    }
+                    obj[key] = value;
+                });
+            }
+            return obj;
+        },
+        /**
+         * Cleans the query string from the path using the ? separator.
+         * 
+         * @param {String} path The path to clean.
+         * @returns {String} The cleaned path.
+         */
+        cleanQueryString: function(path) {
+            return path ? path.split("?")[0] : path;
         }
     };
 
