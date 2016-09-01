@@ -1,8 +1,12 @@
 define(['./muv.externalmodules.init', './muv.syncmodules.init'], function(exmod, syncmod) {
     "use strict";
-    return function($app, app, args) {
-        var externalInit = exmod($app, app);
-        var syncInit = syncmod($app, app, args);
-        externalInit(syncInit);
+    return function($app, app, args, isPage, isHash, done) {
+        var externalInit = exmod($app, app, isPage);
+        var syncInit = syncmod($app, app, args, done);
+        if (isHash) {
+            externalInit(function() {}, done);
+        } else {
+            externalInit(syncInit, done);
+        }
     };
 });

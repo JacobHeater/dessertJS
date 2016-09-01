@@ -1,7 +1,7 @@
 ﻿
 define(['./muv.controller'], function(Controller) {
     "use strict";
-    var Module = function(name, app, $module, globals) {
+    function Module(name, app, $module, globals) {
         var controllers = {};
         this.name = name || "";
         this.controller = function(name, implementation) {

@@ -1,8 +1,8 @@
-
-/**************************
-@file A module that exposes common methods that are shared througouht the muvJS framework. This common module contains mostly helper methods and common variables.
-@author Jacob Heater
-**************************/
+/**
+ * @file A module that exposes common methods that are shared througouht the muvJS framework. 
+ * This common module contains mostly helper methods and common variables.
+ * @author Jacob Heater 
+ */
 define(function() {
     "use strict";
     var attrs = {
@@ -35,6 +35,10 @@ define(function() {
         templates: 2
     };
     var utils = {
+        /**
+         * Gets the outer html of the given jQuery element. 
+         * @param {Object} $context The jQuery instance to get the outer html of.
+         */
         getOuterHtml: function($context) {
             var elem = $context;
             var wrapped = elem.wrap('<div />');
@@ -49,16 +53,25 @@ define(function() {
             var pathLeft = "";
             var pathRight = "";
             if (pathSplit.length > 1) {
-              pathLeft = pathSplit[0];
-              pathRight = pathSplit[1];
-              pathRight = pathRight.replace(duplFwdSlash, '/');
+                pathLeft = pathSplit[0];
+                pathRight = pathSplit[1];
+                pathRight = pathRight.replace(duplFwdSlash, '/');
             } else {
-              pathLeft = pathSplit[0];
-              pathLeft = pathLeft.replace(duplFwdSlash, '/');
+                pathLeft = pathSplit[0];
+                pathLeft = pathLeft.replace(duplFwdSlash, '/');
             }
             return pathLeft + pathRight;
         }
     };
+
+    /**
+     * Set a read-only constant value for an empty string.
+     */
+    Object.defineProperty(utils, "emptyString", {
+        writable: false,
+        value: ""
+    });
+
     return {
         attrs: attrs,
         selectors: selectors,

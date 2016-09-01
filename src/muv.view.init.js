@@ -38,9 +38,7 @@ define(['./muv.common', './muv.view', './muv.control', './muv.model'], function(
             });
             //Instantiate the controller constructor
             model = new Model(modelMembers);
-            if (typeof callback === 'function') {
-                muvController = callback(view, model, module, page);
-            } else {
+            if (controller) {
                 muvController = new controller.ctor(view, model, module, page);
             }
         });
