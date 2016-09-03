@@ -1,4 +1,4 @@
-define(['./muv.controller.init', './muv.common', './muv.page', './muv.routing'], function(controllerInit, common, Page, routing) {
+define(['./dessert.controller.init', './dessert.common', './dessert.page', './dessert.routing'], function(controllerInit, common, Page, routing) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;

@@ -1,5 +1,5 @@
 define([
-    './muv.context.init'
+    './dessert.context.init'
 ], function(contextInit) {
     "use strict";
     return function($context, app, args) {

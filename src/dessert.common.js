@@ -1,5 +1,5 @@
 /**
- * @file A module that exposes common methods that are shared througouht the muvJS framework. 
+ * @file A module that exposes common methods that are shared througouht the dessertJS framework. 
  * This common module contains mostly helper methods and common variables.
  * @author Jacob Heater 
  */
@@ -8,16 +8,16 @@ define(function() {
     "use strict";
 
     var attrs = {
-        app: 'muv-app',
-        module: 'muv-module',
-        controller: 'muv-controller',
-        view: 'muv-view',
-        control: 'muv-control',
-        model: 'muv-model',
-        mask: 'muv-mask',
-        src: 'muv-src',
-        rpt: 'muv-repeat',
-        page: 'muv-page'
+        app: 'dsrt-app',
+        module: 'dsrt-module',
+        controller: 'dsrt-controller',
+        view: 'dsrt-view',
+        control: 'dsrt-control',
+        model: 'dsrt-model',
+        mask: 'dsrt-mask',
+        src: 'dsrt-src',
+        rpt: 'dsrt-repeat',
+        page: 'dsrt-page'
     };
     
     var selectors = {

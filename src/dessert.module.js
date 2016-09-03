@@ -1,5 +1,5 @@
 ﻿
-define(['./muv.controller'], function(Controller) {
+define(['./dessert.controller'], function(Controller) {
     "use strict";
     function Module(name, app, $module, globals) {
         var controllers = {};

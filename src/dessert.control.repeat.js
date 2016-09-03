@@ -1,8 +1,8 @@
 /*****************************
-@file Defines the repeat method which is defined in the muv.control.extensions module.
+@file Defines the repeat method which is defined in the dsrt.control.extensions module.
 @author Jacob Heater
 ******************************/
-define(['./muv.databinding', './muv.ajax', './muv.common'], function(db, ajax, common) {
+define(['./dessert.databinding', './dessert.ajax', './dessert.common'], function(db, ajax, common) {
     "use strict";
     var attrs = common.attrs;
     var selectors = common.selectors;

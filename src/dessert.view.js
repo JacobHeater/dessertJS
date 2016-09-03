@@ -11,8 +11,8 @@ define(function() {
         };
         this.controls = {
             add: function(control) {
-                if (control && control.muv) {
-                    this[control.muv.name] = control;
+                if (control && control.dsrt) {
+                    this[control.dsrt.name] = control;
                 }
                 return this;
             },

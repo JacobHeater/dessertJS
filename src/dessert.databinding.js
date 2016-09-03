@@ -1,8 +1,8 @@
-define(['./muv.common'], function(common) {
+define(['./dessert.common'], function(common) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
-    var dataMuvExtensions = {
+    var datadsrtExtensions = {
         getMarkup: function(tag, attrs) {
             var elem = $(tag);
             if (attrs && attrs.length && attrs.splice) {
@@ -23,8 +23,8 @@ define(['./muv.common'], function(common) {
     return {
         bindTemplate: function(template, data) {
             //var regex = /((\{\{[\w\d\s+()!@#$%^&*:;,.?"<>'\\\|\{\}_-]+\}\})|(\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-].*\}\}))/gmi;
-            var bindingRegex = /((<muvCode>[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>\{\}+#]+[\s]+<\/muvCode>)|(\{\{[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>+#]+[\s]+\}\}))/gmi;
-            var brackets = /((^{\{|\}\}$)|(^<muvCode>|<\/muvCode>$))/gmi;
+            var bindingRegex = /((<dsrtCode>[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>\{\}+#]+[\s]+<\/dsrtCode>)|(\{\{[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>+#]+[\s]+\}\}))/gmi;
+            var brackets = /((^{\{|\}\}$)|(^<dsrtCode>|<\/dsrtCode>$))/gmi;
             var fnCall = /^[\w\d_]+\(/gmi;
             var allowed = /for|while|do/gmi;
             var rpt = "";
@@ -46,7 +46,7 @@ define(['./muv.common'], function(common) {
                 fns = trimmed.match(fnCall);
                 value = "";
                 if (allowed.test(trimmed) || fns === null) {
-                    data.muv = dataMuvExtensions;
+                    data.dsrt = datadsrtExtensions;
                     value = (function() {
                         return eval(trimmed);
                     }).call(data);

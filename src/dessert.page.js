@@ -1,4 +1,4 @@
-define(['./muv.common', './muv.routing'], function(common, routing) {
+define(['./dessert.common', './dessert.routing'], function(common, routing) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;

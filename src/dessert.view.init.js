@@ -1,4 +1,16 @@
-define(['./muv.common', './muv.view', './muv.control', './muv.model'], function(common, View, Control, Model) {
+define([
+    './dessert.common',
+    './dessert.view',
+    './dessert.control',
+    './dessert.model',
+    "./dessert.routing"
+], function(
+    common,
+    View,
+    Control,
+    Model,
+    $routing
+) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
@@ -19,7 +31,7 @@ define(['./muv.common', './muv.view', './muv.control', './muv.model'], function(
         var controlName;
         var control;
         var model;
-        var muvController;
+        var dsrtController;
         views.each(function(k) {
             $view = $(this);
             controls = $view.find(selectors.control);
@@ -39,7 +51,7 @@ define(['./muv.common', './muv.view', './muv.control', './muv.model'], function(
             //Instantiate the controller constructor
             model = new Model(modelMembers);
             if (controller) {
-                muvController = new controller.ctor(view, model, module, page);
+                dsrtController = new controller.ctor(view, model, module, page, $routing);
             }
         });
     };

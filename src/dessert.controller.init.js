@@ -1,4 +1,4 @@
-define(['./muv.common', './muv.view.init'], function(common, viewInit) {
+define(['./dessert.common', './dessert.view.init'], function(common, viewInit) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
