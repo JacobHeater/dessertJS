@@ -1,4 +1,8 @@
-define(['./dessert.common', './dessert.view.init'], function(common, viewInit) {
+define([
+    './dessert.common',
+    './dessert.view.init',
+    "jquery"
+], function(common, viewInit, $) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;

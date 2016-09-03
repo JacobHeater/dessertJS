@@ -3,9 +3,17 @@
         './dessert.common',
         './dessert.init',
         './dessert.singlepage.init',
-        './dessert.routing'
+        './dessert.routing',
+        "jquery"
     ],
-    function(App, common, init, spa, routing) {
+    function(
+        App,
+        common,
+        init,
+        spa,
+        routing,
+        $
+    ) {
         "use strict";
         var appCache = {};
         var selectors = common.selectors;

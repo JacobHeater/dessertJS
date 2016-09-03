@@ -2,7 +2,13 @@
 @file Extensions of the dessertJS Control, which be nature is just a jQuery object. These are simply just extensions of the jQuery object, which are added to the dsrt "namespace."
 @author Jacob Heater
 ***********************************/
-define(['./dessert.control.repeat', './dessert.common', './dessert.ajax', './dessert.context.init'], function(repeater, common, ajax, contextInit) {
+define([
+    './dessert.control.repeat',
+    './dessert.common',
+    './dessert.ajax',
+    './dessert.context.init',
+    "jquery"
+], function(repeater, common, ajax, contextInit, $) {
     "use strict";
     var attrs = common.attrs;
     var selectors = common.selectors;
@@ -34,16 +40,16 @@ define(['./dessert.control.repeat', './dessert.common', './dessert.ajax', './des
             };
         };
         element.dsrt.on = function(event, handler) {
-          element.on(event, handler);
-          return this;
+            element.on(event, handler);
+            return this;
         };
         element.dsrt.jq = element;
         element.dsrt.load = function(path, callback) {
             var app = element.dsrt.view.controller.module.app;
             var dsrtPath = app.dsrtPath;
             require([
-              dsrtPath.concat('dsrt.context.init'),
-              dsrtPath.concat('dsrt.externalmodules.init')
+                dsrtPath.concat('dsrt.context.init'),
+                dsrtPath.concat('dsrt.externalmodules.init')
             ], function(contextInit, externalInit) {
                 ajax.get(path.path)
                     .then(function(data) {
@@ -51,7 +57,7 @@ define(['./dessert.control.repeat', './dessert.common', './dessert.ajax', './des
                         element.append(data);
                         var asyncInit = externalInit(element, app);
                         asyncInit(0, function() {
-                          contextInit(element, element.dsrt.view.controller.module.app, {}, callback);
+                            contextInit(element, element.dsrt.view.controller.module.app, {}, callback);
                         });
                     });
             });

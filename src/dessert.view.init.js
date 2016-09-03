@@ -3,13 +3,15 @@ define([
     './dessert.view',
     './dessert.control',
     './dessert.model',
-    "./dessert.routing"
+    "./dessert.routing",
+    "jquery"
 ], function(
     common,
     View,
     Control,
     Model,
-    $routing
+    $routing,
+    $
 ) {
     "use strict";
     var selectors = common.selectors;

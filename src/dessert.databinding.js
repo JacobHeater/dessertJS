@@ -1,4 +1,4 @@
-define(['./dessert.common'], function(common) {
+define(['./dessert.common', "jquery"], function(common, $) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;

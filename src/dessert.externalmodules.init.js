@@ -1,11 +1,13 @@
 define([
     './dessert.common',
     './dessert.ajax',
-    "./dessert.routing"
+    "./dessert.routing",
+    "jquery"
 ], function(
     common,
     ajax,
-    $routing
+    $routing,
+    $
 ) {
     "use strict";
     return function externalModulesInit($context, app, isPage) {

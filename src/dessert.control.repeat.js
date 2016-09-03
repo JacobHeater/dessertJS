@@ -2,7 +2,12 @@
 @file Defines the repeat method which is defined in the dsrt.control.extensions module.
 @author Jacob Heater
 ******************************/
-define(['./dessert.databinding', './dessert.ajax', './dessert.common'], function(db, ajax, common) {
+define([
+    './dessert.databinding',
+    './dessert.ajax',
+    './dessert.common',
+    "jquery"
+], function(db, ajax, common, $) {
     "use strict";
     var attrs = common.attrs;
     var selectors = common.selectors;
@@ -26,7 +31,7 @@ define(['./dessert.databinding', './dessert.ajax', './dessert.common'], function
                 element.append(!!outer ? outer.append(html) : html);
             };
             var _config = $.extend({
-              clear: true
+                clear: true
             }, config);
             if (sequence && sequence.length) {
                 iterateSequence = function(callback) {
