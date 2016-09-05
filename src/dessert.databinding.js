@@ -1,4 +1,4 @@
-define(['./dessert.common', "jquery"], function(common, $) {
+define("dessert.databinding", ['dessert.common', "jquery"], function(common, $) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;

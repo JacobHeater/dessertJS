@@ -1,9 +1,9 @@
-﻿define([
-        './dessert.app',
-        './dessert.common',
-        './dessert.init',
-        './dessert.singlepage.init',
-        './dessert.routing',
+﻿define("dessert.core", [
+        'dessert.app',
+        'dessert.common',
+        'dessert.init',
+        'dessert.singlepage.init',
+        'dessert.routing',
         "jquery"
     ],
     function(
@@ -14,7 +14,9 @@
         routing,
         $
     ) {
+        
         "use strict";
+
         var appCache = {};
         var selectors = common.selectors;
         var attrs = common.attrs;

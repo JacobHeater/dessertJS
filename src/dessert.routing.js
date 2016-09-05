@@ -1,4 +1,4 @@
-define([], function() {
+define("dessert.routing", [], function() {
     "use strict";
     var location = window.location;
 

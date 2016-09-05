@@ -1,6 +1,6 @@
-define([
-    './dessert.common',
-    './dessert.view.init',
+define("dessert.controller.init", [
+    'dessert.common',
+    'dessert.view.init',
     "jquery"
 ], function(common, viewInit, $) {
     "use strict";
@@ -11,7 +11,7 @@ define([
         var $controller;
         var controller;
         if (controllers.length > 0) {
-            controllers.each(function(j) {
+            controllers.each(function() {
                 $controller = $(this);
                 if (!callback) {
                     controller = module.controllers.get($controller.attr(attrs.controller));

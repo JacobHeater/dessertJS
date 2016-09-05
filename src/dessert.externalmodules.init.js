@@ -1,7 +1,7 @@
-define([
-    './dessert.common',
-    './dessert.ajax',
-    "./dessert.routing",
+define("dessert.externalmodules.init", [
+    'dessert.common',
+    'dessert.ajax',
+    "dessert.routing",
     "jquery"
 ], function(
     common,

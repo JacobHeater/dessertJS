@@ -1,5 +1,5 @@
 ﻿
-define(function() {
+define("dessert.model", function() {
     "use strict";
     //A Model is a data object for the view.
     function Model(members) {

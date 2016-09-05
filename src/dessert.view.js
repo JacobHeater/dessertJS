@@ -1,5 +1,5 @@
 ﻿
-define(function() {
+define("dessert.view", [], function() {
     "use strict";
     //A View is a collection of Controls
     var View = function(name, controller, $view) {

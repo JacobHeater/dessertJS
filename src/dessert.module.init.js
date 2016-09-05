@@ -1,8 +1,8 @@
-define([
-    './dessert.controller.init',
-    './dessert.common',
-    './dessert.page',
-    './dessert.routing',
+define("dessert.module.init", [
+    'dessert.controller.init',
+    'dessert.common',
+    'dessert.page',
+    'dessert.routing',
     "jquery"
 ], function(
     controllerInit,

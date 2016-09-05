@@ -1,4 +1,4 @@
-define(['./dessert.externalmodules.init', './dessert.syncmodules.init'], function(exmod, syncmod) {
+define("dessert.init", ['dessert.externalmodules.init', 'dessert.syncmodules.init'], function(exmod, syncmod) {
     "use strict";
     return function($app, app, args, isPage, isHash, done) {
         var externalInit = exmod($app, app, isPage);

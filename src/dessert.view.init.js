@@ -1,9 +1,9 @@
-define([
-    './dessert.common',
-    './dessert.view',
-    './dessert.control',
-    './dessert.model',
-    "./dessert.routing",
+define("dessert.view.init", [
+    'dessert.common',
+    'dessert.view',
+    'dessert.control',
+    'dessert.model',
+    "dessert.routing",
     "jquery"
 ], function(
     common,

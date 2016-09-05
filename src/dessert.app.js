@@ -3,10 +3,10 @@
 Example of an application definition in the markup is <div dsrt-app="my-first-dsrt-app"></div>
 @author Jacob Heater
 */
-define([
-    './dessert.module',
-    './dessert.common',
-    "./dessert.httphandlercache"
+define("dessert.app", [
+    'dessert.module',
+    'dessert.common',
+    "dessert.httphandlercache"
 ], function(
     $module,
     $common,

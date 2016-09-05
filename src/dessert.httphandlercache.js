@@ -1,4 +1,7 @@
-define(function() {
+define("dessert.httphandlercache", function() {
+    
+    "use strict";
+    
     /**
      * @class
      * A simple cache for storing HTTP handlers for different HTTP status codes.

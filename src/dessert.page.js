@@ -1,7 +1,6 @@
-define(['./dessert.common', './dessert.routing'], function(common, routing) {
+define("dessert.page", ['dessert.routing'], function(routing) {
+    
     "use strict";
-    var selectors = common.selectors;
-    var attrs = common.attrs;
 
     function Page(app, $page, args) {
         this.app = app;

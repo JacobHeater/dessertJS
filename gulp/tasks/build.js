@@ -7,7 +7,7 @@
         out: "./bin/dessert.min.js",
         name: "dessert.core"
     };
-    gulp.task('dsrt-build', function(done) {
+    gulp.task('build', function(done) {
         gulp.src('src/**/*.js')
         .pipe(cache("dessertJS"));
         rjs.optimize(config, function(buildResponse) {

@@ -2,14 +2,15 @@
 @file Extensions of the dessertJS Control, which be nature is just a jQuery object. These are simply just extensions of the jQuery object, which are added to the dsrt "namespace."
 @author Jacob Heater
 ***********************************/
-define([
-    './dessert.control.repeat',
-    './dessert.common',
-    './dessert.ajax',
-    './dessert.context.init',
+define("dessert.control.extensions", [
+    'dessert.control.repeat',
+    'dessert.common',
+    'dessert.ajax',
     "jquery"
-], function(repeater, common, ajax, contextInit, $) {
+], function(repeater, common, ajax, $) {
+
     "use strict";
+
     var attrs = common.attrs;
     var selectors = common.selectors;
     //The $ factory element result to extend with the dsrt object.
@@ -65,6 +66,6 @@ define([
         element.dsrt.outerHtml = function($elem) {
             return common.utils.getOuterHtml($elem);
         };
-        element.dsrt.repeat = repeater(selectors, attrs, element);
+        element.dsrt.repeat = repeater(element);
     };
 });
