@@ -1,8 +1,10 @@
 define([
-  '../../../src/muv.core'
-], function (muv) {
-    muv.init([
-      './scripts/countries'
-    ]);
-    return muv;
+  '../../../src/dessert.core'
+], function(dessert) {
+  "use strict";
+  
+  dessert.init([
+    './scripts/countries'
+  ]);
+  return dessert;
 });

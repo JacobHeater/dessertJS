@@ -27,7 +27,6 @@ define(['./dessert.common', "jquery"], function(common, $) {
             var brackets = /((^{\{|\}\}$)|(^<dsrtCode>|<\/dsrtCode>$))/gmi;
             var fnCall = /^[\w\d_]+\(/gmi;
             var allowed = /for|while|do/gmi;
-            var rpt = "";
             var matches = template.match(bindingRegex);
             var tmpl = template;
             var $tmpl = $(tmpl);

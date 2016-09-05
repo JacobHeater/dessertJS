@@ -1,5 +1,5 @@
 /**************
-@file A series of tests for testing the muv.databinding module capabilities.
+@file A series of tests for testing the dessert.databinding module capabilities.
 @since 06/08/2016
 @author Jacob Heater
 ***************/
@@ -15,7 +15,7 @@
         });
         it("Test", function() {
             var done = jasmine.createSpy("success");
-            requirejs(['./src/muv.databinding'], function(db) {
+            requirejs(['./src/dessert.databinding'], function(db) {
                 console.log(db);
                 done();
             });

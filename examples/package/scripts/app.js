@@ -1,10 +1,10 @@
-﻿define(['../../../src/muv.core'], function (muv) {
-    return muv
+﻿define(['../../../src/dessert.core'], function (dessert) {
+    return dessert
     .app('package')
     .onInit(function() {
         this.src = "./views/";
         this.templates = "./templates/";
-        this.muvPath = "./scripts/muv/";
+        this.dessertPath = "./scripts/dessert/";
     })
     .cache()
     .ready();

@@ -1,19 +1,19 @@
 <div class="book-search-container">
-    <div muv-module="booksearch">
-        <div muv-controller="booksearchController">
-            <div muv-view="books">
-              <div muv-src="partials/loader"></div>
-              <h2>muvJS Book Search Example</h2>
+    <div dsrt-module="booksearch">
+        <div dsrt-controller="booksearchController">
+            <div dsrt-view="books">
+              <div dsrt-src="partials/loader"></div>
+              <h2>dessertJS Book Search Example</h2>
               <p>
                 The book search example uses the Google Books api to search for books by the given author query.
               </p>
               <br />
               <label for="tbAuthorName">Author Name</label>
               <br/>
-              <input id="tbAuthorName" type="text" placeholder="Enter the author name" muv-control="tbAuthorName" muv-model />
-              <input type="button" muv-control="btnSearch" value="Search" />
+              <input id="tbAuthorName" type="text" placeholder="Enter the author name" dsrt-control="tbAuthorName" dsrt-model />
+              <input type="button" dsrt-control="btnSearch" value="Search" />
               <br />
-              <div muv-control="displayBooks">
+              <div dsrt-control="displayBooks">
               </div>
             </div>
         </div>

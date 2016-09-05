@@ -8,7 +8,7 @@ define(['./app'], function(app) {
         var tbPlaceholder = controls.tbPlaceholder;
         var loader = controls.loader.hide();
 
-        tbCountry.muv.bind(model).jq.keyup(function() {
+        tbCountry.dsrt.bind(model).jq.keyup(function() {
             if (!loader.is(':visible')) {
               loader.show();
             }
@@ -19,7 +19,7 @@ define(['./app'], function(app) {
                         if (loader.is(':visible')) {
                           loader.hide();
                         }
-                        countryDetail.muv.repeat(data, module.template('countries'), {
+                        countryDetail.dsrt.repeat(data, module.template('countries'), {
                             clear: true
                         });
                     }).fail(function(xhr) {
@@ -38,4 +38,6 @@ define(['./app'], function(app) {
         });
 
     });
+
+    app.init();
 });

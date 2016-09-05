@@ -1,4 +1,4 @@
-# muvJS
+# dessertJS
 - - -
 
 A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for building **awesome** web applications!
@@ -6,11 +6,11 @@ A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for bu
 ## Quick Start
 
 - Ensure that you have the NodeJS runtime installed. If you don't, get it [here](https://nodejs.org/en/download/).
-- In a command line window, navigate to the repository directory `<RepositoryDirectory>\muvJS`.
-- Run `npm install`, which will install the muvjs package from the `package.json` file.
+- In a command line window, navigate to the repository directory `<RepositoryDirectory>\dessertJS`.
+- Run `npm install`, which will install the dessertjs package from the `package.json` file.
 - Run `node server`, which will start the express server, and open a new chrome window with the app running.
 - Begin using the example `country search` app.
-- Implement your own app using muvJS. **`:-)`**
+- Implement your own app using dessertJS. **`:-)`**
 
 ## Usage Example
 
@@ -18,20 +18,20 @@ A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for bu
 
 #### Page - index.html
 
-```
+```html
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>MUV.js Test</title>
+    <title>dessert.js Test</title>
     <meta charset="utf-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <!-- <script src="./jqlite.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <style type="text/css">
-        [muv-mask] {
+        [dsrt-mask] {
             display: none;
         }
 
@@ -42,8 +42,8 @@ A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for bu
 </head>
 
 <body>
-    <div muv-app="app" muv-mask>
-        <div muv-src="/pages/countries" muv-page>
+    <div dsrt-app="app" dsrt-mask>
+        <div dsrt-src="/pages/countries" dsrt-page>
         </div>
     </div>
     <script>
@@ -56,20 +56,20 @@ A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for bu
 
 #### Module - Countries.html
 
-```
+```html
 <!-- Countries.html -->
-<!--Specify a muv module-->
-<div muv-module="countries">
+<!--Specify a dessert module-->
+<div dsrt-module="countries">
 	<!--Specify the controller scope for the module-->
-    <div muv-controller="countriesController">
+    <div dsrt-controller="countriesController">
 		<!--Sepcify the view and its contents-->
-        <div muv-view="countriesView">
+        <div dsrt-view="countriesView">
             <label for="tbCountry">Search for Your Country by Name</label>
             &nbsp;
-			<!--Create a control inside the view using the muv-control attribute-->
-			<!--By using the muv-model attribute, we can create a model member for this control-->
-            <input type="text" id="tbCountry" muv-control="tbCountry" placeholder="Enter the country name" title="Please enter at least 3 characters to start the search." muv-model />
-            <div muv-control="countryDetail">
+			<!--Create a control inside the view using the dsrt-control attribute-->
+			<!--By using the dsrt-model attribute, we can create a model member for this control-->
+            <input type="text" id="tbCountry" dsrt-control="tbCountry" placeholder="Enter the country name" title="Please enter at least 3 characters to start the search." dsrt-model />
+            <div dsrt-control="countryDetail">
             </div>
             <br/>
         </div>
@@ -80,11 +80,11 @@ A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for bu
 
 #### Template - Countries.html
 
-```
+```html
 <div>
     <p>These are the countries that were found using your search term.</p>
     <hr />
-    <div muv-repeat>
+    <div dsrt-repeat>
         <div style="border: 1px solid black; padding: 10px 5px; margin: 5px 0;">
           <h3>Details About {{ this.name }}</h3>
           <table style="border: 1px solid black; border-collapse: collapse;">
@@ -124,14 +124,14 @@ A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for bu
 ## JavaScript
 
 #### app.js
-```
-define(['./muv/muv.core'], function (muv) {
-    return muv
+```javascript
+define(['./dessert/dessert.core'], function (dessert) {
+    return dessert
     .app('app')
     .onInit(function(app) {
         app.src = "../views/";
         app.templates = "../templates/";
-        app.muvPath = "../scripts/muv/";
+        app.dessertPath = "../scripts/dessert/";
     })
     .cache()
     .ready();
@@ -140,7 +140,7 @@ define(['./muv/muv.core'], function (muv) {
 ```
 
 #### countries.js
-```
+```javascript
 define(['./app'], function(app) {
     var module = app.module('countries', app);
     module.controller('countriesController', function(view, model, module, page) {
@@ -149,13 +149,13 @@ define(['./app'], function(app) {
         var tbCountry = controls.tbCountry;
         var countryDetail = controls.countryDetail;
 
-        tbCountry.muv.bind(model).watch(function() {
+        tbCountry.dsrt.bind(model).watch(function() {
             var val = model.tbCountry;
             if (val.length > 3) {
                 $.get('https://restcountries.eu/rest/v1/name/%name'.replace('%name', val))
                     .then(function(data) {
                         console.log(data);
-                        countryDetail.muv.repeat(data, module.template('countries'), {
+                        countryDetail.dsrt.repeat(data, module.template('countries'), {
                             clear: true
                         });
                     }).fail(function(xhr) {
@@ -172,20 +172,20 @@ define(['./app'], function(app) {
 ```
 
 #### runtime.js
-```
+```javascript
 define([
-  './muv/muv.core'
-], function (muv) {
-    muv.init([
+  './dessert/dessert.core'
+], function (dessert) {
+    dessert.init([
       '../scripts/countries'
     ]);
-    return muv;
+    return dessert;
 });
 ```
-## Facts about muvJS
+## Facts about dessertJS
 
-muvJS is built on top of jQuery. It does not require vast knowledge of selectors to begin using this framework. In fact, quite contrary, it allows you to leverage all of the powerful features of jQuery without relying on selectors to get access to DOM elements. muvJS makes it super easy to access your controls in a view where you can tap into jQuery event listeners, and use the muv extension of the jQuery object, which introduces muv specific capabilities such as repeaters, asynchronous module loading, and more.
+dessertJS is built on top of jQuery. It does not require vast knowledge of selectors to begin using this framework. In fact, quite contrary, it allows you to leverage all of the powerful features of jQuery without relying on selectors to get access to DOM elements. dessertJS makes it super easy to access your controls in a view where you can tap into jQuery event listeners, and use the dessert extension of the jQuery object, which introduces dessert specific capabilities such as repeaters, asynchronous module loading, and more.
 
-muvJS is all about modules. Modules are the core of muvJS and their very purpose is to encourage code reuse, and a cleaner design. Inside each module are controllers, and inside controllers are views. Views contain controls, and controls can be manipulated in the controller. You get all of this without having to know a single CSS selector!
+dessertJS is all about modules. Modules are the core of dessertJS and their very purpose is to encourage code reuse, and a cleaner design. Inside each module are controllers, and inside controllers are views. Views contain controls, and controls can be manipulated in the controller. You get all of this without having to know a single CSS selector!
 
-muvJS is leverages the power of require.js and because of that, your design will revolve heavily around AMD principles. Require.js encourages proper separation of modules, and makes it easy to only get the dependencies that you need when you need them! Probably one of the greatest benefits of using require is the cleanliness of the code, and HTML files are no longer bloated with tons of `<script>` tags.
+dessertJS is leverages the power of require.js and because of that, your design will revolve heavily around AMD principles. Require.js encourages proper separation of modules, and makes it easy to only get the dependencies that you need when you need them! Probably one of the greatest benefits of using require is the cleanliness of the code, and HTML files are no longer bloated with tons of `<script>` tags.

@@ -1,4 +1,4 @@
-define(['../../../../src/muv.events'], function(events) {
+define(['../../../../src/dessert.events'], function(events) {
     return function(model, view, controller) {
         /*
         This module is responsible for setting up the autoSaveTextbox.html module.
@@ -50,7 +50,7 @@ define(['../../../../src/muv.events'], function(events) {
                 view.nameChanged.trigger(_nameVal, $(this).val());
                 _nameVal = $(this).val();
             }
-        }).muv.bind(model).jq;
+        }).dsrt.bind(model).jq;
         age = controls.age.prop('disabled', true).focus(function() {
             _ageVal = $(this).val();
         }).blur(function() {
@@ -58,7 +58,7 @@ define(['../../../../src/muv.events'], function(events) {
                 view.ageChanged.trigger(_ageVal, $(this).val());
                 _ageVal = $(this).val();
             }
-        }).muv.bind(model).jq;
+        }).dsrt.bind(model).jq;
         tbs = $([name, age].map(function(j) {
             return j[0];
         })).keyup(function(e) {

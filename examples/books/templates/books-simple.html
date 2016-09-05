@@ -2,12 +2,12 @@
     <br/>
     <i>Click a book image for more details, if available.</i>
     <hr />
-    <div muv-repeat>
+    <div dsrt-repeat>
         <table>
             <tbody>
                 <tr>
                     <td>
-                       <muvCode>
+                       <dsrtCode>
                           var info = this.volumeInfo;
                           var isbn10 = info.industryIdentifiers.filter(function(id) {
                             return id.type === "ISBN_10";
@@ -19,12 +19,12 @@
                             src: info.imageLinks.thumbnail,
                             title: info.title
                           };
-                          var img = this.muv.getMarkup("<img />", attrs);
+                          var img = this.dsrt.getMarkup("<img />", attrs);
                           var html = isbn10 || isbn13 ?
                           '<a href="#/bookdetails/:isbn=$isbn">$img</a>'.replace('$img', img).replace('$isbn', (isbn10 || isbn13).identifier) :
                           img;
                           html;
-                        </muvCode>
+                        </dsrtCode>
                     </td>
                     <td>
                         <h3>{{ this.volumeInfo.title }}</h3>
