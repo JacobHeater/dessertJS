@@ -1,21 +1,31 @@
-﻿define([
-        './muv.app',
-        './muv.common',
-        './muv.init',
-        './muv.singlepage.init',
-        './muv.routing'
+﻿define("dessert.core", [
+        'dessert.app',
+        'dessert.common',
+        'dessert.init',
+        'dessert.singlepage.init',
+        'dessert.routing',
+        "jquery"
     ],
-    function(App, common, init, spa, routing) {
+    function(
+        App,
+        common,
+        init,
+        spa,
+        routing,
+        $
+    ) {
+        
         "use strict";
+
         var appCache = {};
         var selectors = common.selectors;
         var attrs = common.attrs;
         var regex = common.regex;
-        //This is a private wrapper for our $.muv object
-        var $muv = {
+        //This is a private wrapper for our $.dsrt object
+        var $dsrt = {
             init: function(done, args, isPage, isHash) {
                 //TODO: figure out why when the hash changes that the old page url is getting requested again.
-                var $muv = this;
+                var $dsrt = this;
                 var apps = $(selectors.app);
                 var $page = $(selectors.page);
                 var $app;
@@ -41,18 +51,18 @@
                 return this;
             }
         };
-        var muvModule = {
+        var dsrtModule = {
             preinit: function(handler) {
                 handler.call(this);
                 return this;
             },
             init: function(dependencies, done) {
                 require(dependencies, function() {
-                    $muv.init(done);
+                    $dsrt.init(done);
                 });
             },
             app: function(name) {
-                var app = appCache[name] || new App(name, $muv);
+                var app = appCache[name] || new App(name, $dsrt);
                 return {
                     onInit: function(handler) {
                         if (typeof handler === 'function') {
@@ -67,15 +77,15 @@
                     ready: function() {
                         if (appCache[app.name] === app) {
                             routing.initBackButtonHandler(function() {
-                                $muv.hashInit([]);
+                                $dsrt.hashInit([]);
                             });
                             return appCache[app.name];
                         }
-                        throw new Error("You did not add this application context to the muv appCache. You must call the \".cache()\" method before calling \".ready()\"");
+                        throw new Error("You did not add this application context to the dsrt appCache. You must call the \".cache()\" method before calling \".ready()\"");
                     }
                 };
             }
         };
-        return muvModule;
+        return dsrtModule;
     }
 );

@@ -1,5 +1,5 @@
-define([
-    './muv.context.init'
+define("dessert.syncmodules.init", [
+    'dessert.context.init'
 ], function(contextInit) {
     "use strict";
     return function($context, app, args) {

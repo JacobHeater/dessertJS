@@ -4,12 +4,12 @@
     var cache = require('gulp-cached');
     var config = {
         baseUrl: "src",
-        out: "./bin/muv.min.js",
-        name: "muv.core"
+        out: "./bin/dessert.min.js",
+        name: "dessert.core"
     };
-    gulp.task('muv-build', function(done) {
+    gulp.task('build', function(done) {
         gulp.src('src/**/*.js')
-        .pipe(cache("muvJS"));
+        .pipe(cache("dessertJS"));
         rjs.optimize(config, function(buildResponse) {
             done();
         }, done);

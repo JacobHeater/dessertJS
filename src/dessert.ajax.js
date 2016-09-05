@@ -2,7 +2,7 @@
  * @file A wrapper module for making async calls, which returns the promise.
  * @author Jacob Heater
  */
-define([], function() {
+define("dessert.ajax", [], function() {
   "use strict";
 
   return {

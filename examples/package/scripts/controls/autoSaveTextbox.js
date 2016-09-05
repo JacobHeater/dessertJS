@@ -1,4 +1,7 @@
 define(['../app', './autoSaveTextboxSetup'], function(app, setup) {
+    
+    "use strict";
+    
     var module = app.module('autoSaveTextbox');
     module.controller('autoSaveTextboxController', function(view, model, module, page) {
         //Use the autoSaveTextboxSetup package to setup the view controls, and events.
@@ -21,5 +24,8 @@ define(['../app', './autoSaveTextboxSetup'], function(app, setup) {
             }, 1500);
         });
     });
+
+    app.init();
+
     return module;
 });

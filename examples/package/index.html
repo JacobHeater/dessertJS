@@ -2,17 +2,17 @@
 <html>
 
 <head>
-    <title>muvJS Package Example</title>
+    <title>dessertJS Package Example</title>
     <meta charset="utf-8" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
     <!-- <script src="./jqlite.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <style type="text/css">
-        [muv-mask] {
+        [dsrt-mask] {
             display: none;
         }
-
+        
         html {
             font-family: 'Ubuntu', Arial, sans-serif;
         }
@@ -20,11 +20,16 @@
 </head>
 
 <body>
-    <div muv-app="package" muv-mask>
-        <div muv-src="/pages/home">
+    <div dsrt-app="package" dsrt-mask>
+        <div dsrt-src="/pages/home">
         </div>
     </div>
     <script>
+        require.config({
+            paths: {
+                jquery: "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min"
+            }
+        });
         require(['./scripts/runtime']);
     </script>
 </body>

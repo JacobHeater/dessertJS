@@ -1,14 +1,20 @@
 /*****************************
-@file Defines the repeat method which is defined in the muv.control.extensions module.
+@file Defines the repeat method which is defined in the dsrt.control.extensions module.
 @author Jacob Heater
 ******************************/
-define(['./muv.databinding', './muv.ajax', './muv.common'], function(db, ajax, common) {
+define("dessert.control.repeat", [
+    'dessert.databinding',
+    'dessert.ajax',
+    'dessert.common',
+    "jquery"
+], function(db, ajax, common, $) {
+
     "use strict";
-    var attrs = common.attrs;
+    
     var selectors = common.selectors;
-    return function(selectors, attrs, element) {
+
+    return function(element) {
         return function(sequence, template, config) {
-            var $this = this;
             var iterateSequence;
             var bindTemplate;
             var bindable;
@@ -16,6 +22,9 @@ define(['./muv.databinding', './muv.ajax', './muv.common'], function(db, ajax, c
             var $bindable;
             var $output = [];
             var $elem;
+            var _config = $.extend({
+                clear: true
+            }, config);
             var buildOutput = function(output) {
                 var html = output.map(function(elem) {
                     return $('<div />').append($(elem).clone()).html();
@@ -25,9 +34,6 @@ define(['./muv.databinding', './muv.ajax', './muv.common'], function(db, ajax, c
                 }
                 element.append(!!outer ? outer.append(html) : html);
             };
-            var _config = $.extend({
-              clear: true
-            }, config);
             if (sequence && sequence.length) {
                 iterateSequence = function(callback) {
                     for (var i = 0; i < sequence.length; i++) {

@@ -1,5 +1,5 @@
 ﻿
-define(function() {
+define("dessert.view", [], function() {
     "use strict";
     //A View is a collection of Controls
     var View = function(name, controller, $view) {
@@ -11,8 +11,8 @@ define(function() {
         };
         this.controls = {
             add: function(control) {
-                if (control && control.muv) {
-                    this[control.muv.name] = control;
+                if (control && control.dsrt) {
+                    this[control.dsrt.name] = control;
                 }
                 return this;
             },

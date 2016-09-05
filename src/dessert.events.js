@@ -1,4 +1,4 @@
-define(function() {
+define("dessert.events", [], function() {
     "use strict";
     return function(view, eventNames) {
         //Duck type eventNames to check if it's an array

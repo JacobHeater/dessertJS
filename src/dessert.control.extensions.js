@@ -1,14 +1,21 @@
 /**********************************
-@file Extensions of the muvJS Control, which be nature is just a jQuery object. These are simply just extensions of the jQuery object, which are added to the muv "namespace."
+@file Extensions of the dessertJS Control, which be nature is just a jQuery object. These are simply just extensions of the jQuery object, which are added to the dsrt "namespace."
 @author Jacob Heater
 ***********************************/
-define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.init'], function(repeater, common, ajax, contextInit) {
+define("dessert.control.extensions", [
+    'dessert.control.repeat',
+    'dessert.common',
+    'dessert.ajax',
+    "jquery"
+], function(repeater, common, ajax, $) {
+
     "use strict";
+
     var attrs = common.attrs;
     var selectors = common.selectors;
-    //The $ factory element result to extend with the muv object.
+    //The $ factory element result to extend with the dsrt object.
     return function(element) {
-        element.muv.bind = function(model) {
+        element.dsrt.bind = function(model) {
             if (model) {
                 //First init the control with the model value
                 element.val(model[element.attr(attrs.control)]);
@@ -20,7 +27,7 @@ define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.ini
             }
             return this;
         };
-        element.muv.watch = function(watcher) {
+        element.dsrt.watch = function(watcher) {
             if (typeof watcher === 'function') {
                 element.on('keyup keydown change', function() {
                     watcher.call($(this));
@@ -28,22 +35,22 @@ define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.ini
             }
             return this;
         };
-        element.muv.src = function(path) {
+        element.dsrt.src = function(path) {
             return {
                 path: path
             };
         };
-        element.muv.on = function(event, handler) {
-          element.on(event, handler);
-          return this;
+        element.dsrt.on = function(event, handler) {
+            element.on(event, handler);
+            return this;
         };
-        element.muv.jq = element;
-        element.muv.load = function(path, callback) {
-            var app = element.muv.view.controller.module.app;
-            var muvPath = app.muvPath;
+        element.dsrt.jq = element;
+        element.dsrt.load = function(path, callback) {
+            var app = element.dsrt.view.controller.module.app;
+            var dsrtPath = app.dsrtPath;
             require([
-              muvPath.concat('muv.context.init'),
-              muvPath.concat('muv.externalmodules.init')
+                dsrtPath.concat('dsrt.context.init'),
+                dsrtPath.concat('dsrt.externalmodules.init')
             ], function(contextInit, externalInit) {
                 ajax.get(path.path)
                     .then(function(data) {
@@ -51,14 +58,14 @@ define(['./muv.control.repeat', './muv.common', './muv.ajax', './muv.context.ini
                         element.append(data);
                         var asyncInit = externalInit(element, app);
                         asyncInit(0, function() {
-                          contextInit(element, element.muv.view.controller.module.app, {}, callback);
+                            contextInit(element, element.dsrt.view.controller.module.app, {}, callback);
                         });
                     });
             });
         };
-        element.muv.outerHtml = function($elem) {
+        element.dsrt.outerHtml = function($elem) {
             return common.utils.getOuterHtml($elem);
         };
-        element.muv.repeat = repeater(selectors, attrs, element);
+        element.dsrt.repeat = repeater(element);
     };
 });

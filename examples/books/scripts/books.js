@@ -11,7 +11,7 @@ define(['./app'], function(app) {
             $.get(encodeURI(url))
                 .then(function(data) {
                     loader.hide();
-                    displayBooks.muv.repeat(data.items.map(function(item) {
+                    displayBooks.dsrt.repeat(data.items.map(function(item) {
                         item.searchTerm = model.tbAuthorName.trim();
                         return item;
                     }), module.template('books-simple'), {
@@ -30,7 +30,7 @@ define(['./app'], function(app) {
                 getBookDetail();
             }
         }
-        tbAuthorName.muv.bind(model).jq.keyup(function(e) {
+        tbAuthorName.dsrt.bind(model).jq.keyup(function(e) {
             if (e.which === 13) {
                 btnSearch.click();
             }
@@ -59,7 +59,7 @@ define(['./app'], function(app) {
         $.get(encodeURI(url))
             .then(function(data) {
                 loader.hide();
-                displayBooks.muv.repeat(data.items, module.template('books-detailed'), {
+                displayBooks.dsrt.repeat(data.items, module.template('books-detailed'), {
                     clear: true
                 });
             });

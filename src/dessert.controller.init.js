@@ -1,4 +1,8 @@
-define(['./muv.common', './muv.view.init'], function(common, viewInit) {
+define("dessert.controller.init", [
+    'dessert.common',
+    'dessert.view.init',
+    "jquery"
+], function(common, viewInit, $) {
     "use strict";
     var selectors = common.selectors;
     var attrs = common.attrs;
@@ -7,7 +11,7 @@ define(['./muv.common', './muv.view.init'], function(common, viewInit) {
         var $controller;
         var controller;
         if (controllers.length > 0) {
-            controllers.each(function(j) {
+            controllers.each(function() {
                 $controller = $(this);
                 if (!callback) {
                     controller = module.controllers.get($controller.attr(attrs.controller));

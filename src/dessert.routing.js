@@ -1,4 +1,4 @@
-define([], function() {
+define("dessert.routing", [], function() {
     "use strict";
     var location = window.location;
 
@@ -7,7 +7,7 @@ define([], function() {
         if (args && args.length && args.length > 0) {
             result += "/:";
             result += args.map(function(a) {
-                return a.key.concat("=").concat(a.value);
+                return a.key.concat("=").concat(escape(a.value));
             }).reduce(function(current, next) {
                 return current.concat("&").concat(next);
             });
@@ -68,7 +68,7 @@ define([], function() {
                     var kvp = p.split("="); //Creates a key value pair
                     return {
                         key: kvp[0] || "",
-                        value: kvp[1] || ""
+                        value: unescape(kvp[1] || "")
                     };
                 }); //Resolves to [{key: 'key', value: 'value'},...];
             }

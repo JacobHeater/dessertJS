@@ -1,6 +1,7 @@
-define(['./muv.routing', './muv.common'], function(routing, common) {
+define("dessert.singlepage.init", ['dessert.routing', 'dessert.common'], function(routing, common) {
+    
     "use strict";
-    var selectors = common.selectors;
+    
     var attrs = common.attrs;
     return function(app, $page) {
         var path = routing.getRoute();

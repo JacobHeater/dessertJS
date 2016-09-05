@@ -1,17 +1,17 @@
 <div class="book-detail">
-    <div muv-repeat>
+    <div dsrt-repeat>
         <table>
             <tbody>
                 <tr>
                     <td>
-                       <muvCode>
+                       <dsrtCode>
                           var info = this.volumeInfo;
                           var attrs = {
                             src: info.imageLinks.thumbnail,
                             title: info.title
                           };
-                          this.muv.getMarkup("<img />", attrs);
-                        </muvCode>
+                          this.dsrt.getMarkup("<img />", attrs);
+                        </dsrtCode>
                     </td>
                     <td>
                         <h3>{{ this.volumeInfo.title }}</h3>
