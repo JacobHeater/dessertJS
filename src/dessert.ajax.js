@@ -2,7 +2,14 @@
  * @file A wrapper module for making async calls, which returns the promise.
  * @author Jacob Heater
  */
-define("dessert.ajax", [], function() {
+define("dessert.ajax", ['jquery'], main);
+
+/**
+ * Require entry point.
+ * 
+ * @returns {Object} An object that exposes ajax capabilities.
+ */
+function main($) {
   "use strict";
 
   return {
@@ -36,4 +43,4 @@ define("dessert.ajax", [], function() {
       });
     }
   }
-});
+}

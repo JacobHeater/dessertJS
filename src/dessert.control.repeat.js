@@ -1,7 +1,7 @@
-/*****************************
+/**
 @file Defines the repeat method which is defined in the dsrt.control.extensions module.
 @author Jacob Heater
-******************************/
+*/
 define("dessert.control.repeat", [
     'dessert.databinding',
     'dessert.ajax',
@@ -13,7 +13,23 @@ define("dessert.control.repeat", [
     
     var selectors = common.selectors;
 
+    /**
+     * Creates a closure and returns a function that aids in repeating
+     * the given template using the data set.
+     * 
+     * @param {Object} element The jQuery object instance.
+     * @returns {Function} A closure that is used to repeat the template.
+     */
     return function(element) {
+        /**
+         * Enumerates over the given sequence or data set, and injects the template
+         * content into the DOM element.
+         * 
+         * @param {any[]} sequence The data set to enumerate over.
+         * @param {Object|String} template The template to repeat into the DOM element.
+         * @param {Object} config The configuration for the repeater.
+         * @returns {Object} The current dessertJS control for chaining.
+         */
         return function(sequence, template, config) {
             var iterateSequence;
             var bindTemplate;

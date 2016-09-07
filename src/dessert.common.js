@@ -3,122 +3,133 @@
  * This common module contains mostly helper methods and common variables.
  * @author Jacob Heater 
  */
-define("dessert.common",
-    function() {
+define("dessert.common", [], main);
 
-        "use strict";
+/**
+ * RequireJS entry point.
+ * 
+ * @returns {Object} An object that exposes common dessertJS functionality.
+ */
+function main() {
+    "use strict";
 
-        var attrs = {
-            app: 'dsrt-app',
-            module: 'dsrt-module',
-            controller: 'dsrt-controller',
-            view: 'dsrt-view',
-            control: 'dsrt-control',
-            model: 'dsrt-model',
-            mask: 'dsrt-mask',
-            src: 'dsrt-src',
-            rpt: 'dsrt-repeat',
-            page: 'dsrt-page'
-        };
+    /**
+     * Attributes that are used to describe html entities.
+     */
+    var attrs = {
+        app: 'dsrt-app',
+        module: 'dsrt-module',
+        controller: 'dsrt-controller',
+        view: 'dsrt-view',
+        control: 'dsrt-control',
+        model: 'dsrt-model',
+        mask: 'dsrt-mask',
+        src: 'dsrt-src',
+        rpt: 'dsrt-repeat',
+        page: 'dsrt-page'
+    };
+    /**
+     * Selectors that are used in conjunction with the above attributes
+     * to find matching dessertJS DOM elements.
+     */
+    var selectors = {
+        app: '[$app]'.replace('$app', attrs.app),
+        module: '[$module]'.replace('$module', attrs.module),
+        controller: '[$controller]'.replace('$controller', attrs.controller),
+        view: '[$view]'.replace('$view', attrs.view),
+        control: '[$control]'.replace('$control', attrs.control),
+        model: '[$model]'.replace('$model', attrs.model),
+        mask: '[$mask]'.replace('$mask', attrs.mask),
+        src: '[$src]'.replace('$src', attrs.src),
+        rpt: '[$rpt]'.replace('$rpt', attrs.rpt),
+        page: '[$page]'.replace('$page', attrs.page)
+    };
 
-        var selectors = {
-            app: '[$app]'.replace('$app', attrs.app),
-            module: '[$module]'.replace('$module', attrs.module),
-            controller: '[$controller]'.replace('$controller', attrs.controller),
-            view: '[$view]'.replace('$view', attrs.view),
-            control: '[$control]'.replace('$control', attrs.control),
-            model: '[$model]'.replace('$model', attrs.model),
-            mask: '[$mask]'.replace('$mask', attrs.mask),
-            src: '[$src]'.replace('$src', attrs.src),
-            rpt: '[$rpt]'.replace('$rpt', attrs.rpt),
-            page: '[$page]'.replace('$page', attrs.page)
-        };
+    var regex = {};
 
-        var regex = {};
+    var pathTypes = {
+        src: 1,
+        templates: 2
+    };
 
-        var pathTypes = {
-            src: 1,
-            templates: 2
-        };
-
-        var utils = {
-            /**
-             * Gets the outer html of the given jQuery element. 
-             * @param {Object} $context The jQuery instance to get the outer html of.
-             */
-            getOuterHtml: function($context) {
-                var elem = $context;
-                var wrapped = elem.wrap('<div />');
-                var html = wrapped.parent().html();
-                elem.unwrap('<div />');
-                return html;
-            },
-            cleanPath: function(path) {
-                var protocol = /[a-z]+:\/\//gmi;
-                var duplFwdSlash = /\/\//gmi;
-                var pathSplit = path.split(protocol);
-                var pathLeft = "";
-                var pathRight = "";
-                if (pathSplit.length > 1) {
-                    pathLeft = pathSplit[0];
-                    pathRight = pathSplit[1];
-                    pathRight = pathRight.replace(duplFwdSlash, '/');
-                } else {
-                    pathLeft = pathSplit[0];
-                    pathLeft = pathLeft.replace(duplFwdSlash, '/');
-                }
-                return pathLeft + pathRight;
-            },
-            /**
-             * Parses a query string from the given path using a ? separator.
-             * 
-             * @param {String} path The path to parse.
-             * @returns {Object} A hash table of key value pairs.
-             */
-            parseQueryString: function(path) {
-                var obj = {};
-                if (path && path.indexOf("?") > -1) {
-                    var pathSplit = path.split("?");
-                    var qStr = pathSplit[1];
-                    var pairs = qStr.split("&");
-                    pairs.forEach(function(p) {
-                        var kvp = p.split("=");
-                        var key = kvp[0];
-                        var value = kvp[1];
-                        try {
-                            value = JSON.parse(value);
-                        } catch (err) {
-                            value = kvp[1];
-                        }
-                        obj[key] = value;
-                    });
-                }
-                return obj;
-            },
-            /**
-             * Cleans the query string from the path using the ? separator.
-             * 
-             * @param {String} path The path to clean.
-             * @returns {String} The cleaned path.
-             */
-            cleanQueryString: function(path) {
-                return path ? path.split("?")[0] : path;
-            }
-        };
-
+    var utils = {
         /**
-         * Set a read-only constant value for an empty string.
+         * Gets the outer html of the given jQuery element. 
+         * @param {Object} $context The jQuery instance to get the outer html of.
          */
-        Object.defineProperty(utils, "emptyString", {
-            writable: false,
-            value: ""
-        });
+        getOuterHtml: function($context) {
+            var elem = $context;
+            var wrapped = elem.wrap('<div />');
+            var html = wrapped.parent().html();
+            elem.unwrap('<div />');
+            return html;
+        },
+        cleanPath: function(path) {
+            var protocol = /[a-z]+:\/\//gmi;
+            var duplFwdSlash = /\/\//gmi;
+            var pathSplit = path.split(protocol);
+            var pathLeft = "";
+            var pathRight = "";
+            if (pathSplit.length > 1) {
+                pathLeft = pathSplit[0];
+                pathRight = pathSplit[1];
+                pathRight = pathRight.replace(duplFwdSlash, '/');
+            } else {
+                pathLeft = pathSplit[0];
+                pathLeft = pathLeft.replace(duplFwdSlash, '/');
+            }
+            return pathLeft + pathRight;
+        },
+        /**
+         * Parses a query string from the given path using a ? separator.
+         * 
+         * @param {String} path The path to parse.
+         * @returns {Object} A hash table of key value pairs.
+         */
+        parseQueryString: function(path) {
+            var obj = {};
+            if (path && path.indexOf("?") > -1) {
+                var pathSplit = path.split("?");
+                var qStr = pathSplit[1];
+                var pairs = qStr.split("&");
+                pairs.forEach(function(p) {
+                    var kvp = p.split("=");
+                    var key = kvp[0];
+                    var value = kvp[1];
+                    try {
+                        value = JSON.parse(value);
+                    } catch (err) {
+                        value = kvp[1];
+                    }
+                    obj[key] = value;
+                });
+            }
+            return obj;
+        },
+        /**
+         * Cleans the query string from the path using the ? separator.
+         * 
+         * @param {String} path The path to clean.
+         * @returns {String} The cleaned path.
+         */
+        cleanQueryString: function(path) {
+            return path ? path.split("?")[0] : path;
+        }
+    };
 
-        return {
-            attrs: attrs,
-            selectors: selectors,
-            regex: regex,
-            utils: utils,
-            pathTypes: pathTypes
-        };
+    /**
+     * Set a read-only constant value for an empty string.
+     */
+    Object.defineProperty(utils, "emptyString", {
+        writable: false,
+        value: ""
     });
+
+    return {
+        attrs: attrs,
+        selectors: selectors,
+        regex: regex,
+        utils: utils,
+        pathTypes: pathTypes
+    };
+}

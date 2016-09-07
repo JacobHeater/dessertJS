@@ -7,11 +7,17 @@ define("dessert.app", [
     'dessert.module',
     'dessert.common',
     "dessert.httphandlercache"
-], function(
-    $module,
-    $common,
-    $httpHandlerCache
-) {
+], main);
+
+/**
+ * RequireJS entry point.
+ * 
+ * @param {Function} $module A constructor that represents dessertJS modules.
+ * @param {Object} $common A library of common dessertJS functionality.
+ * @param {Function} $httpHandlerCache A constructor that represents a cache of HTTP response handlers.
+ * @returns {Function} A constructor function that represents a dessertJS application.
+ */
+function main($module, $common, $httpHandlerCache) {
     "use strict";
 
     var emptyString = $common.utils.emptyString;
@@ -93,4 +99,4 @@ define("dessert.app", [
     App.prototype.src = emptyString;
 
     return App;
-});
+}

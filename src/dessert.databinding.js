@@ -1,8 +1,23 @@
+/**
+ * @file Exposes functionality for data binding in the dessertJS framework.
+ * @author Jacob Heater
+ */
 define("dessert.databinding", ['dessert.common', "jquery"], function(common, $) {
+    
     "use strict";
+    
     var selectors = common.selectors;
     var attrs = common.attrs;
-    var datadsrtExtensions = {
+    var dataDsrtExtensions = {
+        /**
+         * Returns an HTML string with the rendered markup using the provided tag
+         * and the attrs array to describe the attributes of the DOM element.
+         * 
+         * @param {String} tag The tag name of the DOM element to render markup for.
+         * @param {Object[]} attrs An array of key value pairs that desribe the DOM element.
+         * @returns {String} The HTML element string rendered after attributes 
+         * have been added to the object.
+         */
         getMarkup: function(tag, attrs) {
             var elem = $(tag);
             if (attrs && attrs.length && attrs.splice) {
@@ -21,6 +36,15 @@ define("dessert.databinding", ['dessert.common', "jquery"], function(common, $) 
         }
     };
     return {
+        /**
+         * Binds the given template to the data set. The template
+         * will be interrogated to pull out key information for data
+         * binding to ensure that it can be bound to the data.
+         * 
+         * @param {String} template The HTML template to bind the data to.
+         * @param {any} data The data to bind to the template.
+         * @returns {String} The bound HTML template after being rendered.
+         */
         bindTemplate: function(template, data) {
             //var regex = /((\{\{[\w\d\s+()!@#$%^&*:;,.?"<>'\\\|\{\}_-]+\}\})|(\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-].*\}\}))/gmi;
             var bindingRegex = /((<dsrtCode>[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>\{\}+#]+[\s]+<\/dsrtCode>)|(\{\{[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>+#]+[\s]+\}\}))/gmi;
@@ -45,7 +69,7 @@ define("dessert.databinding", ['dessert.common', "jquery"], function(common, $) 
                 fns = trimmed.match(fnCall);
                 value = "";
                 if (allowed.test(trimmed) || fns === null) {
-                    data.dsrt = datadsrtExtensions;
+                    data.dsrt = dataDsrtExtensions;
                     value = (function() {
                         return eval(trimmed);
                     }).call(data);
