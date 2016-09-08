@@ -7,7 +7,7 @@
     "use strict";
 
     define("dessert.core", [
-            "dessert.app",
+            "dessert.application",
             "dessert.common",
             "dessert.init",
             "dessert.singlepage.init",
@@ -15,7 +15,7 @@
             "jquery"
         ],
         function(
-            App,
+            Application,
             common,
             init,
             spa,

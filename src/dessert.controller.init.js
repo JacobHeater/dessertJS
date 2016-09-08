@@ -38,7 +38,7 @@
                     $controller = $(this);
                     if (!callback) {
                         controller = module.controllers.get($controller.attr(attrs.controller));
-                        if (cotroller) {
+                        if (controller) {
                             controller.$controller = $controller;
                             if ($.isFunction(controller.onInit)) {
                                 controller.onInit();

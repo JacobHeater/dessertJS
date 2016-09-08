@@ -4,10 +4,10 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
 @author Jacob Heater
 */
 (function() {
-    
+
     "use strict";
-    
-    define("dessert.app", [
+
+    define("dessert.application", [
         'dessert.module',
         'dessert.common',
         "dessert.httphandlercache"
@@ -96,10 +96,10 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             this.$app = $app;
         };
 
-        App.prototype.pathTypes = $common.pathTypes;
-        App.prototype.dsrtPath = emptyString;
-        App.prototype.templates = emptyString;
-        App.prototype.src = emptyString;
+        Application.prototype.pathTypes = $common.pathTypes;
+        Application.prototype.dsrtPath = emptyString;
+        Application.prototype.templates = emptyString;
+        Application.prototype.src = emptyString;
 
         return Application;
     }
