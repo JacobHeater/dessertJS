@@ -1,5 +1,5 @@
 define([
-  '../../../src/dessert.core'
+  'dessert.core'
 ], function (dessert) {
     dessert.init([
       './scripts/home',

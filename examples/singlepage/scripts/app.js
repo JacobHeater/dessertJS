@@ -1,4 +1,4 @@
-﻿define(['../../../src/dessert.core'], function (dessert) {
+﻿define(['dessert.core'], function (dessert) {
     return dessert
     .app('package')
     .onInit(function() {

@@ -1,4 +1,5 @@
 define(['./app'], function(app) {
+    "use strict";
     var module = app.module('countries');
     module.controller('countriesController', function(view, model, module, page) {
 

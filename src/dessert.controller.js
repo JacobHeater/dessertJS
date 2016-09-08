@@ -2,9 +2,12 @@
  * @file Defines the dessertJS Controller prototype.
  * @author Jacob Heater
  */
-define("dessert.controller", [],
+(function() {
+
+    "use strict";
+
+    define("dessert.controller", [],
     function() {
-        "use strict";
         //A Controller does the work of binding the Model <--> View
         /**
          * The dessertJS controller is what drives the logic of the modules. Modules are
@@ -29,3 +32,4 @@ define("dessert.controller", [],
         };
         return Controller;
     });
+})();
