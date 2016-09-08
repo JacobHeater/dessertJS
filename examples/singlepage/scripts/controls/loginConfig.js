@@ -5,7 +5,7 @@ define(function(){
     var userName = controls.userName;
     var password = controls.password
     var lblErrorMsg = controls.lblErrorMsg;
-    view.configureEvents(['onLogin']);
+    view.configureEvents('onLogin');
     userName.dsrt.bind(model);
     password.dsrt.bind(model);
     view.invalidate = function() {

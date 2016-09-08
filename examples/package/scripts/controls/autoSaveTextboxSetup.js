@@ -21,7 +21,7 @@ define(function() {
         var current;
         var pending;
         //Set up all of the events that we want available in the view
-        view.configureEvents(['doneEditing', 'nameChanged', 'ageChanged']);
+        view.configureEvents('doneEditing', 'nameChanged', 'ageChanged');
         var disableFields = function() {
             name.prop('disabled', true);
             age.prop('disabled', true);
