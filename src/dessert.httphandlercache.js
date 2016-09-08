@@ -86,7 +86,8 @@
                 var matchedHandlers = handlers.filter(function(h) {
                     return h.name === name;
                 });
-                matchedHandlers.forEach(function(h, index) {
+                matchedHandlers.forEach(function(h) {
+                    var index = handlers.indexOf(h);
                     handlers.splice(index, 1);
                 });
                 return this;

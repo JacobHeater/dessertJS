@@ -19,7 +19,7 @@
     ) {
         var selectors = common.selectors;
         var attrs = common.attrs;
-        return function($controller, controller, module, $module, app, args, page, callback) {
+        return function($controller, controller, module, $module, app, args, page, callback) { //eslint-disable-line no-unused-vars
             var views;
             if ($controller) { //If no controller, we'll consider it a partial view.
                 views = $controller.find(selectors.view);
@@ -36,18 +36,17 @@
             var controlName;
             var control;
             var model;
-            var dsrtController;
-            views.each(function(k) {
+            views.each(function() {
                 $view = $(this);
                 controls = $view.find(selectors.control);
                 view = new View($view.attr(attrs.view), controller, $view);
                 modelMembers = {};
                 models = $view.find(selectors.model);
-                models.each(function(l) {
+                models.each(function() {
                     $model = $(this);
                     modelMembers[$model.attr(attrs.control)] = "";
                 });
-                controls.each(function(l) {
+                controls.each(function() {
                     $control = $(this);
                     controlName = $control.attr(attrs.control);
                     control = new Control(controlName, $control, view);
