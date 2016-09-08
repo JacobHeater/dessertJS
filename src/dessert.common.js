@@ -3,11 +3,22 @@
  * This common module contains mostly helper methods and common variables.
  * @author Jacob Heater 
  */
-define("dessert.common",
-    function() {
+(function() {
 
-        "use strict";
+    "use strict";
 
+    define("dessert.common", [], main);
+
+    /**
+     * RequireJS entry point.
+     * 
+     * @returns {Object} An object that exposes common dessertJS functionality.
+     */
+    function main() {
+
+        /**
+         * Attributes that are used to describe html entities.
+         */
         var attrs = {
             app: 'dsrt-app',
             module: 'dsrt-module',
@@ -20,7 +31,10 @@ define("dessert.common",
             rpt: 'dsrt-repeat',
             page: 'dsrt-page'
         };
-
+        /**
+         * Selectors that are used in conjunction with the above attributes
+         * to find matching dessertJS DOM elements.
+         */
         var selectors = {
             app: '[$app]'.replace('$app', attrs.app),
             module: '[$module]'.replace('$module', attrs.module),
@@ -121,4 +135,5 @@ define("dessert.common",
             utils: utils,
             pathTypes: pathTypes
         };
-    });
+    }
+})();

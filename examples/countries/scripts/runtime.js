@@ -1,10 +1,12 @@
 define([
-  '../../../src/dessert.core'
+  'dessert.core'
 ], function(dessert) {
+  
   "use strict";
   
   dessert.init([
     './scripts/countries'
   ]);
+  
   return dessert;
 });

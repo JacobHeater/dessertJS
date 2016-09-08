@@ -1,4 +1,5 @@
-define(['../../../../src/dessert.events'], function(events) {
+define(function() {
+    "use strict";
     return function(model, view, controller) {
         /*
         This module is responsible for setting up the autoSaveTextbox.html module.
@@ -20,7 +21,7 @@ define(['../../../../src/dessert.events'], function(events) {
         var current;
         var pending;
         //Set up all of the events that we want available in the view
-        events(view, ['doneEditing', 'nameChanged', 'ageChanged']);
+        view.configureEvents(['doneEditing', 'nameChanged', 'ageChanged']);
         var disableFields = function() {
             name.prop('disabled', true);
             age.prop('disabled', true);

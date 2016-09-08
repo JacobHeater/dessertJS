@@ -1,6 +1,9 @@
 define([
-  '../../../src/dessert.core'
-], function(dessert){
+  'dessert.core'
+], function(dessert) {
+
+  "use strict";
+  
   dessert.init([
     './scripts/books'
   ]);
