@@ -7,7 +7,7 @@
     "use strict";
 
     define("dessert.core", [
-            "dessert.app",
+            "dessert.application",
             "dessert.common",
             "dessert.init",
             "dessert.singlepage.init",
@@ -15,7 +15,7 @@
             "jquery"
         ],
         function(
-            App,
+            Application,
             common,
             init,
             spa,
@@ -114,7 +114,7 @@
                  * @returns {Object} An object that exposes app specific capabilities.
                  */
                 app: function(name) {
-                    var app = appCache[name] || new App(name, $dsrt);
+                    var app = appCache[name] || new Application(name, $dsrt);
                     return {
                         /**
                          * Sets up a method to be invoked when the application is being

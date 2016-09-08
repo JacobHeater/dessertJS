@@ -36,6 +36,7 @@
             var controlName;
             var control;
             var model;
+            var dsrtController; //eslint-disable-line no-unused-vars
             views.each(function() {
                 $view = $(this);
                 controls = $view.find(selectors.control);

@@ -61,8 +61,11 @@
                 module = app.modules.get($module.attr(attrs.module));
                 if (module) {
                     module.$module = $module;
+                    if ($.isFunction(module.onInit)) {
+                        module.onInit();
+                    }
+                    controllerInit($module, module, app, args, page, callback);
                 }
-                controllerInit($module, module, app, args, page, callback);
             });
             if (typeof callback === "function") {
                 callback(app, $context, args);
