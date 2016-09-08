@@ -1,4 +1,4 @@
-# dessertJS
+# dessertJS ![](https://travis-ci.org/JacobHeater/dessertJS.svg?branch=master)
 - - -
 
 A *powerful*, *feature-rich*, *easy-to-use* client-side **MVC** framework for building **awesome** web applications!
