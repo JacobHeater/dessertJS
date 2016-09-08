@@ -6,8 +6,8 @@
 
     "use strict";
 
-    define("dessert.controller", [],
-    function() {
+    define("dessert.controller", ['jquery'],
+    function($) {
         //A Controller does the work of binding the Model <--> View
         /**
          * The dessertJS controller is what drives the logic of the modules. Modules are
@@ -28,6 +28,7 @@
             this.name = name || "";
             this.module = module;
             this.$controller = $controller;
+            this.onInit = $.noop;
             this.ctor = implementation || function() {};
         };
         return Controller;

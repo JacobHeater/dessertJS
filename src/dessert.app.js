@@ -32,7 +32,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
          * @param {Object} dsrt The dessertJS instance that will be used to init the app.
          * @param {Object} $app The jQuery object that represents your application scope.
          */
-        function App(name, dsrt, $app) {
+        function Application(name, dsrt, $app) {
             var modules = {};
             /**
              * The name of the app
@@ -101,6 +101,6 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
         App.prototype.templates = emptyString;
         App.prototype.src = emptyString;
 
-        return App;
+        return Application;
     }
 })();

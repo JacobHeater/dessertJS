@@ -38,9 +38,14 @@
                     $controller = $(this);
                     if (!callback) {
                         controller = module.controllers.get($controller.attr(attrs.controller));
-                        controller.$controller = $controller;
+                        if (cotroller) {
+                            controller.$controller = $controller;
+                            if ($.isFunction(controller.onInit)) {
+                                controller.onInit();
+                            }
+                            viewInit($controller, controller, module, $module, app, args, page, callback);
+                        }
                     }
-                    viewInit($controller, controller, module, $module, app, args, page, callback);
                 });
             } else {
                 //Handle partial view init
