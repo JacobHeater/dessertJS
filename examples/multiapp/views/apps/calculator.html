@@ -1,0 +1,18 @@
+<link href="./styles/calculator/calculator.css" rel="stylesheet" type="text/css">
+<div dsrt-app="calculator" class="calculator">
+    <div dsrt-module="calculator">
+        <div dsrt-controller="calcCtrl">
+            <div dsrt-view="calculator">
+                <div class="calculator-container">
+                    <div class="calc-controls">
+                        <div dsrt-src="/partials/calculator/input"></div>
+                        <div dsrt-src="/partials/calculator/buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require(["./scripts/calculator"]);
+</script>
