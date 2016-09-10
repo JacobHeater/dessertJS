@@ -6,7 +6,9 @@
 
     "use strict";
 
-    define("dessert.routing", [], function() {
+    define("dessert.routing", [
+        "jquery"
+    ], function($) {
 
         var location = window.location;
 
@@ -112,12 +114,12 @@
             initBackButtonHandler: function(handler) {
                 var $this = this;
                 if (!window.onhashchange) {
-                    window.onhashchange = function() {
+                    $(window).on("hashchange", function() {
                         //Handle hash change when there is truly only a hash in the url.
                         if ($this.hasRoute()) {
                             handler();
                         }
-                    };
+                    });
                 }
             }
         };

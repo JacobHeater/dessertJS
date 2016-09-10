@@ -77,7 +77,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @returns {Object} The current instance of the App prototype for chaining.
              */
             this.init = function(done, args) {
-                dsrt.init(done, args);
+                dsrt.init(this.name, done, args);
                 return this;
             };
             /**
@@ -87,7 +87,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @returns {Object} The current instance of the App prototype for chaining.
              */
             this.pageInit = function(args) {
-                dsrt.pageInit(args);
+                dsrt.pageInit(this.name, args);
                 return this;
             };
             this.httpHandlers = {

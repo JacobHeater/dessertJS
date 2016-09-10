@@ -75,10 +75,8 @@
                                 if (qStringParams && qStringParams.unwrap) {
                                     $data.unwrap();
                                 }
-
-                                if ((i + 1) < externalModules.length) {
-                                    processExternalModulesRecursive(i + 1);
-                                } else { //Let's run the module init again until there aren't any left
+                                
+                                if (externalModules.length) {
                                     externalModulesInit($context, app)(done, syncModulesDone);
                                 }
                             }).fail(function(xhr) {

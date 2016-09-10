@@ -42,20 +42,15 @@
                  * @param {Boolean} isHash Indicates if the hash changed event called the init method.
                  * @returns {Object} The current $dsrt instance for chaining.
                  */
-                init: function(done, args, isPage, isHash) {
+                init: function(appName, done, args, isPage, isHash) {
                     //TODO: figure out why when the hash changes that the old page url is getting requested again.
-                    var apps = $(selectors.app);
-                    var $page = $(selectors.page);
-                    var $app;
-                    var app;
-                    apps.each(function() {
-                        $app = $(this);
-                        app = appCache[$app.attr(attrs.app)]; //Lookup the app in the cache
-                        init($app, app, args, isPage, isHash, done);
-                        if (!isPage && $page.length > 0) { //Don't init the page if it's the page init method.
-                            spa(app, $page);
-                        }
-                    });
+                    var $app = $("[" + attrs.app + "=" + appName + "]");
+                    var $page = $app.find(selectors.page);
+                    var app = appCache[appName];
+                    init($app, app, args, isPage, isHash, done);
+                    if (!isPage && $page.length > 0) {
+                        spa(app, $page);
+                    }
                     $(selectors.mask).removeAttr(attrs.mask);
                     return this;
                 },
@@ -63,16 +58,16 @@
                  * Internally calls the $dsrt.init() method indicating that the page is
                  * initializing the dessertJS context.
                  */
-                pageInit: function(args) {
-                    this.init(null, args, true, false);
+                pageInit: function(appName, args) {
+                    this.init(appName, null, args, true, false);
                     return this;
                 },
                 /**
                  * Internally calls the $dsrt.init() method indicating that the hash changed event
                  * is initializing the dessertJS context.
                  */
-                hashInit: function(args) {
-                    this.init(null, args, false, true);
+                hashInit: function(appName, args) {
+                    this.init(appName, null, args, false, true);
                     return this;
                 }
             };
@@ -151,7 +146,7 @@
                         ready: function() {
                             if (appCache[app.name] === app) {
                                 routing.initBackButtonHandler(function() {
-                                    $dsrt.hashInit([]);
+                                    $dsrt.hashInit(app.name, []);
                                 });
                                 return appCache[app.name];
                             }

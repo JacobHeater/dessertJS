@@ -28,6 +28,10 @@
             }
             var $view;
             var controls;
+            var controlGroups;
+            var ctrlGroups;
+            var ctrlGroupName;
+            var $ctrlGroup;
             var view;
             var modelMembers;
             var models;
@@ -43,6 +47,8 @@
                 view = new View($view.attr(attrs.view), controller, $view);
                 modelMembers = {};
                 models = $view.find(selectors.model);
+                ctrlGroups = {};
+                controlGroups = $view.find(selectors.controlGroup);
                 models.each(function() {
                     $model = $(this);
                     modelMembers[$model.attr(attrs.control)] = "";
@@ -53,6 +59,15 @@
                     control = new Control(controlName, $control, view);
                     view.controls.add(control);
                 });
+                controlGroups.each(function() {
+                    $ctrlGroup = $(this);
+                    ctrlGroupName = $ctrlGroup.attr(attrs.controlGroup);
+                    if (!ctrlGroups[ctrlGroupName]) {
+                        ctrlGroups[ctrlGroupName] = [];
+                    }
+                    ctrlGroups[ctrlGroupName].push($ctrlGroup);
+                });
+                view.controlGroups = ctrlGroups;
                 //Instantiate the controller constructor
                 model = new Model(modelMembers);
                 if (controller) {
