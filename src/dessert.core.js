@@ -44,8 +44,8 @@
                  */
                 init: function(appName, done, args, isPage, isHash) {
                     //TODO: figure out why when the hash changes that the old page url is getting requested again.
-                    var $page = $(selectors.page);
                     var $app = $("[" + attrs.app + "=" + appName + "]");
+                    var $page = $app.find(selectors.page);
                     var app = appCache[appName];
                     init($app, app, args, isPage, isHash, done);
                     if (!isPage && $page.length > 0) {

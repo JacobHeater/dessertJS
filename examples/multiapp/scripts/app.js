@@ -1,7 +1,7 @@
 (function() {
     "use strict";
 
-    define([
+    require([
         "dessert.core",
         "dessert.routing"
     ], function(dessert, routing) {
