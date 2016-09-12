@@ -20,14 +20,9 @@
                 var input = view.controls.input;
                 var equals = view.controls.equals;
                 var clear = view.controls.clear;
-                var needsClear = false;
 
                 buttons.forEach(function(btn) {
                     btn.click(function() {
-                        if (needsClear) {
-                            input.val("");
-                            needsClear = false;
-                        }
                         input.val(input.val() + $(this).text().trim());
                     });
                 });
@@ -61,8 +56,6 @@
                     var handle = calcSwitch[operator] || calcSwitch.def;
 
                     handle(numbers[0], numbers[1]);
-
-                    needsClear = true;
                 });
 
                 clear.click(function() {

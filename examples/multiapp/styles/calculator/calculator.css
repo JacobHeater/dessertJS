@@ -6,7 +6,7 @@
 .calculator-container {
     border: 1px solid black;
     width: 275px;
-    padding: 5px;
+    padding: 15px 5px 5px 5px;
     box-shadow: 10px 10px 5px rgb(150, 150, 150);
 }
 
