@@ -3,14 +3,11 @@
 
     require(["dessert.core"], function(dessert) {
         var app = dessert
-            .app('calculator')
-            .onInit(function() {
+            .app('calculator', function() {
                 this.src = "./views/";
                 this.templates = "./templates/";
                 this.dessertPath = "./scripts/dessert/";
-            })
-            .cache()
-            .ready();
+            });
 
         app
             .module("calculator")

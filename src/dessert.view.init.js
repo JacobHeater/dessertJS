@@ -8,6 +8,8 @@
         'dessert.control',
         'dessert.model',
         "dessert.routing",
+        "dessert.component",
+        "dessert.asyncresource",
         "jquery"
     ], function(
         common,
@@ -15,6 +17,8 @@
         Control,
         Model,
         $routing,
+        $Component, //eslint-disable-line no-unused-vars
+        $asyncResource,
         $
     ) {
         var selectors = common.selectors;
@@ -27,9 +31,9 @@
                 views = $module.find(selectors.view);
             }
             var $view;
+            var components;
             var controls;
             var controlGroups;
-            var ctrlGroups;
             var ctrlGroupName;
             var $ctrlGroup;
             var view;
@@ -44,11 +48,34 @@
             views.each(function() {
                 $view = $(this);
                 controls = $view.find(selectors.control);
+                components = $view.find(selectors.component);
                 view = new View($view.attr(attrs.view), controller, $view);
                 modelMembers = {};
                 models = $view.find(selectors.model);
                 ctrlGroups = {};
                 controlGroups = $view.find(selectors.controlGroup);
+                //Init components.
+                components.each(function() {
+                    var component;
+                    var $component;
+                    var componentName;
+                    var componentId;
+                    var componentUrl;
+                    $component = $(this);
+                    componentName = $component.attr(attrs.component);
+                    componentUrl = app.getComponent(componentName);
+                    componentId = $component.prop(attrs.id);
+                    view.components[componentId] = new $asyncResource();
+                    if (componentUrl) {
+                        require([componentUrl], function(_component) {
+                            var c = new _component();
+                            c.render($component, function(elem) {
+                                component = new c.constructor(elem);
+                                view.components[componentId].notify(component);
+                            });
+                        });
+                    }
+                });
                 models.each(function() {
                     $model = $(this);
                     modelMembers[$model.attr(attrs.control)] = "";
@@ -62,12 +89,11 @@
                 controlGroups.each(function() {
                     $ctrlGroup = $(this);
                     ctrlGroupName = $ctrlGroup.attr(attrs.controlGroup);
-                    if (!ctrlGroups[ctrlGroupName]) {
-                        ctrlGroups[ctrlGroupName] = [];
+                    if (!view.controlGroups[ctrlGroupName]) {
+                        view.controlGroups[ctrlGroupName] = [];
                     }
-                    ctrlGroups[ctrlGroupName].push($ctrlGroup);
+                    view.controlGroups[ctrlGroupName].push($ctrlGroup);
                 });
-                view.controlGroups = ctrlGroups;
                 //Instantiate the controller constructor
                 model = new Model(modelMembers);
                 if (controller) {

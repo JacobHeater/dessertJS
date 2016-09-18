@@ -106,53 +106,24 @@
                  * and exposes methods to prepare to initialize the app.
                  * 
                  * @param {String} name The name of the application to add to the appCache.
-                 * @returns {Object} An object that exposes app specific capabilities.
+                 * @param {Function} onInit A function to call after the application has been initialized.
+                 * @returns {Object} The newly constructed app, or the singleton from the app cache if one already exists.
                  */
-                app: function(name) {
-                    var app = appCache[name] || new Application(name, $dsrt);
-                    return {
-                        /**
-                         * Sets up a method to be invoked when the application is being
-                         * initialized. Allows for further set up of the application before
-                         * the app is fully initialized.
-                         * 
-                         * @param {Function} handler The function to invoke when App init begins.
-                         * @returns {Object} The current app object instance for chaining.
-                         */
-                        onInit: function(handler) {
-                            if (typeof handler === 'function') {
-                                handler.call(app, app);
-                            }
-                            return this;
-                        },
-                        /**
-                         * Caches the App singleton in the appCache hash table for lookup later.
-                         * This method must be invoked prior to calling ready. If the appCache
-                         * hash table does not contain an App using the given name, it will raise
-                         * an exception.
-                         */
-                        cache: function() {
-                            appCache[app.name] = app;
-                            return this;
-                        },
-                        /**
-                         * Sets up additional event handlers for the application context and
-                         * returns the App singleton instance from the appCache hash table.
-                         * 
-                         * @throws ReferenceError
-                         * 
-                         * @returns {Object} The dessertJS App singleton instance for initialization.
-                         */
-                        ready: function() {
-                            if (appCache[app.name] === app) {
-                                routing.initBackButtonHandler(function() {
-                                    $dsrt.hashInit(app.name, []);
-                                });
-                                return appCache[app.name];
-                            }
-                            throw new ReferenceError("You did not add this application context to the dsrt appCache. You must call the \".cache()\" method before calling \".ready()\"");
-                        }
-                    };
+                app: function(name, onInit) {
+                    var app;
+                    if (!appCache[name]) {
+                        app = new Application(name, $dsrt);
+                        appCache[name] = app;
+                    } else {
+                        app = appCache[name];
+                    }
+                    routing.initBackButtonHandler(function() {
+                        $dsrt.hashInit(app.name, []);
+                    });
+                    if (common.utils.isFunction(onInit)) {
+                        onInit.call(app, app);
+                    }
+                    return app;
                 }
             };
             return dsrtModule;

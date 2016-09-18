@@ -34,6 +34,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
          */
         function Application(name, dsrt, $app) {
             var modules = {};
+            var componentRegistry = {};
             /**
              * The name of the app
              */
@@ -92,6 +93,29 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             };
             this.httpHandlers = {
                 page: new $httpHandlerCache()
+            };
+            /**
+             * Register a component to this application's component registry.
+             * 
+             * @param {String} name The name of the component to register.
+             * @param {String} url The url of the component to require.
+             * @returns {Object} The current instance of Application.
+             */
+            this.registerComponent = function(name, url) {
+                if (name && url) {
+                    componentRegistry[name] = url;
+                }
+                return this;
+            };
+
+            /**
+             * Gets a component url from the componentRegistry by name.
+             * 
+             * @param {String} name The name of the component.
+             * @returns {String} The url of the component.
+             */
+            this.getComponent = function(name) {
+                return componentRegistry[name];
             };
             this.$app = $app;
         };

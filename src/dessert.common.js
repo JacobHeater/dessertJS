@@ -24,13 +24,15 @@
             module: 'dsrt-module',
             controller: 'dsrt-controller',
             view: 'dsrt-view',
+            component: 'dsrt-component',
             control: 'dsrt-control',
             controlGroup: 'dsrt-control-group',
             model: 'dsrt-model',
             mask: 'dsrt-mask',
             src: 'dsrt-src',
             rpt: 'dsrt-repeat',
-            page: 'dsrt-page'
+            page: 'dsrt-page',
+            id: "id"
         };
         /**
          * Selectors that are used in conjunction with the above attributes
@@ -41,13 +43,15 @@
             module: '[$module]'.replace('$module', attrs.module),
             controller: '[$controller]'.replace('$controller', attrs.controller),
             view: '[$view]'.replace('$view', attrs.view),
+            component: '[$component]'.replace("$component", attrs.component),
             control: '[$control]'.replace('$control', attrs.control),
             controlGroup: '[$controlGroup]'.replace('$controlGroup', attrs.controlGroup),
             model: '[$model]'.replace('$model', attrs.model),
             mask: '[$mask]'.replace('$mask', attrs.mask),
             src: '[$src]'.replace('$src', attrs.src),
             rpt: '[$rpt]'.replace('$rpt', attrs.rpt),
-            page: '[$page]'.replace('$page', attrs.page)
+            page: '[$page]'.replace('$page', attrs.page),
+            id: "[$id]".replace("$id", attrs.id)
         };
 
         var regex = {};
@@ -119,6 +123,26 @@
              */
             cleanQueryString: function(path) {
                 return path ? path.split("?")[0] : path;
+            },
+            
+            /**
+             * Determines if the given object is of typeof "object."
+             * 
+             * @param {Object} ref The object to check.
+             * @returns {Boolean} True if is of type "object."
+             */
+            isObject: function(ref) {
+                return typeof ref === "object";
+            },
+
+            /**
+             * Determines if the given value is typeof "function".
+             * 
+             * @param {function} fn The object to check.
+             * @returns {Boolean} True if is typeof "function".
+             */
+            isFunction: function(fn) {
+                return typeof fn === "function";
             }
         };
 
@@ -129,6 +153,14 @@
             writable: false,
             value: ""
         });
+
+        /**
+         * A read-only property for a empty function.
+         */
+        Object.defineProperty(utils, "noop", {
+            writable: false,
+            value: function() { }
+        })
 
         return {
             attrs: attrs,
