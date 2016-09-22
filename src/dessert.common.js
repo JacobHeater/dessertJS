@@ -24,13 +24,15 @@
             module: 'dsrt-module',
             controller: 'dsrt-controller',
             view: 'dsrt-view',
+            component: 'dsrt-component',
             control: 'dsrt-control',
             controlGroup: 'dsrt-control-group',
             model: 'dsrt-model',
             mask: 'dsrt-mask',
             src: 'dsrt-src',
             rpt: 'dsrt-repeat',
-            page: 'dsrt-page'
+            page: 'dsrt-page',
+            id: "id"
         };
         /**
          * Selectors that are used in conjunction with the above attributes
@@ -41,13 +43,15 @@
             module: '[$module]'.replace('$module', attrs.module),
             controller: '[$controller]'.replace('$controller', attrs.controller),
             view: '[$view]'.replace('$view', attrs.view),
+            component: '[$component]'.replace("$component", attrs.component),
             control: '[$control]'.replace('$control', attrs.control),
             controlGroup: '[$controlGroup]'.replace('$controlGroup', attrs.controlGroup),
             model: '[$model]'.replace('$model', attrs.model),
             mask: '[$mask]'.replace('$mask', attrs.mask),
             src: '[$src]'.replace('$src', attrs.src),
             rpt: '[$rpt]'.replace('$rpt', attrs.rpt),
-            page: '[$page]'.replace('$page', attrs.page)
+            page: '[$page]'.replace('$page', attrs.page),
+            id: "[$id]".replace("$id", attrs.id)
         };
 
         var regex = {};
@@ -119,6 +123,73 @@
              */
             cleanQueryString: function(path) {
                 return path ? path.split("?")[0] : path;
+            },
+
+            /**
+             * Gets the attributes from a jQuery object and returns them as a map.
+             * 
+             * @param {Object} elem The jQuery object to get the attributes of.
+             * @param {Array.<string>} exclude The list of attrs to exclude.
+             * @returns {Object} The attribute map.
+             */
+            getElementAttrs: function(elem, exclude) {
+                var attrMap = {};
+                exclude = this.isArray(exclude) ? exclude : [];
+                if (elem) {
+                    var nativeElem = elem.get(0);
+                    if (nativeElem) {
+                        var nativeAttrs = nativeElem.attributes;
+                        if (nativeAttrs.length) {
+                            Object.keys(nativeAttrs).forEach(function(key) {
+                                var attr = nativeAttrs[key];
+                                if (typeof attr.nodeValue !== "undefined" && attr.nodeName && exclude.indexOf(attr.nodeName) === -1) {
+                                    attrMap[attr.nodeName] = attr.nodeValue;
+                                }
+                            });
+                        }
+                    }
+                }
+                return attrMap;
+            },
+
+            /**
+             * Determines if the given object is of typeof "object."
+             * 
+             * @param {Object} ref The object to check.
+             * @returns {Boolean} True if is of type "object."
+             */
+            isObject: function(ref) {
+                return typeof ref === "object";
+            },
+
+            /**
+             * Determines if the given value is typeof "function".
+             * 
+             * @param {function} fn The object to check.
+             * @returns {Boolean} True if is typeof "function".
+             */
+            isFunction: function(fn) {
+                return typeof fn === "function";
+            },
+
+            /**
+             * Determines if the given object is an array.
+             * 
+             * @param {Object} arr The object to inspect.
+             * @returns {Boolean} True if it is an array.
+             */
+            isArray: function(arr) {
+                return Array.isArray(arr);
+            },
+
+            /**
+             * Determines if the given value is of type string.
+             * 
+             * @param {String} str The object to check the type of.
+             * @returns {Boolean} True if the object is a string.
+             */
+            isString: function(str) {
+                return typeof str === "string";
             }
         };
 
@@ -129,6 +200,14 @@
             writable: false,
             value: ""
         });
+
+        /**
+         * A read-only property for a empty function.
+         */
+        Object.defineProperty(utils, "noop", {
+            writable: false,
+            value: function() {}
+        })
 
         return {
             attrs: attrs,

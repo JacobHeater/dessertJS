@@ -4,7 +4,7 @@
     var path = require('path');
 
     var paths = ['/src', '/examples', '/bin'];
-    var defaults = ['/countries', '/singlepage', '/package', '/books', '/multiapp'];
+    var defaults = ['/countries', '/singlepage', '/package', '/books', '/multiapp', '/controls'];
     var port = 1024;
 
     app.get('/', function(request, response) {

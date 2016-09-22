@@ -3,13 +3,9 @@ define([
 ], function(dessert) {
   "use strict";
   return dessert
-    .app('books')
-    .onInit(function() {
+    .app('books', function() {
       this.src = "./views/";
       this.templates = "./templates/";
       this.dessertPath = "./scripts/dessert/";
-    })
-    .cache()
-    .ready();
-
+    });
 });

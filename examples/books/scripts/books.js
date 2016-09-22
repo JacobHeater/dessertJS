@@ -1,4 +1,5 @@
 define(['./app'], function(app) {
+    "use strict";
     app.module('booksearch').controller('booksearchController', function(view, model, module, page) {
         var controls = view.controls;
         var tbAuthorName = controls.tbAuthorName;
@@ -10,13 +11,15 @@ define(['./app'], function(app) {
             var url = 'https://www.googleapis.com/books/v1/volumes?q=author:$author'.replace("$author", model.tbAuthorName.trim());
             $.get(encodeURI(url))
                 .then(function(data) {
-                    loader.hide();
                     displayBooks.dsrt.repeat(data.items.map(function(item) {
                         item.searchTerm = model.tbAuthorName.trim();
                         return item;
                     }), module.template('books-simple'), {
                         clear: true
                     });
+                })
+                .then(function() {
+                    loader.hide();
                 });
         };
         if (page.args.length > 0) {

@@ -29,7 +29,7 @@
             this.module = module;
             this.$controller = $controller;
             this.onInit = $.noop;
-            this.ctor = implementation || function() {};
+            this.constructor = implementation || function() {};
         };
         return Controller;
     });

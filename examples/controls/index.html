@@ -1,0 +1,48 @@
+<html dsrt-app="controls">
+
+<head>
+    <title>dessertJS Controls by Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+    <script src="../../bin/dessert.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <style type="text/css">
+        html {
+            font-family: "Ubuntu", Arial, Calibri, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div dsrt-module="main">
+        <div dsrt-controller="mainCtrl">
+            <div dsrt-view="main">
+                <helloWorld></helloWorld>
+                <h3>Dropdowns</h3>
+                <dropdownList id="ddwn"></dropdownList>
+                <buttonCtrl id="btnDdwn" value="Get Selected Item"></buttonCtrl>
+                <br />
+                <h3>Textboxes</h3>
+                <textbox id="tb"></textbox>
+                <buttonCtrl id="btnTb" value="Get Value"></buttonCtrl>
+                <br />
+                <textbox id="tb2"></textbox>
+                <buttonCtrl id="btn" value="Get Value"></buttonCtrl>
+                <h3>YouTube Video</h3>
+                <youtube id="yt1"></youtube>
+                <br />
+                <b>Inherits from YouTube Component</b>
+                <br />
+                <bigYoutube id="yt2"></bigYoutube>
+                <h3>WebGL Earth</h3>
+                <buttonCtrl id="btnStopGlobe" value="Stop Globe Animation"></buttonCtrl>
+                <buttonCtrl id="btnStartGlobe" value="Start Globe Animation"></buttonCtrl>
+                <globe id="globe"></globe>
+            </div>
+        </div>
+    </div>
+    <script src="./scripts/app.js"></script>
+</body>
+
+</html>

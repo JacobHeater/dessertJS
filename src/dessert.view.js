@@ -75,6 +75,8 @@
                         return this;
                     }
                 };
+                this.controlGroups = {};
+                this.components = {};
             };
             return View;
         });

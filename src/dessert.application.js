@@ -34,6 +34,8 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
          */
         function Application(name, dsrt, $app) {
             var modules = {};
+            var componentRegistry = {};
+            var tagRegistry = {};
             /**
              * The name of the app
              */
@@ -92,6 +94,52 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             };
             this.httpHandlers = {
                 page: new $httpHandlerCache()
+            };
+            /**
+             * Register a component to this application's component registry.
+             * 
+             * @param {String} components The list of components to add to the application context.
+             * @returns {Object} The current instance of Application.
+             */
+            this.registerComponents = function(components) {
+                if ($common.utils.isArray(components)) {
+                    components.forEach(function(c) {
+                        componentRegistry[c.name] = c.entry;
+                    });
+                }
+                return this;
+            };
+
+            /**
+             * TODO: document
+             */
+            this.registerTags = function(tags) {
+                if ($common.utils.isArray(tags)) {
+                    tags.forEach(function(t) {
+                        tagRegistry[t.name] = t;
+                    });
+                }
+            };
+
+            /**
+             * TODO: document
+             */
+            this.getCustomTags = function() {
+                var arr = [];
+                Object.keys(tagRegistry).forEach(function(k) {
+                    arr.push(tagRegistry[k]);
+                });
+                return arr;
+            };
+
+            /**
+             * Gets a component url from the componentRegistry by name.
+             * 
+             * @param {String} name The name of the component.
+             * @returns {String} The url of the component.
+             */
+            this.getComponent = function(name) {
+                return componentRegistry[name];
             };
             this.$app = $app;
         };

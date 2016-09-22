@@ -23,8 +23,7 @@ define(['./app'], function(app) {
                         countryDetail.dsrt.repeat(data, module.template('countries'), {
                             clear: true
                         });
-                    }).fail(function(xhr) {
-                        console.log(xhr);
+                    }).fail(function() {
                         countryDetail.html("<h3 style='color: red;'>No results found from your query</h3>");
                         if (loader.is(':visible')) {
                           loader.hide();
