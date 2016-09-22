@@ -12,6 +12,7 @@
             "dessert.init",
             "dessert.singlepage.init",
             "dessert.routing",
+            "dessert.customtag",
             "jquery"
         ],
         function(
@@ -20,6 +21,7 @@
             init,
             spa,
             routing,
+            $customTag,
             $
         ) {
 
@@ -47,6 +49,7 @@
                     var $app = $("[" + attrs.app + "=" + appName + "]");
                     var $page = $app.find(selectors.page);
                     var app = appCache[appName];
+                    $customTag.init(app);
                     init($app, app, args, isPage, isHash, done);
                     if (!isPage && $page.length > 0) {
                         spa(app, $page);

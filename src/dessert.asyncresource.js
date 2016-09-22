@@ -2,16 +2,16 @@
     "use strict";
     define("dessert.asyncresource", ["dessert.common"], function(common) {
         function asyncResource() {
-            var _ready = common.utils.noop;
-            this.ready = function(done) {
-                _ready = done;
+            var _resolve = common.utils.noop;
+            this.resolve = function(done) {
+                _resolve = done;
                 return this;
             };
 
             this.notify = function(thisArg, args) {
                 args = Array.isArray(args) ? args : [];
-                if (common.utils.isFunction(_ready)) {
-                    _ready.apply(thisArg, args);
+                if (common.utils.isFunction(_resolve)) {
+                    _resolve.apply(thisArg, args);
                 }
                 return this;
             };

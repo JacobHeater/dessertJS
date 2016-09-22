@@ -35,6 +35,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
         function Application(name, dsrt, $app) {
             var modules = {};
             var componentRegistry = {};
+            var tagRegistry = {};
             /**
              * The name of the app
              */
@@ -97,15 +98,38 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             /**
              * Register a component to this application's component registry.
              * 
-             * @param {String} name The name of the component to register.
-             * @param {String} url The url of the component to require.
+             * @param {String} components The list of components to add to the application context.
              * @returns {Object} The current instance of Application.
              */
-            this.registerComponent = function(name, url) {
-                if (name && url) {
-                    componentRegistry[name] = url;
+            this.registerComponents = function(components) {
+                if ($common.utils.isArray(components)) {
+                    components.forEach(function(c) {
+                        componentRegistry[c.name] = c.entry;
+                    });
                 }
                 return this;
+            };
+
+            /**
+             * TODO: document
+             */
+            this.registerTags = function(tags) {
+                if ($common.utils.isArray(tags)) {
+                    tags.forEach(function(t) {
+                        tagRegistry[t.name] = t;
+                    });
+                }
+            };
+
+            /**
+             * TODO: document
+             */
+            this.getCustomTags = function() {
+                var arr = [];
+                Object.keys(tagRegistry).forEach(function(k) {
+                    arr.push(tagRegistry[k]);
+                });
+                return arr;
             };
 
             /**

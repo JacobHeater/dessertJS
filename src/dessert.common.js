@@ -124,7 +124,34 @@
             cleanQueryString: function(path) {
                 return path ? path.split("?")[0] : path;
             },
-            
+
+            /**
+             * Gets the attributes from a jQuery object and returns them as a map.
+             * 
+             * @param {Object} elem The jQuery object to get the attributes of.
+             * @param {Array.<string>} exclude The list of attrs to exclude.
+             * @returns {Object} The attribute map.
+             */
+            getElementAttrs: function(elem, exclude) {
+                var attrMap = {};
+                exclude = this.isArray(exclude) ? exclude : [];
+                if (elem) {
+                    var nativeElem = elem.get(0);
+                    if (nativeElem) {
+                        var nativeAttrs = nativeElem.attributes;
+                        if (nativeAttrs.length) {
+                            Object.keys(nativeAttrs).forEach(function(key) {
+                                var attr = nativeAttrs[key];
+                                if (typeof attr.nodeValue !== "undefined" && attr.nodeName && exclude.indexOf(attr.nodeName) === -1) {
+                                    attrMap[attr.nodeName] = attr.nodeValue;
+                                }
+                            });
+                        }
+                    }
+                }
+                return attrMap;
+            },
+
             /**
              * Determines if the given object is of typeof "object."
              * 
@@ -143,6 +170,26 @@
              */
             isFunction: function(fn) {
                 return typeof fn === "function";
+            },
+
+            /**
+             * Determines if the given object is an array.
+             * 
+             * @param {Object} arr The object to inspect.
+             * @returns {Boolean} True if it is an array.
+             */
+            isArray: function(arr) {
+                return Array.isArray(arr);
+            },
+
+            /**
+             * Determines if the given value is of type string.
+             * 
+             * @param {String} str The object to check the type of.
+             * @returns {Boolean} True if the object is a string.
+             */
+            isString: function(str) {
+                return typeof str === "string";
             }
         };
 
@@ -159,7 +206,7 @@
          */
         Object.defineProperty(utils, "noop", {
             writable: false,
-            value: function() { }
+            value: function() {}
         })
 
         return {

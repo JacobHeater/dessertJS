@@ -52,7 +52,6 @@
                 view = new View($view.attr(attrs.view), controller, $view);
                 modelMembers = {};
                 models = $view.find(selectors.model);
-                ctrlGroups = {};
                 controlGroups = $view.find(selectors.controlGroup);
                 //Init components.
                 components.each(function() {
@@ -60,20 +59,32 @@
                     var $component;
                     var componentName;
                     var componentId;
-                    var componentUrl;
+                    var componentEntry;
                     $component = $(this);
                     componentName = $component.attr(attrs.component);
-                    componentUrl = app.getComponent(componentName);
+                    componentEntry = app.getComponent(componentName);
                     componentId = $component.prop(attrs.id);
                     view.components[componentId] = new $asyncResource();
-                    if (componentUrl) {
-                        require([componentUrl], function(_component) {
-                            var c = new _component();
-                            c.render($component, function(elem) {
+                    if (componentEntry) {
+                        if (common.utils.isString(componentEntry)) {
+                            require([componentEntry], function(_component) {
+                                var c = new _component();
+                                c.render(function(elem) {
+                                    elem.insertAfter($component);
+                                    $component.remove();
+                                    component = new c.constructor(elem);
+                                    view.components[componentId].notify(component);
+                                });
+                            });
+                        } else if (common.utils.isFunction(componentEntry)) {
+                            var c = new componentEntry();
+                            c.render(function(elem) {
+                                elem.insertAfter($component);
+                                $component.remove();
                                 component = new c.constructor(elem);
                                 view.components[componentId].notify(component);
                             });
-                        });
+                        }
                     }
                 });
                 models.each(function() {
@@ -97,7 +108,7 @@
                 //Instantiate the controller constructor
                 model = new Model(modelMembers);
                 if (controller) {
-                    dsrtController = new controller.ctor(view, model, module, page, $routing);
+                    dsrtController = new controller.constructor(view, model, module, page, $routing);
                 }
             });
         };

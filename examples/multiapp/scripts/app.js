@@ -3,7 +3,8 @@
 
     require.config({
         paths: {
-            jquery: "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min"
+            jquery: "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min",
+            cesium: "../../external/cesium/cesium"
         }
     });
 
@@ -16,7 +17,6 @@
                 this.src = "./views/";
                 this.templates = "./templates/";
                 this.dessertPath = "./scripts/dessert/";
-                this.registerComponent("dropdown", "./components/dropdowns/dropdown");
             });
 
         app

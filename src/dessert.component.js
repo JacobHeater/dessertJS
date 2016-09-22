@@ -17,8 +17,17 @@
 
         }
 
+        function inherit(child) {
+            child.prototype = Object.create(this.prototype);
+            child.prototype.constructor = child;
+            child.inherit = inherit.bind(child);
+            return child;
+        }
+
         Component.prototype.constructor = common.utils.noop;
         Component.prototype.render = common.utils.noop;
+
+        Component.inherit = inherit.bind(Component);
 
         return Component;
     });
