@@ -7,19 +7,51 @@
 
     "use strict";
 
-    define("dessert.common", [], main);
+    define("dessert.common", [], dessertCommonModule);
 
     /**
      * RequireJS entry point.
      * 
      * @returns {Object} An object that exposes common dessertJS functionality.
      */
-    function main() {
+    function dessertCommonModule() {
+
+        /**
+         * Defines a read only property on the given object with the given value.
+         * 
+         * @param {Object} obj The object to add the read only property to.
+         * @param {String} propertyName The name of the read only property.
+         * @param {any} propertyValue The value of the read only property.
+         */
+        function defineReadOnlyProperty(obj, propertyName, propertyValue) {
+            Object.defineProperty(obj, propertyName, {
+                writable: false,
+                value: propertyValue
+            });
+        }
+
+        /**
+         * Defines a set of read only properties on the given object.
+         * 
+         * @param {Object} obj The object to add the read only properties to.
+         * @param {Object} dictionary The properties dictionary that contains the name of the property and the value.
+         */
+        function defineReadOnlyProperties(obj, dictionary) {
+            if (typeof dictionary === "object") {
+                Object
+                .keys(dictionary)
+                .forEach(function propsDictionaryKeysForEach(key) {
+                    defineReadOnlyProperty(obj, key, dictionary[key]);
+                });
+            }
+        }
 
         /**
          * Attributes that are used to describe html entities.
          */
-        var attrs = {
+        var attrs = {};
+
+        defineReadOnlyProperties(attrs, {
             app: 'dsrt-app',
             module: 'dsrt-module',
             controller: 'dsrt-controller',
@@ -33,12 +65,15 @@
             rpt: 'dsrt-repeat',
             page: 'dsrt-page',
             id: "id"
-        };
+        });
+
         /**
          * Selectors that are used in conjunction with the above attributes
          * to find matching dessertJS DOM elements.
          */
-        var selectors = {
+        var selectors = {};
+
+        defineReadOnlyProperties(selectors, {
             app: '[$app]'.replace('$app', attrs.app),
             module: '[$module]'.replace('$module', attrs.module),
             controller: '[$controller]'.replace('$controller', attrs.controller),
@@ -52,16 +87,31 @@
             rpt: '[$rpt]'.replace('$rpt', attrs.rpt),
             page: '[$page]'.replace('$page', attrs.page),
             id: "[$id]".replace("$id", attrs.id)
-        };
+        });
 
+        /**
+         * A collection of regular expressions to be shared commonly.
+         */
         var regex = {};
 
-        var pathTypes = {
+        /**
+         * Defines the different path types in dessertJS.
+         */
+        var pathTypes = {};
+
+        defineReadOnlyProperties(pathTypes, {
             src: 1,
             templates: 2
-        };
+        });
 
-        var utils = {
+        /**
+         * A common utilities library for dessertJS.
+         */
+        var utils = {};
+
+        defineReadOnlyProperties(utils, {
+            emptyString: "",
+            noop: function() {},
             /**
              * Gets the outer html of the given jQuery element. 
              * @param {Object} $context The jQuery instance to get the outer html of.
@@ -73,6 +123,13 @@
                 elem.unwrap('<div />');
                 return html;
             },
+
+            /**
+             * Cleans the given path of any illegal characters.
+             * 
+             * @param {String} path The path to clean.
+             * @returns {String} The cleaned path.
+             */
             cleanPath: function(path) {
                 var protocol = /[a-z]+:\/\//gmi;
                 var duplFwdSlash = /\/\//gmi;
@@ -191,23 +248,7 @@
             isString: function(str) {
                 return typeof str === "string";
             }
-        };
-
-        /**
-         * Set a read-only constant value for an empty string.
-         */
-        Object.defineProperty(utils, "emptyString", {
-            writable: false,
-            value: ""
         });
-
-        /**
-         * A read-only property for a empty function.
-         */
-        Object.defineProperty(utils, "noop", {
-            writable: false,
-            value: function() {}
-        })
 
         return {
             attrs: attrs,

@@ -11,7 +11,7 @@
         'dessert.ajax',
         'dessert.common',
         "jquery"
-    ], function(db, ajax, common, $) {
+    ], function dessertControlRepeatModule(db, ajax, common, $) {
 
         var selectors = common.selectors;
 
@@ -22,7 +22,7 @@
          * @param {Object} element The jQuery object instance.
          * @returns {Function} A closure that is used to repeat the template.
          */
-        return function(element) {
+        return function dessertControlRepeatInit(element) {
             /**
              * Enumerates over the given sequence or data set, and injects the template
              * content into the DOM element.
@@ -32,7 +32,7 @@
              * @param {Object} config The configuration for the repeater.
              * @returns {Object} The current dessertJS control for chaining.
              */
-            return function(sequence, template, config) {
+            return function dessertControlRepeat(sequence, template, config) {
                 var iterateSequence;
                 var bindTemplate;
                 var bindable;
@@ -43,8 +43,8 @@
                 var _config = $.extend({
                     clear: true
                 }, config);
-                var buildOutput = function(output) {
-                    var html = output.map(function(elem) {
+                var buildOutput = function buildOutput(output) {
+                    var html = output.map(function buildOutputMap(elem) {
                         return $('<div />').append($(elem).clone()).html();
                     }).join('');
                     if (_config.clear === true) {
@@ -53,7 +53,7 @@
                     element.append(!!outer ? outer.append(html) : html);
                 };
                 if (sequence && sequence.length) {
-                    iterateSequence = function(callback) {
+                    iterateSequence = function iterateSequence(callback) {
                         for (var i = 0; i < sequence.length; i++) {
                             callback(sequence[i]);
                         }
@@ -68,14 +68,14 @@
                             $bindable.find(selectors.rpt).remove();
                             outer = $bindable;
                         }
-                        iterateSequence(function(obj) {
+                        iterateSequence(function iterateSequenceCallback(obj) {
                             $elem = bindTemplate(bindable, obj);
                             $output.push($elem);
                         });
                         buildOutput($output);
                     } else if (typeof template === 'object') {
                         ajax.get(template.path)
-                            .then(function(data) {
+                            .then(function dessertControlRepeatGetThen(data) {
                                 bindable = data;
                                 outer = "";
                                 $bindable = $(bindable);
@@ -84,7 +84,7 @@
                                     $bindable.find(selectors.rpt).remove();
                                     outer = $bindable;
                                 }
-                                iterateSequence(function(obj) {
+                                iterateSequence(function internalIterateSequenceCallback(obj) {
                                     $elem = bindTemplate(bindable, obj);
                                     $output.push($elem);
                                 })

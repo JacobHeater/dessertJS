@@ -39,36 +39,6 @@
                         }
                     });
                 });
-
-                components.ddwn1.ready(function() {
-                    this.addListItems([
-                        {
-                            id: 1,
-                            text: "Test"
-                        },
-                        {
-                            id: 2,
-                            text: "Test_2"
-                        }
-                    ]);
-                    
-                    this.onItemSelected(function(e, args) {
-                        console.log(this, args.text);
-                    });
-                });
-
-                components.ddwn2.ready(function() {
-                    this.addListItems([
-                        {
-                            id: 100,
-                            text: "This is a really long description"
-                        },
-                        {
-                            id: 200,
-                            text: "This is a short description."
-                        }
-                    ]);
-                });
             });
 
         app.init();

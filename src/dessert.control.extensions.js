@@ -12,11 +12,11 @@ These are simply just extensions of the jQuery object, which are added to the ds
         'dessert.common',
         'dessert.ajax',
         "jquery"
-    ], function(repeater, common, ajax, $) {
+    ], function dessertControlExtensionsModule(repeater, common, ajax, $) {
 
         var attrs = common.attrs;
         //The $ factory element result to extend with the dsrt object.
-        return function(element) {
+        return function dessertControlExtensionsInit(element) {
             /**
              * Binds the control to the given model using event driven
              * data binding. This is unlike two-way data binding because
@@ -26,7 +26,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              * @param {Object} model The data model to bind.
              * @returns {Object} The current dsrt control instance for chaining.
              */
-            element.dsrt.bind = function(model) {
+            element.dsrt.bind = function dessertElementBind(model) {
                 if (model) {
                     //First init the control with the model value
                     element.val(model[element.attr(attrs.control)]);
@@ -46,7 +46,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              * @param {Function} watcher The function to fire when the event has been raised.
              * @returns {Object} The current instance of the dsrt control for chaining.
              */
-            element.dsrt.watch = function(watcher) {
+            element.dsrt.watch = function dessertElementWatch(watcher) {
                 if (typeof watcher === 'function') {
                     element.on('keyup keydown change', function() {
                         watcher.call($(this));
@@ -57,7 +57,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
             /**
              * TODO: reinvestigate why this is necessary.
              */
-            element.dsrt.src = function(path) {
+            element.dsrt.src = function dessertElementSrc(path) {
                 return {
                     path: path
                 };
@@ -70,7 +70,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              * @param {Function} handler The function to invoke when the event has been raised.
              * @returns {Object} The current instance of the dessertJS control for chaining.
              */
-            element.dsrt.on = function(event, handler) {
+            element.dsrt.on = function dessertElementOn(event, handler) {
                 element.on(event, handler);
                 return this;
             };
@@ -90,7 +90,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              * @param {String} path The url of the path to load asynchronously.
              * @param {Function} callback The function to invoke when the module has been loaded.
              */
-            element.dsrt.load = function(path, callback) {
+            element.dsrt.load = function dessertElementLoad(path, callback) {
                 var app = element.dsrt.view.controller.module.app;
                 var dsrtPath = app.dsrtPath;
                 require([
@@ -114,7 +114,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              * @param {Object} $elem The jQuery object instance to get the outer HTML of.
              * @returns {String} The outer HTML of the DOM element.
              */
-            element.dsrt.outerHtml = function($elem) {
+            element.dsrt.outerHtml = function dessertElementGetOuterHtml($elem) {
                 return common.utils.getOuterHtml($elem);
             };
             /**

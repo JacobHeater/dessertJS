@@ -1,11 +1,12 @@
 /**
  * @file A require.js module for defining a dessertJS Page prototype.
  * @author Jacob Heater
+ * @since
  */
 (function() {
     "use strict";
 
-    define("dessert.page", ['dessert.routing'], function(routing) {
+    define("dessert.page", ['dessert.routing'], function dessertPageModule(routing) {
 
         /**
          * Defines a dessertJS page prototype for singe page application modes.
@@ -16,7 +17,7 @@
          */
         function Page(app, $page, args) {
             this.app = app;
-            this.route = function(src, args) {
+            this.route = function route(src, args) {
                 routing.setRoute(src, args);
             };
             this.$page = $page;

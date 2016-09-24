@@ -31,7 +31,8 @@
          * @param {any[]} args The argument array to be passed into the controller constructor.
          * @param {Function} callback The callback to invoke when initialization is completed.
          */
-        return function($context, app, args, callback) {
+        return function dessertModuleInit($context, app, args, callback) {
+            
             var page;
             var modules;
             var $page;
@@ -39,24 +40,29 @@
             var module;
             var views;
             var $view;
+
             modules = $context.find(selectors.module);
+
             if (modules.length === 0) {
                 //Handle partial views
                 views = $context.find(selectors.view);
-                views.each(function() {
+                views.each(function viewsEach() {
                     $view = $(this);
                     $view.wrap('<div />').parent().attr(attrs.module, $view.attr(attrs.view).concat('$partial'));
                 });
                 modules = $context.find(selectors.module);
             }
+
             $page = $context.find(selectors.page).eq(0);
+            
             if ($page && $page.length > 0) {
                 page = new Page(app, $page, args);
                 if (!routing.hasRoute()) {
                     routing.setRoute($page.attr(attrs.page), args);
                 }
             }
-            modules.each(function() {
+            
+            modules.each(function modulesEach() {
                 $module = $(this);
                 module = app.modules.get($module.attr(attrs.module));
                 if (module) {
@@ -67,6 +73,7 @@
                     controllerInit($module, module, app, args, page, callback);
                 }
             });
+            
             if (typeof callback === "function") {
                 callback(app, $context, args);
             }

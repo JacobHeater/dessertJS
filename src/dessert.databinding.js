@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.databinding", ['dessert.common', "jquery"], function(common, $) {
+    define("dessert.databinding", ['dessert.common', "jquery"], function dessertDataBindingModule(common, $) {
 
         var selectors = common.selectors;
         var attrs = common.attrs;
@@ -20,7 +20,7 @@
              * @returns {String} The HTML element string rendered after attributes 
              * have been added to the object.
              */
-            getMarkup: function(tag, attrs) {
+            getMarkup: function getMarkup(tag, attrs) {
                 var elem = $(tag);
                 if (attrs && attrs.length && attrs.splice) {
                     attrs.forEach(function(attr) {
@@ -47,7 +47,7 @@
              * @param {any} data The data to bind to the template.
              * @returns {String} The bound HTML template after being rendered.
              */
-            bindTemplate: function(template, data) {
+            bindTemplate: function bindTemplate(template, data) {
                 //var regex = /((\{\{[\w\d\s+()!@#$%^&*:;,.?"<>'\\\|\{\}_-]+\}\})|(\{\{[\w\d\s+()!@#$%^&*:;<>,.?"'\\/\|\{\}_-].*\}\}))/gmi;
                 var bindingRegex = /((<dsrtCode>[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>\{\}+#]+[\s]+<\/dsrtCode>)|(\{\{[\s]+[\w\d.=;?:,()"'\s/$|\\!\[\]<>+#]+[\s]+\}\}))/gmi;
                 var brackets = /((^{\{|\}\}$)|(^<dsrtCode>|<\/dsrtCode>$))/gmi;
@@ -72,7 +72,7 @@
                     value = "";
                     if (allowed.test(trimmed) || fns === null) {
                         data.dsrt = dataDsrtExtensions;
-                        value = (function() {
+                        value = (function dataBindAction() {
                             return eval(trimmed);
                         }).call(data);
                     }

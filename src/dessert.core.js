@@ -15,10 +15,10 @@
             "dessert.customtag",
             "jquery"
         ],
-        function(
+        function dessertCoreModule(
             Application,
             common,
-            init,
+            $init,
             spa,
             routing,
             $customTag,
@@ -44,13 +44,13 @@
                  * @param {Boolean} isHash Indicates if the hash changed event called the init method.
                  * @returns {Object} The current $dsrt instance for chaining.
                  */
-                init: function(appName, done, args, isPage, isHash) {
+                init: function init(appName, done, args, isPage, isHash) {
                     //TODO: figure out why when the hash changes that the old page url is getting requested again.
                     var $app = $("[" + attrs.app + "=" + appName + "]");
                     var $page = $app.find(selectors.page);
                     var app = appCache[appName];
                     $customTag.init(app);
-                    init($app, app, args, isPage, isHash, done);
+                    $init($app, app, args, isPage, isHash, done);
                     if (!isPage && $page.length > 0) {
                         spa(app, $page);
                     }
@@ -61,7 +61,7 @@
                  * Internally calls the $dsrt.init() method indicating that the page is
                  * initializing the dessertJS context.
                  */
-                pageInit: function(appName, args) {
+                pageInit: function pageInit(appName, args) {
                     this.init(appName, null, args, true, false);
                     return this;
                 },
@@ -69,7 +69,7 @@
                  * Internally calls the $dsrt.init() method indicating that the hash changed event
                  * is initializing the dessertJS context.
                  */
-                hashInit: function(appName, args) {
+                hashInit: function hashInit(appName, args) {
                     this.init(appName, null, args, false, true);
                     return this;
                 }
@@ -87,7 +87,7 @@
                  * @param {Function} handler The method to invoke prior to dessertJS init.
                  * @returns {Object} The dsrtModule instance for chaining.
                  */
-                preinit: function(handler) {
+                preinit: function preInit(handler) {
                     handler.call(this);
                     return this;
                 },
@@ -99,7 +99,7 @@
                  * @param {String[]} dependencies The list of dependencies to require.
                  * @param {Function} done The callback to invoke when dessertJS has been initialized.
                  */
-                init: function(dependencies, done) {
+                init: function init(dependencies, done) {
                     require(dependencies, function() {
                         $dsrt.init(done);
                     });
@@ -112,7 +112,7 @@
                  * @param {Function} onInit A function to call after the application has been initialized.
                  * @returns {Object} The newly constructed app, or the singleton from the app cache if one already exists.
                  */
-                app: function(name, onInit) {
+                app: function app(name, onInit) {
                     var app;
                     if (!appCache[name]) {
                         app = new Application(name, $dsrt);
@@ -120,7 +120,7 @@
                     } else {
                         app = appCache[name];
                     }
-                    routing.initBackButtonHandler(function() {
+                    routing.initBackButtonHandler(function appBackButtonHandler() {
                         $dsrt.hashInit(app.name, []);
                     });
                     if (common.utils.isFunction(onInit)) {
