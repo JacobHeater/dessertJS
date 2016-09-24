@@ -1,7 +1,7 @@
-define(["dessert.component", "dessert.ajax"], function($component, $ajax, Cesium) {
+define(["dessert.component", "dessert.ajax"], function($component, $ajax) {
     "use strict";
 
-    var globe = $component.inherit(function() {
+    var globe = $component.extend(function() {
         $component.call(this);
 
         this.render = function(done) {

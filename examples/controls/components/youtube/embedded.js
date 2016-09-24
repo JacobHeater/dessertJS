@@ -1,7 +1,7 @@
 define(["dessert.component", "dessert.ajax"], function($component, $ajax) {
     "use strict";
 
-    var youtube = $component.inherit(function() {
+    var youtube = $component.extend(function() {
         $component.call(this);
 
         this.render = function(done) {

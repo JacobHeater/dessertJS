@@ -1,7 +1,7 @@
 define(["dessert.ajax", "./embedded"], function($ajax, youtube) {
     "use strict";
 
-    var largeYoutube = youtube.inherit(function() {
+    var largeYoutube = youtube.extend(function() {
         youtube.call(this);
 
         this.render = function(done) {

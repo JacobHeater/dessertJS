@@ -11,7 +11,7 @@
         'dessert.ajax',
         "dessert.routing",
         "jquery"
-    ], function(
+    ], function dessertExternalModulesInitModule(
         common,
         ajax,
         $routing,
@@ -39,7 +39,9 @@
             var externalModules = isPage ? $context.find(selectors.page) : $context.find(selectors.src);
             var $exMod;
             var url;
-            var qStringParams;
+            //TODO: Determine if we need to do any query string parsing in 
+            //the external module init.
+            var qStringParams; //eslint-disable-line no-unused-vars
             var cleanedPath;
             var $data;
 
@@ -61,41 +63,63 @@
                  * modules and recursively loads all of the modules.
                  */
                 function processExternalModulesRecursive(i) {
+                    //Get the [data-src] element at index i.
                     $exMod = externalModules.eq(i);
+                    //Parse any query string params on the path.
                     qStringParams = utils.parseQueryString($exMod.attr(attrs.src));
+                    //Clean the path of any characters that we're not allowing.
                     cleanedPath = utils.cleanQueryString($exMod.attr(attrs.src));
+                    //Build out the URL that we're going to use for the AJAX call.
                     url = utils.cleanPath("$base$modulePath.html".replace("$base", app.src).replace("$modulePath", cleanedPath));
-                    if (url && url.indexOf("undefined") === -1) {
+                    //Make sure that the url doesn't contain any undefined vars because something didn't get replaced properly.
+                    if (url && !((/undefined/g).test(url))) {
+                        //Let's go out and fetch the HTML for the external module.
                         ajax.get(url)
-                            .done(function(data) {
-                                $data = $(data);
-                                $exMod.html("");
-                                $exMod.append($data).removeAttr(attrs.src);
-
-                                if (qStringParams && qStringParams.unwrap) {
-                                    $data.unwrap();
+                            .done(function externalModulesInitDone(html) {
+                                //We got the html back from the server, let's build it out.
+                                $data = $(html);
+                                //Replace the [dsrt-src] element with the newly created element from our server call.
+                                if ($exMod.is(attrs.page)) {
+                                    $exMod.append($data);
+                                } else {
+                                    $exMod.html("");
+                                    $exMod.append($data).removeAttr(attrs.src);
                                 }
-                                
+                                //If there are any more external modules to process, let's recursively call the initialize function again.
                                 if (externalModules.length) {
                                     externalModulesInit($context, app)(done, syncModulesDone);
                                 }
-                            }).fail(function(xhr) {
+                            }).fail(function externalModulesInitFail(xhr) {
+                                //Hanlde any errors here by looking up any error handlers in the 
+                                //application httpHandlers cache.
                                 if ($exMod.is(selectors.page)) {
-                                    //We need to access the application page http handlers and deal with them.
-                                    app.httpHandlers.page.getHandlersByStatusCode(xhr.status).forEach(function(h) {
-                                        h.handler(xhr, $routing);
-                                    });
+                                    //If you $exMod object is the single page element, then we need to handle that here.
+                                    app
+                                        .httpHandlers
+                                        .page
+                                        .getHandlersByStatusCode(xhr.status)
+                                        .forEach(function externalModuleInitFailForEach(h) {
+                                            h.handler(xhr, $routing);
+                                        });
                                 }
                             });
                     }
                 }
                 if (externalModules.length > 0) {
+                    //Only begin the external module initialization if there are truly
+                    //any external modules to init. Start with index 0.
                     processExternalModulesRecursive(0);
                 } else {
+                    /*
+                    When we're done constructing all of the external modules, let's build out
+                    The sync modules. Sync modules don't require any calls to the server, because
+                    they rely on all of the application module, and controller configuration to
+                    build out the views.
+                    */
                     done(syncModulesDone);
                 }
             }
-
+            //Return the function that does the external module initialization.
             return processExternalModules;
         };
     });

@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.model", function() {
+    define("dessert.model", function dessertModelModule() {
         //A Model is a data object for the view.
         /**
          * Defines a data model for the dessertJS MVC application.
@@ -18,7 +18,7 @@
          */
         function Model(members) {
             if (typeof members === 'object') {
-                Object.keys(members).forEach(function(key) {
+                Object.keys(members).forEach(function modelKeysEach(key) {
                     this[key] = members[key];
                 }.bind(this));
             }

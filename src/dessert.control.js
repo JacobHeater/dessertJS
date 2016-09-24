@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.control", ['dessert.control.extensions'], main);
+    define("dessert.control", ['dessert.control.extensions'], dessertControlModule);
 
     /**
      * RequireJS entry point.
@@ -14,7 +14,7 @@
      * @param {Function} extender The dessertJS control extender that initializes control extensions.
      * @returns {Function} 
      */
-    function main(extender) {
+    function dessertControlModule(extender) {
 
         /**
          * Represents a control in dessertJS.

@@ -6,7 +6,7 @@
 (function() {
     "use strict";
 
-    define("dessert.component", ["dessert.common"], function(common) {
+    define("dessert.component", ["dessert.common"], function dessertComponentModule(common) {
 
         /**
          * TODO: document component
@@ -17,17 +17,19 @@
 
         }
 
-        function inherit(child) {
+        /**
+         * Allows one prototype to extend another.
+         */
+        function extend(child) {
             child.prototype = Object.create(this.prototype);
             child.prototype.constructor = child;
-            child.inherit = inherit.bind(child);
+            child.extend = extend.bind(child);
             return child;
         }
 
         Component.prototype.constructor = common.utils.noop;
         Component.prototype.render = common.utils.noop;
-
-        Component.inherit = inherit.bind(Component);
+        Component.extend = extend.bind(Component);
 
         return Component;
     });

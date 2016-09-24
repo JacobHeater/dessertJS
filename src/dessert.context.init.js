@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.context.init", ['dessert.module.init'], main);
+    define("dessert.context.init", ['dessert.module.init'], dessertContextInitModule);
 
     /**
      * The require entry point.
@@ -14,7 +14,7 @@
      * @param {Function} moduleInit The module initialization function that initializes all dsrt-module entities.
      * @returns {Function} A function that initializes dessertJS in a given context.
      */
-    function main(moduleInit) {
+    function dessertContextInitModule(moduleInit) {
         /**
          * A function that does the module initialization in dessertJS.
          * 
@@ -23,7 +23,7 @@
          * @param {any[]} args The arguments array that is to be passed into the constructor.
          * @param {Function} callback A callback that is to be fired when initialization is complete.
          */
-        return function($context, app, args, callback) {
+        return function dessertContextInit($context, app, args, callback) {
             moduleInit($context, app, args, callback);
         };
     }

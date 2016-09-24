@@ -10,7 +10,7 @@
         'dessert.common',
         'dessert.view.init',
         "jquery"
-    ], function(common, viewInit, $) {
+    ], function dessertControllerInitModule(common, viewInit, $) {
 
         var selectors = common.selectors;
         var attrs = common.attrs;
@@ -29,12 +29,12 @@
          * @param {Object} page The single page application context that the controller is being initialized in.
          * @param {Function} callback The function that is invoked after the initialization is completed.
          */
-        return function($module, module, app, args, page, callback) {
+        return function dessertControllerInit($module, module, app, args, page, callback) {
             var controllers = $module.find(selectors.controller);
             var $controller;
             var controller;
             if (controllers.length > 0) {
-                controllers.each(function() {
+                controllers.each(function controllersForEach() {
                     $controller = $(this);
                     if (!callback) {
                         controller = module.controllers.get($controller.attr(attrs.controller));

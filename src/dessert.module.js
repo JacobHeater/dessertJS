@@ -10,7 +10,7 @@
             'dessert.controller',
             'jquery'
         ],
-        function(Controller, $) {
+        function dessertModuleModule(Controller, $) {
 
             /**
              * A Modules in dessertJS is the highest level element that can be on the page
@@ -42,7 +42,7 @@
                  * @param {Function} implementation The constrcutor for the controller.
                  * @returns {Object} The Controller instance.
                  */
-                this.controller = function(name, implementation) {
+                this.controller = function controller(name, implementation) {
                     controllers[name] = new Controller(name, this, undefined, implementation);
                     return controllers[name];
                 };
@@ -54,7 +54,7 @@
                      * @param {String} name The name of the controller to retrieve.
                      * @returns {Object} The controller singleton.
                      */
-                    get: function(name) {
+                    get: function get(name) {
                         return controllers[name];
                     },
                     /**
@@ -64,7 +64,7 @@
                      * @param {String} name The name of the controller to remove.
                      * @returns {Objet} The controllers namespace object for chaining.
                      */
-                    remove: function(name) {
+                    remove: function remove(name) {
                         delete controller[name];
                         return this;
                     }
@@ -81,7 +81,7 @@
                  * @param {String} path The path to construct the string out of.
                  * @returns {String} The constructed path.
                  */
-                this.getPath = function(pathType, path) {
+                this.getPath = function getPath(pathType, path) {
                     if (pathType === app.pathTypes.src) {
                         return {
                             path: app.src + path + '.html'
@@ -99,7 +99,7 @@
                  * @param {String} path The path used to construct the absolute path.
                  * @returns {String} The fully constructed path.
                  */
-                this.src = function(path) {
+                this.src = function src(path) {
                     return this.getPath(app.pathTypes.src, path);
                 };
                 /**
@@ -109,7 +109,7 @@
                  * @param {String} path The path used to construct the absolute path.
                  * @returns {String} The fully constructed path.
                  */
-                this.template = function(path) {
+                this.template = function template(path) {
                     return this.getPath(app.pathTypes.templates, path);
                 }
             };

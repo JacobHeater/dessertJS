@@ -3,7 +3,9 @@
  * @author Jacob Heater
  */
 (function() {
+  
   "use strict";
+
   define("dessert.ajax", ['jquery'], main);
 
   /**

@@ -5,8 +5,9 @@
     define("dessert.view", [
             "dessert.events"
         ],
-        function(events) {
-            //A View is a collection of Controls
+        function dessertViewModule(events) {
+
+            
             /**
              * A view in dessertJS is a self-explanatory component, it represents
              * the visual element of your application. That being said, Views are
@@ -26,7 +27,7 @@
                 /**
                  * Destroys the view on the page.
                  */
-                this.destroy = function() {
+                this.destroy = function destroy() {
                     this.$view.remove();
                 };
                 /**
@@ -38,7 +39,7 @@
                  * @param {String[]} eventNames The names of the events to wire up.
                  * @returns {Object} The current instance of View for chaining.
                  */
-                this.configureEvents = function() {
+                this.configureEvents = function configureEvents() {
                     events(this, Array.apply(null, arguments));
                     return this;
                 };
@@ -49,7 +50,7 @@
                      * @param {Object} control The control instance to add.
                      * @returns {Object} The current instance of the controls object.
                      */
-                    add: function(control) {
+                    add: function add(control) {
                         if (control && control.dsrt) {
                             this[control.dsrt.name] = control;
                         }
@@ -61,7 +62,7 @@
                      * @param {String} name The name of the control to look up.
                      * @returns {Object} The control in the hash table.
                      */
-                    get: function(name) {
+                    get: function get(name) {
                         return this[name];
                     },
                     /**
@@ -70,7 +71,7 @@
                      * @param {String} name The name of the control to remove.
                      * @returns {Object} The current instance of the controls object.
                      */
-                    remove: function(name) {
+                    remove: function remove(name) {
                         delete this[name];
                         return this;
                     }

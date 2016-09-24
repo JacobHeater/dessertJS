@@ -1,6 +1,7 @@
 /**
  * @file A require.js module responsible for routing in the application.
  * @author Jacob Heater
+ * @since
  */
 (function() {
 
@@ -8,7 +9,7 @@
 
     define("dessert.routing", [
         "jquery"
-    ], function($) {
+    ], function dessertRoutingModel($) {
 
         var location = window.location;
 
@@ -22,9 +23,9 @@
             var result = "";
             if (args && args.length && args.length > 0) {
                 result += "/:";
-                result += args.map(function(a) {
+                result += args.map(function argsMap(a) {
                     return a.key.concat("=").concat(escape(a.value));
-                }).reduce(function(current, next) {
+                }).reduce(function argsReduce(current, next) {
                     return current.concat("&").concat(next);
                 });
             }
@@ -65,11 +66,11 @@
         }
 
         return {
-            hasRoute: function(path) {
+            hasRoute: function routingHasRoute(path) {
                 var href = path || location.href;
                 return hasRoute(href);
             },
-            setRoute: function(path, params) {
+            setRoute: function routingSetRoute(path, params) {
                 var href = location.href;
                 if (params) {
                     path += parseArgs(params);
@@ -80,7 +81,7 @@
                 }
                 location.href = cleanHash(href).concat("#").concat(path);
             },
-            getRoute: function(path) {
+            getRoute: function routingGetRoute(path) {
                 var href = path || location.href;
                 var pathWithParams = href.split('#')[1] || "";
                 var pathOnly = pathWithParams.split(':')[0] || "";
@@ -90,7 +91,7 @@
                 }
                 return pathOnly;
             },
-            getParams: function(path) {
+            getParams: function routingGetParams(path) {
                 var protocol = /[a-z]+:\/\//gmi;
                 var href = path || location.href;
                 if (protocol.test(href)) {
@@ -111,7 +112,7 @@
                 }
                 return params;
             },
-            initBackButtonHandler: function(handler) {
+            initBackButtonHandler: function routingInitBackButtonHandler(handler) {
                 var $this = this;
                 if (!window.onhashchange) {
                     $(window).on("hashchange", function() {

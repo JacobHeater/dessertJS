@@ -7,9 +7,9 @@
 
     "use strict";
 
-    define("dessert.events", [], main);
+    define("dessert.events", [], dessertEventsModule);
 
-    function main() {
+    function dessertEventsModule() {
         /**
          * Iterates over the eventNames array and creates a new hash table that allows for adding
          * event listeners to custom events. The events can be looked up in the view by their name.
@@ -17,10 +17,10 @@
          * @param {Object} view The dessertJS view instance to add events to.
          * @param {String[]} eventNames The list of event names to add as events.
          */
-        return function(view, eventNames) {
+        return function dessertEventsInit(view, eventNames) {
             //Duck type eventNames to check if it's an array
             if (eventNames && eventNames.length && eventNames.concat && eventNames.shift && eventNames.splice && eventNames.pop && eventNames.map) {
-                eventNames.map(function(n) {
+                eventNames.map(function dessertEventsInitMap(n) {
                     view[n] = {
                         listeners: [],
                         //Adds a listener to the listeners stack
@@ -31,7 +31,7 @@
                          * the event is raised.
                          * @returns {Object} The current event for chaining.
                          */
-                        addListener: function(handler) {
+                        addListener: function addListener(handler) {
                             if (typeof handler === 'function') {
                                 this.listeners.push(handler);
                             }
@@ -43,7 +43,7 @@
                          * @param {Function} handler The handler to remove from the array.
                          * @returns {Object} The current instance of the event for chaining.
                          */
-                        removeListener: function(handler) {
+                        removeListener: function removeListener(handler) {
                             var indexOf = this.listeners.indexOf(handler);
                             if (indexOf > -1) {
                                 this.listeners.splice(indexOf, 1);
@@ -56,7 +56,7 @@
                          * 
                          * @returns {Object} The current event instance for chaining.
                          */
-                        trigger: function() {
+                        trigger: function trigger() {
                             for (var i = 0, len = this.listeners.length; i < len; i++) {
                                 this.listeners[i].apply(null, arguments);
                             }

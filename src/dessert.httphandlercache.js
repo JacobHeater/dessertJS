@@ -2,7 +2,7 @@
 
     "use strict";
 
-    define("dessert.httphandlercache", function() {
+    define("dessert.httphandlercache", function dessertHttpHandlerCacheModule() {
 
         /**
          * @class
@@ -49,7 +49,7 @@
              * 
              * @param {Number|Decimal} code The HTTP status code to match.
              */
-            this.getHandlersByStatusCode = function(code) {
+            this.getHandlersByStatusCode = function getHandlersByStatusCode(code) {
                 return handlers.filter(function(h) {
                     return h.statusCode === code;
                 });
@@ -59,7 +59,7 @@
              * 
              * @param {String} name The name of the HTTP status handler.
              */
-            this.getHandlersByName = function(name) {
+            this.getHandlersByName = function getHandlersByName(name) {
                 return handlers.filter(function(h) {
                     return h.name === name;
                 });
@@ -72,7 +72,7 @@
              * @param {Function} handler The function to invoke when the HTTP status code is returned.
              * @returns {Object} The current HttpHandlerCache instance for chaining.
              */
-            this.addHandler = function(name, httpStatusCode, handler) {
+            this.addHandler = function addHandler(name, httpStatusCode, handler) {
                 handlers.push(new HttpHandler(name, httpStatusCode, handler));
                 return this;
             };
@@ -82,11 +82,11 @@
              * @param {String} name The name of the handlers to remove.
              * @returns {Object} The current HttpHandlerCache instance for chaining.
              */
-            this.removeHandler = function(name) {
-                var matchedHandlers = handlers.filter(function(h) {
+            this.removeHandler = function removeHandler(name) {
+                var matchedHandlers = handlers.filter(function removeHandlerFilter(h) {
                     return h.name === name;
                 });
-                matchedHandlers.forEach(function(h) {
+                matchedHandlers.forEach(function removeHandlerForEach(h) {
                     var index = handlers.indexOf(h);
                     handlers.splice(index, 1);
                 });

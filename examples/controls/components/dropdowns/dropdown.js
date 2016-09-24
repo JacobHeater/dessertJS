@@ -2,7 +2,7 @@ define(["dessert.component", "dessert.ajax"], function($component, $ajax) {
 
     "use strict";
 
-    var dropdown = $component.inherit(function() {
+    var dropdown = $component.extend(function() {
         $component.call(this);
 
         this.render = function(done) {
