@@ -5,7 +5,7 @@
 
     var paths = ['/src', '/examples', '/bin'];
     var defaults = ['/countries', '/singlepage', '/package', '/books', '/multiapp', '/controls'];
-    var port = 1024;
+    var port = 80;
 
     app.get('/', function(request, response) {
       response.sendFile(path.join(__dirname.concat("/index.html")));

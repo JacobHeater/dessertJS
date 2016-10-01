@@ -36,6 +36,9 @@
   "dependencies": {
     "express": "^4.14.0",
     "gulp": "^3.9.1",
+    "gulp-cached": "^1.1.0",
+    "gulp-eslint": "^2.0.0",
+    "gulp-util": "^3.0.7",
     "requirejs": "^2.3.2"
   }
 }
