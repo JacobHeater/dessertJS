@@ -80,7 +80,7 @@
                 }
                 $output = $(inner).removeAttr(attrs.rpt)[0];
                 replaceable = $tmpl.find(selectors.rpt);
-                replaceable.replaceWith($output);
+                replaceable.replaceContent($output);
                 $output = replaceable.length > 0 ? $tmpl : $output;
                 return $output;
             }

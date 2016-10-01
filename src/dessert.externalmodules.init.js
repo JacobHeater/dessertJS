@@ -10,11 +10,13 @@
         'dessert.common',
         'dessert.ajax',
         "dessert.routing",
+        "dessert.customtag",
         "jquery"
     ], function dessertExternalModulesInitModule(
         common,
         ajax,
         $routing,
+        $customTag,
         $
     ) {
 
@@ -56,6 +58,7 @@
              * has completed.
              * @param {Function} syncModulesDone The function that is to be invoked when the synchronous
              * module loading has completed.
+             * @param {Boolean} isPage Determines if the page triggered this initialization.
              */
             function processExternalModules(done, syncModulesDone) {
                 /**
@@ -79,12 +82,14 @@
                                 //We got the html back from the server, let's build it out.
                                 $data = $(html);
                                 //Replace the [dsrt-src] element with the newly created element from our server call.
-                                if ($exMod.is(attrs.page)) {
-                                    $exMod.append($data);
+                                //Don't replace it if this is the page element. We need to be able to find this later.
+                                if ($exMod.is(selectors.page)) {
+                                    $exMod.setContent($data);
+                                    $exMod.removeAttr(attrs.src);
                                 } else {
-                                    $exMod.html("");
-                                    $exMod.append($data).removeAttr(attrs.src);
+                                    $exMod.replaceContent($data);
                                 }
+                                $customTag.init(app);
                                 //If there are any more external modules to process, let's recursively call the initialize function again.
                                 if (externalModules.length) {
                                     externalModulesInit($context, app)(done, syncModulesDone);

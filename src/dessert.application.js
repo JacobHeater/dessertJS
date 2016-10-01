@@ -3,7 +3,7 @@
 Example of an application definition in the markup is <div dsrt-app="my-first-dsrt-app"></div>
 @author Jacob Heater
 */
-(function() {
+(function () {
 
     "use strict";
 
@@ -24,6 +24,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
     function main($module, $common, $httpHandlerCache) {
 
         var emptyString = $common.utils.emptyString;
+        var utils = $common.utils;
 
         /**
          * A constructor to build dessertJS Apps.
@@ -36,6 +37,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             var modules = {};
             var componentRegistry = {};
             var tagRegistry = {};
+            var elems = [];
             /**
              * The name of the app
              */
@@ -47,7 +49,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @param {Object} globals The global variables that can be used to initialize module related pieces.
              * @returns {Object} A new instance of the Module prototype.
              */
-            this.module = function(name, globals) {
+            this.module = function (name, globals) {
                 modules[name] = new $module(name, this, globals);
                 return modules[name];
             };
@@ -60,7 +62,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                  * @param {String} name The name of the module to lookup.
                  * @returns {Object} The module instance corresponding to the name.
                  */
-                get: function(name) {
+                get: function (name) {
                     return modules[name];
                 },
                 /**
@@ -68,8 +70,27 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                  * @param {String} name The name of the module to remove from the module cache.
                  * @returns {Object} The currnet instance of the modules object for chaining.
                  */
-                remove: function(name) {
+                remove: function (name) {
                     delete modules[name];
+                    return this;
+                },
+
+                /**
+                 * Iterates over each module in the application and calls a
+                 * handler function.
+                 * 
+                 * @param {Function} handler The callback to call over each module.
+                 * @returns {Object} The current instance of the Application.modules object.
+                 */
+                each: function (handler) {
+                    if (utils.isFunction(handler)) {
+                        Object
+                            .keys(modules)
+                            .forEach(function (key) {
+                                handler.call(modules[key], modules[key]);
+                            });
+                    }
+
                     return this;
                 }
             };
@@ -78,7 +99,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @param {Object} args Global arguments to be used to initialize the application.
              * @returns {Object} The current instance of the App prototype for chaining.
              */
-            this.init = function(done, args) {
+            this.init = function (done, args) {
                 dsrt.init(this.name, done, args);
                 return this;
             };
@@ -88,34 +109,82 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @param {Object} args Global arguments to be used to initialize the application.
              * @returns {Object} The current instance of the App prototype for chaining.
              */
-            this.pageInit = function(args) {
+            this.pageInit = function (args) {
                 dsrt.pageInit(this.name, args);
                 return this;
             };
+
             this.httpHandlers = {
                 page: new $httpHandlerCache()
             };
-            /**
-             * Register a component to this application's component registry.
-             * 
-             * @param {String} components The list of components to add to the application context.
-             * @returns {Object} The current instance of Application.
-             */
-            this.registerComponents = function(components) {
-                if ($common.utils.isArray(components)) {
-                    components.forEach(function(c) {
-                        componentRegistry[c.name] = c.entry;
-                    });
+
+            var _initalized = false;
+            Object.defineProperty(this, "initialized", {
+                get: function() {
+                    return _initalized;
+                },
+                set: function(value) {
+                    if (typeof value === "boolean") {
+                        _initalized = value;
+                    }
                 }
-                return this;
+            });
+
+            this.components = {
+                /**
+                 * Register a component to this application's component registry.
+                 * 
+                 * @param {String} components The list of components to add to the application context.
+                 * @returns {Object} The current instance of Application.
+                 */
+                register: function (components) {
+                    if ($common.utils.isArray(components)) {
+                        components.forEach(function (c) {
+                            componentRegistry[c.name] = c.entry;
+                        });
+                    }
+                    return this;
+                },
+                /**
+                 * Gets a component url from the componentRegistry by name.
+                 * 
+                 * @param {String} name The name of the component.
+                 * @returns {String} The url of the component.
+                 */
+                get: function (name) {
+                    return componentRegistry[name];
+                },
+                /**
+                 * Iterates over each components in the application
+                 * componentRegistry and calls the handler function.
+                 * 
+                 * @param {Function} handler The function to call over each component.
+                 * @returns {Object} The current instance Application.components.
+                 */
+                each: function (handler) {
+                    var that = this;
+                    if (utils.isFunction(handler)) {
+                        Object
+                            .keys(this.instances)
+                            .forEach(function (key) {
+                                handler.call(that.instances[key], that.instances[key]);
+                            });
+                    }
+
+                    return this;
+                },
+                /**
+                 * A cache of instances of component singletons.
+                 */
+                instances: {}
             };
 
             /**
              * TODO: document
              */
-            this.registerTags = function(tags) {
+            this.registerTags = function (tags) {
                 if ($common.utils.isArray(tags)) {
-                    tags.forEach(function(t) {
+                    tags.forEach(function (t) {
                         tagRegistry[t.name] = t;
                     });
                 }
@@ -124,23 +193,28 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             /**
              * TODO: document
              */
-            this.getCustomTags = function() {
+            this.getCustomTags = function () {
                 var arr = [];
-                Object.keys(tagRegistry).forEach(function(k) {
+                Object.keys(tagRegistry).forEach(function (k) {
                     arr.push(tagRegistry[k]);
                 });
                 return arr;
             };
 
-            /**
-             * Gets a component url from the componentRegistry by name.
-             * 
-             * @param {String} name The name of the component.
-             * @returns {String} The url of the component.
-             */
-            this.getComponent = function(name) {
-                return componentRegistry[name];
+            this.trackedElements = {
+                add: function(elem) {
+                    elems.push(elem);
+
+                    return this;
+                },
+                destroyAll: function() {
+                    elems.forEach(function(elem) {
+                        elem.off().off("**");
+                        elem.children().off().off("**");
+                    });
+                }
             };
+
             this.$app = $app;
         };
 

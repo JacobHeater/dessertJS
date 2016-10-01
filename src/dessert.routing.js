@@ -112,16 +112,14 @@
                 }
                 return params;
             },
-            initBackButtonHandler: function routingInitBackButtonHandler(handler) {
+            onRouteChange: function routingOnRouteChange(handler) {
                 var $this = this;
-                if (!window.onhashchange) {
-                    $(window).on("hashchange", function() {
-                        //Handle hash change when there is truly only a hash in the url.
-                        if ($this.hasRoute()) {
-                            handler();
-                        }
-                    });
-                }
+                $(window).on("hashchange", function() {
+                    //Handle hash change when there is truly only a hash in the url.
+                    if ($this.hasRoute()) {
+                        handler();
+                    }
+                });
             }
         };
     });

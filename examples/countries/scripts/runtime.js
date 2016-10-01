@@ -1,12 +1,10 @@
-define([
-  'dessert.core'
-], function(dessert) {
+define(function() {
   
   "use strict";
   
-  dessert.init([
+  require([
     './scripts/countries'
   ]);
-  
-  return dessert;
+
+  return null;
 });

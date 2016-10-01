@@ -2,7 +2,7 @@
  * @file The dessertJS core library.
  * @author Jacob Heater
  */
-(function() {
+(function () {
 
     "use strict";
 
@@ -13,6 +13,7 @@
             "dessert.singlepage.init",
             "dessert.routing",
             "dessert.customtag",
+            "dessert.jquery.extend",
             "jquery"
         ],
         function dessertCoreModule(
@@ -31,6 +32,7 @@
             var appCache = {};
             var selectors = common.selectors;
             var attrs = common.attrs;
+            var utils = common.utils;
             //This is a private wrapper for our $.dsrt object
             var $dsrt = {
                 /**
@@ -50,9 +52,10 @@
                     var $page = $app.find(selectors.page);
                     var app = appCache[appName];
                     $customTag.init(app);
-                    $init($app, app, args, isPage, isHash, done);
                     if (!isPage && $page.length > 0) {
                         spa(app, $page);
+                    } else {
+                        $init($app, app, args, isPage, isHash, done);
                     }
                     $(selectors.mask).removeAttr(attrs.mask);
                     return this;
@@ -100,7 +103,7 @@
                  * @param {Function} done The callback to invoke when dessertJS has been initialized.
                  */
                 init: function init(dependencies, done) {
-                    require(dependencies, function() {
+                    require(dependencies, function () {
                         $dsrt.init(done);
                     });
                 },
@@ -120,7 +123,8 @@
                     } else {
                         app = appCache[name];
                     }
-                    routing.initBackButtonHandler(function appBackButtonHandler() {
+                    routing.onRouteChange(function appHashChangeHandler() {
+                        clearApplicationScope(app);
                         $dsrt.hashInit(app.name, []);
                     });
                     if (common.utils.isFunction(onInit)) {
@@ -129,6 +133,29 @@
                     return app;
                 }
             };
+
+            function clearApplicationScope(app) {
+                app.modules.each(function () {
+                    this.controllers.each(function () {
+                        if (this.instance && utils.isFunction(this.instance.destroy)) {
+                            this.instance.destroy();
+                        }
+                        this.instance = null;
+                    });
+                });
+                app.components.each(function() {
+                    if (common.utils.isArray(this.constructorInstances)) {
+                        this.constructorInstances.forEach(function(inst) {
+                            if (inst && utils.isFunction(inst.destroy)) {
+                                inst.destroy();
+                                inst = null;
+                            }
+                        });
+                        this.constructorInstances.length = 0;
+                    }
+                });
+            }
+
             return dsrtModule;
         }
     );

@@ -25,7 +25,7 @@
         return $.ajax({
           type: 'GET',
           url: url,
-          cache: false,
+          cache: true,
           async: true
         });
       },
@@ -38,7 +38,7 @@
         return $.ajax({
           type: "POST",
           url: url,
-          cache: false,
+          cache: true,
           async: true,
           data: data,
           contentType: "application/json; charset=utf-8",

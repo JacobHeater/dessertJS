@@ -17,6 +17,15 @@
             if (path && args) {
                 $page.attr(attrs.src, path);
                 app.pageInit(args);
+            } else if ($page.attr(attrs.page)) {
+                var path = $page.attr(attrs.page);
+                if (!routing.hasRoute(path)) {
+                    path = "#".concat(path);
+                }
+                path = routing.getRoute(path);
+                var args = routing.getParams(path);
+                $page.attr(attrs.src, path);
+                app.pageInit(args);
             }
         };
     });

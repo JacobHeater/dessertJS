@@ -1,9 +1,7 @@
-define([
-  'dessert.core'
-], function(dessert) {
+define(function() {
   "use strict";
-  dessert.init([
+  require([
     './scripts/controls/autoSaveTextbox'
   ]);
-  return dessert;
+  return null;
 });

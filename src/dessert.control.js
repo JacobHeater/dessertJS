@@ -50,6 +50,13 @@
              * @type {Object}
              */
             element.dsrt.view = view;
+
+            /**
+             * Call the $.fn.remove() function.
+             */
+            element.destroy = function() {
+                element.remove();
+            };
             //Extend the dessertJS control.
             extender(element, $);
             return element;
