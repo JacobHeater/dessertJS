@@ -23,8 +23,8 @@
          * @param {any[]} args The arguments array that is to be passed into the constructor.
          * @param {Function} callback A callback that is to be fired when initialization is complete.
          */
-        return function dessertContextInit($context, app, args, callback) {
-            moduleInit($context, app, args, callback);
+        return function dessertContextInit($context, app, args, callback, isPage) {
+            moduleInit($context, app, args, callback, isPage);
         };
     }
 })();

@@ -29,6 +29,8 @@
                  */
                 this.destroy = function destroy() {
                     this.$view.remove();
+                    delete this.controller;
+                    delete this.$view;
                 };
                 /**
                  * Wires up events using the dessert events utility.

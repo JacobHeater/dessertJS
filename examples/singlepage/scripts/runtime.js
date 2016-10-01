@@ -1,9 +1,8 @@
-define([
-  'dessert.core'
-], function (dessert) {
-    dessert.init([
-      './scripts/home',
-      './scripts/controls/login'
-    ]);
-    return dessert;
+define(function () {
+  "use strict";
+  require([
+    './scripts/home',
+    './scripts/controls/login'
+  ]);
+  return null;
 });

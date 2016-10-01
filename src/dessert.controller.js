@@ -30,6 +30,10 @@
             this.$controller = $controller;
             this.onInit = $.noop;
             this.constructor = implementation || function emptyControllerConstructor() {};
+            this.constructor.prototype.scope = function emptyScopeFunction() {};
+            this.constructor.prototype.destroy = function emptyDestroyFunction() {};
+            this.constructor.prototype.init = function emptyControllerInit() {};
+            this.instance = null;
         };
         return Controller;
     });

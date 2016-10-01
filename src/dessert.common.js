@@ -247,6 +247,27 @@
              */
             isString: function(str) {
                 return typeof str === "string";
+            },
+
+            addReadOnlyProperty: function(obj, propName, value) {
+                defineReadOnlyProperty(obj, propName, value);
+
+                return this;
+            },
+
+            addReadOnlyProperties: function(obj, hash) {
+                defineReadOnlyProperties(obj, hash);
+
+                return this;
+            },
+
+            defer: function(action, args) {
+                args = args && Array.isArray(args) ? args : [];
+                if (this.isFunction(action)) {
+                    setTimeout(function() {
+                        action.apply(null, args);
+                    }, 0);
+                }
             }
         });
 

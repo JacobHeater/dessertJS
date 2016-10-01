@@ -28,7 +28,10 @@
         }
 
         Component.prototype.constructor = common.utils.noop;
+        Component.prototype.constructor.prototype.destroy = common.utils.noop;
+        Component.prototype.constructorInstances = [];
         Component.prototype.render = common.utils.noop;
+        Component.prototype.instance = null;
         Component.extend = extend.bind(Component);
 
         return Component;

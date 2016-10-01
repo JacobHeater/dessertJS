@@ -86,8 +86,8 @@ define("dessert.customtag", ["jquery", "dessert.common"], function dessertCustom
                                     $customTagSwap.attr(key, $customTagAttrs[key]);
                                 });
                             
-                            //Replcae the custom tag with out new content.
-                            $customTag.replaceWith($customTagSwap);
+                            //Replace the custom tag with out new content.
+                            $customTag.replaceContent($customTagSwap);
                         });
                     });
             }

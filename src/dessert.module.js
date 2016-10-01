@@ -8,9 +8,12 @@
 
     define("dessert.module", [
             'dessert.controller',
+            "dessert.common",
             'jquery'
         ],
-        function dessertModuleModule(Controller, $) {
+        function dessertModuleModule(Controller, $common, $) {
+
+            var utils = $common.utils;
 
             /**
              * A Modules in dessertJS is the highest level element that can be on the page
@@ -65,7 +68,26 @@
                      * @returns {Objet} The controllers namespace object for chaining.
                      */
                     remove: function remove(name) {
-                        delete controller[name];
+                        delete controllers[name];
+                        return this;
+                    },
+
+                    /**
+                     * Iterates over each controller in the module and
+                     * fires the handler function.
+                     * 
+                     * @param {Function} handler The callback to fire over each controller.
+                     * @returns {Object} The current instance of the Module.controllers object.
+                     */
+                    each: function(handler) {
+                        if (utils.isFunction(handler)) {
+                            Object
+                                .keys(controllers)
+                                .forEach(function(key) {
+                                    handler.call(controllers[key], controllers[key]);
+                                });
+                        }
+
                         return this;
                     }
                 };

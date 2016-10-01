@@ -2,7 +2,7 @@ define(["dessert.ajax"], function(ajax) {
     "use strict";
 
     return function(app) {
-        app.registerComponents([{
+        app.components.register([{
             name: "dropdown",
             entry: "./components/dropdowns/dropdown"
         }, {

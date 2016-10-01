@@ -4,7 +4,7 @@ define([
 
   "use strict";
   
-  dessert.init([
+  require([
     './scripts/books'
   ]);
 });

@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
 
     require.config({
@@ -11,9 +11,9 @@
     require([
         "dessert.core",
         "dessert.routing"
-    ], function(dessert, routing) {
+    ], function (dessert, routing) {
         var app = dessert
-            .app('multiapp', function() {
+            .app('multiapp', function () {
                 this.src = "./views/";
                 this.templates = "./templates/";
                 this.dessertPath = "./scripts/dessert/";
@@ -21,24 +21,30 @@
 
         app
             .module("main")
-            .controller("mainCtrl", function(view, model, module, page) {
-                var appButtons = view.controlGroups.appButton;
-                var components = view.components;
+            .controller("mainCtrl", function () {
+                var view;
+                this.scope = function (scope) {
+                    view = scope.view;
+                };
 
-                appButtons.forEach(function(b) {
-                    b.click(function() {
-                        var target = $(this).attr("app");
+                this.init = function () {
+                    var appButtons = view.controlGroups.appButton;
 
-                        switch (target) {
-                            case "calculator":
-                                routing.setRoute("/apps/calculator");
-                                break;
-                            case "shoppingCart":
-                                routing.setRoute("/apps/shoppingCart");
-                                break;
-                        }
+                    appButtons.forEach(function (b) {
+                        b.click(function () {
+                            var target = $(this).attr("app");
+
+                            switch (target) {
+                                case "calculator":
+                                    routing.setRoute("/apps/calculator");
+                                    break;
+                                case "shoppingCart":
+                                    routing.setRoute("/apps/shoppingCart");
+                                    break;
+                            }
+                        });
                     });
-                });
+                };
             });
 
         app.init();
