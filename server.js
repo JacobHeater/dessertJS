@@ -15,7 +15,7 @@
     //Redirect the user to the appropriate demo if any of the given default directories are used.
     defaults.map(d => app.get(d, (request, response) => response.redirect(302, `/examples${d}`)));
 
-    app.listen(port, function() {
+    app.listen(process.env.PORT || port, function() {
         console.log(`Listening on port ${port}.`);
     });
 })();
