@@ -58,7 +58,7 @@
                             callback(sequence[i]);
                         }
                     };
-                    bindTemplate = db.bindTemplate;
+                    bindTemplate = db.bindTemplateToData;
                     if (typeof template === 'string') {
                         bindable = template;
                         outer = "";

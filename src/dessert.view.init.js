@@ -14,6 +14,7 @@
         "dessert.model",
         "dessert.component",
         "dessert.asyncresource",
+        "dessert.databinding",
         "jquery"
     ], dessertViewInitModule);
 
@@ -29,6 +30,7 @@
         $Model,
         $Component, //eslint-disable-line no-unused-vars
         $asyncResource,
+        $databinding,
         $jquery
     ) {
         var selectors = $common.selectors;
@@ -216,6 +218,7 @@
                         module: module,
                         page: page
                     };
+                    
                     controller.instance.scope(scope);
                     controller.instance.init();
                 }

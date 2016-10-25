@@ -4,33 +4,26 @@
             <tbody>
                 <tr>
                     <td>
-                       <dsrtCode>
-                          var info = this.volumeInfo;
-                          var attrs = {
-                            src: info.imageLinks.thumbnail,
-                            title: info.title
-                          };
-                          this.dsrt.getMarkup("<img />", attrs);
-                        </dsrtCode>
+                       <img deferred-src="{{ volumeInfo.imageLinks.thumbnail }}" title="{{ volumeInfo.title }}" />
                     </td>
                     <td>
-                        <h3>{{ this.volumeInfo.title }}</h3>
+                        <h3>{{ volumeInfo.title }}</h3>
                         <p>
-                          {{ this.volumeInfo.description || "No description provided" }}
+                          {{ description }}
                         </p>
                         <ul>
                           <li>
-                            Rating: {{ this.volumeInfo.averageRating || "UNKOWN" }}
+                            Rating: {{ averageRating }}
                           </li>
                           <li>
-                            Number of Pages: {{ this.volumeInfo.pageCount }}
+                            Number of Pages: {{ volumeInfo.pageCount }}
                           </li>
-                          <li>Author(s): {{ this.volumeInfo.authors ? this.volumeInfo.authors.join(', ').replace(/, $/, '') : "Unspecified" }}</li>
+                          <li>Author(s): {{ authors }}</li>
                           <li>
-                              Publisher: {{ this.volumeInfo.publisher }}
+                              Publisher: {{ volumeInfo.publisher }}
                           </li>
-                          <li>Publish Date: {{ this.volumeInfo.publishedDate }}</li>
-                          <li>Categories: {{ this.volumeInfo.categories ? this.volumeInfo.categories.join(', ').replace(/, $/, '') : "Unspecified" }}</li>
+                          <li>Publish Date: {{ volumeInfo.publishedDate }}</li>
+                          <li>Categories: {{ categories }}</li>
                         </ul>
                     </td>
                 </tr>
