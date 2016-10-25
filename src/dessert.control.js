@@ -25,9 +25,10 @@
          * @param {String} name The name of the control.
          * @param {Object} element The jQuery instance of the DOM element that represents the control.
          * @param {Object} view The view instance that this control is linked to.
+         * @param {Object} app The dessertJS application instance.
          * @returns {Object} The decorated jQuery object instance.
          */
-        function Control(name, element, view) {
+        function Control(name, element, view, app) {
             //This just ensures that we don't accidentally override any current instance to the dsrt object.
             /**
              * element.dsrt namespace for the dessertJS extensions of the
@@ -58,7 +59,7 @@
                 element.remove();
             };
             //Extend the dessertJS control.
-            extender(element, $);
+            extender(element, app);
             return element;
         };
 

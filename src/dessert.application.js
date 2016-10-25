@@ -222,6 +222,9 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
         Application.prototype.dsrtPath = emptyString;
         Application.prototype.templates = emptyString;
         Application.prototype.src = emptyString;
+        Application.prototype.providers = {
+            IDataBindingProvider: null
+        };
 
         return Application;
     }

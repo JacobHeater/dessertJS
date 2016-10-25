@@ -7,16 +7,17 @@
     "use strict";
 
     define("dessert.databinding", [
-        "mustache"
+        "handlebars",
+        "dessert.interfaces"
     ], dessertDataBindingModule);
 
     function dessertDataBindingModule(
-        $mustache
+        $handlebars,
+        $interfaces
     ) {
-        //The module we'll return from the require function.
-        var dessertDatabinding = {
+        var dessertDataBinder = new $interfaces.IDataBindingProvider({
             bindTemplateToData: bindTemplateToData
-        };
+        });
 
         var deferredAttrs = [{
             regex: /deferred-src/gmi,
@@ -32,7 +33,8 @@
          * @returns {String} The data-bound template.
          */
         function bindTemplateToData(template, data) {
-            var renderedHtml = $mustache.render(template, data);
+            var compiledTemplate = $handlebars.compile(template);
+            var renderedHtml = compiledTemplate(data);
             deferredAttrs.forEach(function(attr) {
                 renderedHtml = renderedHtml.replace(attr.regex, attr.repl);
             });
@@ -40,6 +42,6 @@
             return renderedHtml;
         }
 
-        return dessertDatabinding;
+        return dessertDataBinder;
     }
 })();

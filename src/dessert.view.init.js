@@ -177,7 +177,7 @@
                     //Get the name of the control from the element.
                     controlName = $control.attr(attrs.control);
                     //Instantiate a new instance of the dessertJS Control class.
-                    control = new $Control(controlName, $control, view);
+                    control = new $Control(controlName, $control, view, app);
                     //Add the new instance of the control to the view's controls dictionary.
                     view.controls.add(control);
                 });

@@ -12,12 +12,18 @@ These are simply just extensions of the jQuery object, which are added to the ds
         'dessert.common',
         'dessert.ajax',
         "dessert.databinding",
+        "dessert.interfaces",
         "jquery"
-    ], function dessertControlExtensionsModule(repeater, common, ajax, databinding, $) {
+    ], function dessertControlExtensionsModule(repeater, common, ajax, databinding, interfaces, $) {
 
         var attrs = common.attrs;
         //The $ factory element result to extend with the dsrt object.
-        return function dessertControlExtensionsInit(element) {
+        return function dessertControlExtensionsInit(element, app) {
+
+            if (app && app.providers && app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                databinding = app.providers.IDataBindingProvider;
+            }
+
             /**
              * Binds the control to the given model using event driven
              * data binding. This is unlike two-way data binding because
@@ -139,7 +145,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              * @param {String|Object} template The template to repeat into the control.
              * @param {Object} config The configuration for the repeater. 
              */
-            element.dsrt.repeat = repeater(element);
+            element.dsrt.repeat = repeater(element, app);
         };
     });
 
