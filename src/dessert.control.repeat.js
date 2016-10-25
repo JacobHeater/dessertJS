@@ -8,10 +8,11 @@
 
     define("dessert.control.repeat", [
         'dessert.databinding',
+        "dessert.interfaces",
         'dessert.ajax',
         'dessert.common',
         "jquery"
-    ], function dessertControlRepeatModule(db, ajax, common, $) {
+    ], function dessertControlRepeatModule(databinding, interfaces, ajax, common, $) {
 
         var selectors = common.selectors;
 
@@ -20,9 +21,15 @@
          * the given template using the data set.
          * 
          * @param {Object} element The jQuery object instance.
+         * @param {Object} app The dessertJS application instance.
          * @returns {Function} A closure that is used to repeat the template.
          */
-        return function dessertControlRepeatInit(element) {
+        return function dessertControlRepeatInit(element, app) {
+
+            if (app && app.providers && app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                databinding = app.providers.IDataBindingProvider;
+            }
+
             /**
              * Enumerates over the given sequence or data set, and injects the template
              * content into the DOM element.
@@ -58,7 +65,7 @@
                             callback(sequence[i]);
                         }
                     };
-                    bindTemplate = db.bindTemplateToData;
+                    bindTemplate = databinding.bindTemplateToData;
                     if (typeof template === 'string') {
                         bindable = template;
                         outer = "";
