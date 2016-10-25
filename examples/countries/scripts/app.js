@@ -10,7 +10,7 @@
             this.templates = "./templates/";
             this.dessertPath = "./scripts/dessert/";
             this.providers.IDataBindingProvider = new interfaces.IDataBindingProvider({
-                vbindTemplateToData: function (template, data) {
+                bindTemplateToData: function (template, data) {
                     var renderedHtml = mustache.render(template, data);
                     return renderedHtml;
                 }
