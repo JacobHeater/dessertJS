@@ -3,36 +3,36 @@
     <hr />
     <div dsrt-repeat>
         <div class="wrapper">
-          <h3>Details About {{ this.name }}</h3>
+          <h3>Details About {{ name }}</h3>
           <table>
             <tbody>
               <tr>
                 <td>Name</td>
-                <td>{{ this.name }}</td>
+                <td>{{ name }}</td>
               </tr>
               <tr>
                 <td>Native Name</td>
-                <td>{{ this.nativeName }}</td>
+                <td>{{ nativeName }}</td>
               </tr>
               <tr>
                 <td>Population</td>
-                <td>{{ this.population }}</td>
+                <td>{{ population }}</td>
               </tr>
               <tr>
                 <td>Capital</td>
-                <td>{{ this.capital || "Unlisted" }}</td>
+                <td>{{ getCapital }}</td>
               </tr>
               <tr>
                 <td>Currencies</td>
-                <td>{{ this.currencies.join(', '); }}</td>
+                <td>{{ getCurrencies }}</td>
               </tr>
               <tr>
                 <td>Time Zones</td>
-                <td>{{ !!this.timezones ? this.timezones.join('<br />') : "Unlisted" }}</td>
+                <td>{{ getTimezones }}</td>
               </tr>
               <tr>
                 <td>Region</td>
-                <td>{{ this.region || "Unlisted" }}</td>
+                <td>{{ getRegion }}</td>
               </tr>
             </tbody>
           </table>

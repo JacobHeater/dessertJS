@@ -216,6 +216,7 @@
                         module: module,
                         page: page
                     };
+                    
                     controller.instance.scope(scope);
                     controller.instance.init();
                 }

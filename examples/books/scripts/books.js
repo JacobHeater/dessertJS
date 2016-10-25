@@ -24,10 +24,28 @@ define(['./app'], function (app) {
                 var url = 'https://www.googleapis.com/books/v1/volumes?q=author:$author'.replace("$author", model.tbAuthorName.trim());
                 $.get(encodeURI(url))
                     .then(function (data) {
-                        displayBooks.dsrt.repeat(data.items.map(function (item) {
+                        data.items = data.items.map(function (item) {
+                            if (item.volumeInfo && item.volumeInfo.industryIdentifiers) {
+                                var isbn10 = item.volumeInfo.industryIdentifiers.filter(function (id) {
+                                    return id.type === "ISBN_10";
+                                })[0];
+                                var isbn13 = item.volumeInfo.industryIdentifiers.filter(function (id) {
+                                    return id.type === "ISBN_13";
+                                })[0];
+
+                                item.isbn = (isbn10 || isbn13).identifier;
+                            } else {
+                                item.isbn = "Unspecified";
+                            }
+
                             item.searchTerm = model.tbAuthorName.trim();
+
+                            item.description = item.volumeInfo.description || "No description provided...";
+
                             return item;
-                        }), module.template('books-simple'), {
+                        });
+
+                        displayBooks.dsrt.repeat(data.items, module.template('books-simple'), {
                             clear: true
                         });
                     })
@@ -70,7 +88,7 @@ define(['./app'], function (app) {
         var view;
         var module;
         var page;
-        
+
         this.scope = function (scope) {
             view = scope.view;
             module = scope.module;
@@ -91,6 +109,16 @@ define(['./app'], function (app) {
             $.get(encodeURI(url))
                 .then(function (data) {
                     loader.hide();
+
+                    data.items = data.items.map(function (row) {
+                        row.description = row.volumeInfo.description || "No description provided...";
+                        row.averageRating = row.volumeInfo.averageRating || "N/A";
+                        row.authors = row.volumeInfo.authors ? row.volumeInfo.authors.join(', ').replace(/, $/, '') : "Unspecified";
+                        row.categories = row.volumeInfo.categories ? row.volumeInfo.categories.join(', ').replace(/, $/, '') : "Unspecified";
+
+                        return row;
+                    });
+
                     displayBooks.dsrt.repeat(data.items, module.template('books-detailed'), {
                         clear: true
                     });

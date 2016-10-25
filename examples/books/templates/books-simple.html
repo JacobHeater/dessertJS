@@ -7,29 +7,14 @@
             <tbody>
                 <tr>
                     <td>
-                       <dsrtCode>
-                          var info = this.volumeInfo;
-                          var isbn10 = info.industryIdentifiers.filter(function(id) {
-                            return id.type === "ISBN_10";
-                          })[0];
-                          var isbn13 = info.industryIdentifiers.filter(function(id) {
-                            return id.type === "ISBN_13";
-                          })[0];
-                          var attrs = {
-                            src: info.imageLinks.thumbnail,
-                            title: info.title
-                          };
-                          var img = this.dsrt.getMarkup("<img />", attrs);
-                          var html = isbn10 || isbn13 ?
-                          '<a href="#/bookdetails/:isbn=$isbn">$img</a>'.replace('$img', img).replace('$isbn', (isbn10 || isbn13).identifier) :
-                          img;
-                          html;
-                        </dsrtCode>
+                       <a href="#/bookdetails/:isbn={{ isbn }}">
+                        <img deferred-src="{{ volumeInfo.imageLinks.thumbnail }}" title="{{ volumeInfo.title }}" />
+                       </a>
                     </td>
                     <td>
-                        <h3>{{ this.volumeInfo.title }}</h3>
+                        <h3>{{ volumeInfo.title }}</h3>
                         <p>
-                          {{ this.volumeInfo.description || "No description provided" }}
+                          {{ description }}
                         </p>
                     </td>
                 </tr>

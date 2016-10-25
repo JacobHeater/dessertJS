@@ -16,7 +16,6 @@ define(['./app'], function (app) {
             var controls = view.controls;
             var tbCountry = controls.tbCountry;
             var countryDetail = controls.countryDetail;
-            var tbPlaceholder = controls.tbPlaceholder;
             var loader = controls.loader.hide();
 
             tbCountry.dsrt.bind(model).jq.keyup(function () {
@@ -27,6 +26,25 @@ define(['./app'], function (app) {
                 if (val.length > 3) {
                     $.get('https://restcountries.eu/rest/v1/name/%name'.replace('%name', val))
                         .then(function (data) {
+                            data = data.map(function(row) {
+                                row.getCapital = function() {
+                                    return this.capital || "Unlisted";
+                                };
+
+                                row.getCurrencies = function() {
+                                    return this.currencies.join(',');
+                                };
+
+                                row.getTimezones = function() {
+                                    return this.timezones ? this.timezones.join(',') : "N/A";
+                                };
+
+                                row.getRegion = function() {
+                                    return this.region || "Unlisted";
+                                };
+
+                                return row;
+                            });
                             if (loader.is(':visible')) {
                                 loader.hide();
                             }

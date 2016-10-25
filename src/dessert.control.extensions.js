@@ -11,8 +11,9 @@ These are simply just extensions of the jQuery object, which are added to the ds
         'dessert.control.repeat',
         'dessert.common',
         'dessert.ajax',
+        "dessert.databinding",
         "jquery"
-    ], function dessertControlExtensionsModule(repeater, common, ajax, $) {
+    ], function dessertControlExtensionsModule(repeater, common, ajax, databinding, $) {
 
         var attrs = common.attrs;
         //The $ factory element result to extend with the dsrt object.
@@ -51,6 +52,18 @@ These are simply just extensions of the jQuery object, which are added to the ds
                     element.on('keyup keydown change', function() {
                         watcher.call($(this));
                     });
+                }
+                return this;
+            };
+            /**
+             * Bind the control to a data object.
+             * 
+             * @param {Object} data The data to bind the control to.
+             * @returns {Object} The current instance of the control dsrt namespace.
+             */
+            element.dsrt.dataBind = function(data) {
+                if (data) {
+                    element.html(databinding.bindTemplateToData(element.html(), data));
                 }
                 return this;
             };
