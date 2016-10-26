@@ -3,13 +3,11 @@
  * @author Jacob Heater
  * @since
  */
-(function() {
+(function () {
 
     "use strict";
 
-    define("dessert.routing", [
-        "jquery"
-    ], function dessertRoutingModel($) {
+    define("dessert.routing", function dessertRoutingModel() {
 
         var location = window.location;
 
@@ -102,7 +100,7 @@
                 if (hasArgs(href)) {
                     args = href.split(":")[1]; //Get the right side, because the args will be on the right of the split.
                     params = args.split("&");
-                    params = params.map(function(p) {
+                    params = params.map(function (p) {
                         var kvp = p.split("="); //Creates a key value pair
                         return {
                             key: kvp[0] || "",
@@ -114,7 +112,8 @@
             },
             onRouteChange: function routingOnRouteChange(handler) {
                 var $this = this;
-                $(window).on("hashchange", function() {
+
+                window.addEventListener("hashchange", function () {
                     //Handle hash change when there is truly only a hash in the url.
                     if ($this.hasRoute()) {
                         handler();

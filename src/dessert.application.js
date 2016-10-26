@@ -100,7 +100,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @returns {Object} The current instance of the App prototype for chaining.
              */
             this.init = function (done, args) {
-                dsrt.init(this.name, done, args);
+                dsrt.init(this, done, args);
                 return this;
             };
             /**
@@ -110,7 +110,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @returns {Object} The current instance of the App prototype for chaining.
              */
             this.pageInit = function (args) {
-                dsrt.pageInit(this.name, args);
+                dsrt.pageInit(this, args);
                 return this;
             };
 
@@ -223,7 +223,8 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
         Application.prototype.templates = emptyString;
         Application.prototype.src = emptyString;
         Application.prototype.providers = {
-            IDataBindingProvider: null
+            IDataBindingProvider: null,
+            jquery: null
         };
 
         return Application;

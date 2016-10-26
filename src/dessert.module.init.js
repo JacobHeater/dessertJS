@@ -10,14 +10,12 @@
         'dessert.controller.init',
         'dessert.common',
         'dessert.page',
-        'dessert.routing',
-        "jquery"
+        'dessert.routing'
     ], function(
         controllerInit,
         common,
         Page,
-        routing,
-        $
+        routing
     ) {
 
         var selectors = common.selectors;
@@ -32,6 +30,14 @@
          * @param {Function} callback The callback to invoke when initialization is completed.
          */
         return function dessertModuleInit($context, app, args, callback) {
+
+            var $ = null;
+            
+            if (app && app.providers) {
+                if (app.providers.jquery && app.providers.jquery.fn) {
+                    $ = app.providers.jquery;
+                }
+            }
             
             var page;
             var modules;

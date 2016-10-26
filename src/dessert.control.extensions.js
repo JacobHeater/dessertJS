@@ -11,19 +11,31 @@ These are simply just extensions of the jQuery object, which are added to the ds
         'dessert.control.repeat',
         'dessert.common',
         'dessert.ajax',
-        "dessert.databinding",
         "dessert.interfaces",
-        "jquery"
-    ], function dessertControlExtensionsModule(repeater, common, ajax, databinding, interfaces, $) {
+        "dessert.databinding"
+    ], function dessertControlExtensionsModule(repeater, common, ajax, interfaces, $dataBindingUtil) {
 
         var attrs = common.attrs;
         //The $ factory element result to extend with the dsrt object.
         return function dessertControlExtensionsInit(element, app) {
 
+            var $ = null;
+            var databinding = null
+
             if (app && app.providers && app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
                 databinding = app.providers.IDataBindingProvider;
             }
 
+            if (app && app.providers) {
+                if (app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                    databinding = app.providers.IDataBindingProvider;
+                }
+                if (app.providers.jquery && app.providers.jquery.fn) {
+                    $ = app.providers.jquery;
+                    ajax.jquery = $;
+                }
+            }
+            
             /**
              * Binds the control to the given model using event driven
              * data binding. This is unlike two-way data binding because
@@ -69,7 +81,9 @@ These are simply just extensions of the jQuery object, which are added to the ds
              */
             element.dsrt.dataBind = function(data) {
                 if (data) {
-                    element.html(databinding.bindTemplateToData(element.html(), data));
+                    var dataBoundTemplate = databinding.bindTemplateToData(element.html(), data);
+                    dataBoundTemplate = $dataBindingUtil.cleanupDeferredAttrs(dataBoundTemplate);
+                    element.html(dataBoundTemplate);
                 }
                 return this;
             };

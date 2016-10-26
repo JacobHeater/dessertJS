@@ -10,13 +10,14 @@
 
     require([
         "dessert.core",
-        "dessert.routing"
-    ], function (dessert, routing) {
+        "dessert.routing",
+        "jquery"
+    ], function (dessert, routing, $) {
         var app = dessert
             .app('multiapp', function () {
                 this.src = "./views/";
                 this.templates = "./templates/";
-                this.dessertPath = "./scripts/dessert/";
+                this.providers.jquery = $;
             });
 
         app

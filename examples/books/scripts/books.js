@@ -1,4 +1,4 @@
-define(['./app'], function (app) {
+define(['./app', "jquery"], function (app, $) {
     "use strict";
     app.module('booksearch').controller('booksearchController', function () {
         var view;

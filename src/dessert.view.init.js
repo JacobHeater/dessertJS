@@ -13,8 +13,7 @@
         "dessert.control",
         "dessert.model",
         "dessert.component",
-        "dessert.asyncresource",
-        "jquery"
+        "dessert.asyncresource"
     ], dessertViewInitModule);
 
     /**
@@ -28,13 +27,21 @@
         $Control,
         $Model,
         $Component, //eslint-disable-line no-unused-vars
-        $asyncResource,
-        $jquery
+        $asyncResource
     ) {
         var selectors = $common.selectors;
         var attrs = $common.attrs;
 
         return function dessertViewInit($controller, controller, module, $module, app, args, page, callback) { //eslint-disable-line no-unused-vars
+
+            var $jquery = null;
+
+            if (app && app.providers) {
+                if (app.providers.jquery && app.providers.jquery.fn) {
+                    $jquery = app.providers.jquery;
+                }
+            }
+
             var views;
 
             if ($controller) {

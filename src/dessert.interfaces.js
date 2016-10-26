@@ -3,6 +3,11 @@
 
     define("dessert.interfaces", dessertInterfacesModule);
 
+    /**
+     * The require entry point for the dessert.interfaces module.
+     * 
+     * @returns {Object} The dependencies hash table.
+     */
     function dessertInterfacesModule() {
         var interfaces = {
             IDataBindingProvider: IDataBindingProvider
@@ -30,9 +35,11 @@
                         this[key] = implementation[key];
                     }
                 }.bind(this));
+        } else {
+            throw new InvalidArgumentError("implementation", "object");
         }
     }
-
+    
     function NotImplementedError(interfaceName, methodName) {
         var message = 'Method "' + methodName + '" not implemented in interface "' + interfaceName + '"!';
         

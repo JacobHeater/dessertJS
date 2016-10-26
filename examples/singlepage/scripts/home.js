@@ -1,4 +1,4 @@
-define(['./app.js'], function (app) {
+define(['./app'], function (app) {
   "use strict";
 
   var module = app.module('landingModule');

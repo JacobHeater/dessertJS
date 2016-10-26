@@ -3,7 +3,7 @@
     var app = express();
     var path = require('path');
 
-    var paths = ['/src', '/examples', '/bin'];
+    var paths = ['/src', '/examples', '/bin', '/lib'];
     var defaults = ['/countries', '/singlepage', '/package', '/books', '/multiapp', '/controls'];
     var port = 80;
 

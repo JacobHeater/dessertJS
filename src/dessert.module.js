@@ -8,10 +8,9 @@
 
     define("dessert.module", [
             'dessert.controller',
-            "dessert.common",
-            'jquery'
+            "dessert.common"
         ],
-        function dessertModuleModule(Controller, $common, $) {
+        function dessertModuleModule(Controller, $common) {
 
             var utils = $common.utils;
 
@@ -32,6 +31,7 @@
              * @param {Object} globals The global variables that need to be shared among Modules.
              */
             function Module(name, app, $module, globals) {
+
                 /**
                  * A cache of all of the controllers this Module is a parent to.
                  */
@@ -94,7 +94,7 @@
                 this.$module = $module;
                 this.globals = globals || {};
                 this.app = app;
-                this.onInit = $.noop;
+                this.onInit = function emptyModuleOnInitFunction() {};
                 /**
                  * Constructs a path to file for the Module based on the given
                  * pathType and path url.

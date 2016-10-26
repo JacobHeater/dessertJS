@@ -10,14 +10,12 @@
         'dessert.common',
         'dessert.ajax',
         "dessert.routing",
-        "dessert.customtag",
-        "jquery"
+        "dessert.customtag"
     ], function dessertExternalModulesInitModule(
         common,
         ajax,
         $routing,
-        $customTag,
-        $
+        $customTag
     ) {
 
         /**
@@ -35,6 +33,16 @@
          * @returns {Function} A recursive function that loads async dessertJS modules.
          */
         return function externalModulesInit($context, app, isPage) {
+
+            var $ = null;
+
+            if (app && app.providers) {
+                if (app.providers.jquery && app.providers.jquery.fn) {
+                    $ = app.providers.jquery;
+                    ajax.jquery = $;
+                }
+            }
+
             var selectors = common.selectors;
             var attrs = common.attrs;
             var utils = common.utils;
