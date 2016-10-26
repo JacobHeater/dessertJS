@@ -48,7 +48,18 @@
                             if ($.isFunction(controller.onInit)) {
                                 controller.onInit();
                             }
-                            viewInit($controller, controller, module, $module, app, args, page, callback);
+                            //Instantiate the controller using the controller's constructor function.
+                            if (!(controller.instance || controller.instance instanceof controller.constructor)) {
+                                controller.instance = new controller.constructor();
+                            }
+                            if (controller.instance.isAsync) {
+                                controller.instance.ready(function () {
+                                    viewInit($controller, controller, module, $module, app, args, page, callback);
+                                });
+                                controller.instance.asyncInit();
+                            } else {
+                                viewInit($controller, controller, module, $module, app, args, page, callback);
+                            }
                         }
                     }
                 });

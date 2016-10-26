@@ -94,6 +94,9 @@
                                 if ($exMod.is(selectors.page)) {
                                     $exMod.setContent($data);
                                     $exMod.removeAttr(attrs.src);
+                                } else if ($exMod.attr("embed") && $exMod.attr("embed").toLowerCase() === "true") {
+                                    $exMod.setContent($data);
+                                    $exMod.removeAttr(attrs.src);
                                 } else {
                                     $exMod.replaceContent($data);
                                 }

@@ -67,7 +67,6 @@
                     } else {
                         $init($app, app, args, isPage, isHash, done);
                     }
-                    $(selectors.mask).removeAttr(attrs.mask);
                     return this;
                 },
                 /**

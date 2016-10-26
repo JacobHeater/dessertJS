@@ -13,6 +13,10 @@
                 return this.replaceWith(content);
             };
 
+            $.fn.outerHtml = function() {
+                return this.get(0).outerHTML;
+            };
+
             return $;
         };
     }

@@ -226,6 +226,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             IDataBindingProvider: null,
             jquery: null
         };
+        Application.prototype.maskLifted = function emptyMaskLifted() {};
 
         return Application;
     }

@@ -2,7 +2,7 @@
     <div dsrt-controller="countriesController">
         <div dsrt-view="countriesView">
             <div dsrt-src="/partials/loader"></div>
-            <label for="tbCountry">Search for Your Country by Name:</label>
+            <label for="tbCountry">{{ title }}</label>
             &nbsp;
             <span dsrt-control="tbPlaceholder"></span>
             <input type="text" id="tbCountry" dsrt-control="tbCountry" placeholder="Enter the country name" title="Please enter at least 3 characters to start the search." dsrt-model />
