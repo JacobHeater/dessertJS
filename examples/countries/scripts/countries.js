@@ -5,6 +5,21 @@ define(['./app', "jquery"], function (app, $) {
         var view;
         var model;
         var module;
+        var data = {
+            title: ""
+        };
+
+        this.isAsync = true;
+
+        setTimeout(function() {
+            data.title = "Search for Your Country by Name:";
+
+            this.notify();
+        }.bind(this), 1000);
+
+        this.initData = function() {
+            return data;
+        };
 
         this.scope = function (scope) {
             view = scope.view;

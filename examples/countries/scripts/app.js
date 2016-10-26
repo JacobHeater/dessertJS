@@ -16,5 +16,8 @@
                 }
             });
             this.providers.jquery = $;
+            this.maskLifted = function() {
+                $("[init-loader]").remove();
+            };
         });
 });

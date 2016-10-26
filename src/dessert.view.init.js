@@ -72,6 +72,14 @@
             views.each(function () {
                 //Keep a reference to the jQuery view object.
                 $view = $jquery(this);
+                //Bind the controller to the view
+                if (controller && controller.instance && $common.utils.isFunction(controller.instance.dataBind)) {
+                    var dataBoundView = controller.instance.dataBind($view.outerHtml());
+                    var $dataBoundView = $jquery(dataBoundView);
+
+                    $view.replaceContent($dataBoundView);
+                    $view = $dataBoundView;
+                }
                 //Track the jQuery view object.
                 app.trackedElements.add($view);
                 //Find all of the [dsrt-control] elements housed in the view.
@@ -212,11 +220,8 @@
                 });
                 //We have a model with all of its members. Create a new dessertJS Model instance.
                 model = new $Model(modelMembers);
-                if (controller) {
-                    //Instantiate the controller using the controller's constructor function.
-                    if (!(controller.instance || controller.instance instanceof controller.constructor)) {
-                        controller.instance = new controller.constructor();
-                    }
+                if (controller && controller.instance) {
+                    
                     var scope = {
                         view: view,
                         model: model,
@@ -228,6 +233,12 @@
                     controller.instance.init();
                 }
             });
+
+            $jquery(selectors.mask).removeAttr(attrs.mask);
+
+            if ($common.utils.isFunction(app.maskLifted)) {
+                app.maskLifted();
+            }
 
             /**
              * TODO: document this function.

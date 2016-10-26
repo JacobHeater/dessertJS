@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.controller", function dessertControllerModule() {
+    define("dessert.controller", ["dessert.interfaces"], function dessertControllerModule(interfaces) {
 
         /**
          * The dessertJS controller is what drives the logic of the modules. Modules are
@@ -23,15 +23,66 @@
          * @param {Function} implementation The controller constructor that will be called when the view initialization has
          *                                  completed.
          */
-        function Controller(name, module, $controller, implementation) {
+        function Controller(name, module, app, $controller, implementation) {
+            var _readyCallbacks = [];
+            var _isControllerAsync = false;
+
             this.name = name || "";
             this.module = module;
+            this.app = app;
             this.$controller = $controller;
             this.onInit = function emptyInitFunction() {};
             this.constructor = implementation || function emptyControllerConstructor() {};
             this.constructor.prototype.scope = function emptyScopeFunction() {};
             this.constructor.prototype.destroy = function emptyDestroyFunction() {};
             this.constructor.prototype.init = function emptyControllerInit() {};
+            this.constructor.prototype.isAsync = false;
+            this.constructor.prototype.initData = function () {
+                return {};
+            };
+            Object.defineProperties(this.constructor.prototype, {
+                ready: {
+                    writable: false,
+                    value: function (callback) {
+                        if (typeof callback === "function") {
+                            _readyCallbacks.push(callback);
+                        }
+                        return this;
+                    }
+                },
+                notify: {
+                    writable: false,
+                    value: function controllerReadyNotify() {
+                        var that = this;
+
+                        _readyCallbacks.forEach(function(callback) {
+                            callback.call(that, that);
+                        });
+
+                        _readyCallbacks.length = 0;
+                    }
+                },
+                dataBind: {
+                    writable: false,
+                    value: function (view) {
+                        if (app && app.providers && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                            var output = app.providers.IDataBindingProvider.bindTemplateToData(view, this.initData());
+                            return output;
+                        }
+                        return view;
+                    }
+                },
+                isAsync: {
+                    get: function() {
+                        return _isControllerAsync;
+                    },
+                    set: function(value) {
+                        if (typeof value === "boolean") {
+                            _isControllerAsync = value;
+                        }
+                    }
+                }
+            });
             this.instance = null;
         };
         return Controller;

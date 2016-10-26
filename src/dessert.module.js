@@ -46,7 +46,7 @@
                  * @returns {Object} The Controller instance.
                  */
                 this.controller = function controller(name, implementation) {
-                    controllers[name] = new Controller(name, this, undefined, implementation);
+                    controllers[name] = new Controller(name, this, app, undefined, implementation);
                     return controllers[name];
                 };
                 this.controllers = {
