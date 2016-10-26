@@ -2,15 +2,14 @@
  * @file Initializes the dessertJS controllers in the application context.
  * @author Jacob Heater
  */
-(function() {
+(function () {
 
     "use strict";
 
     define("dessert.controller.init", [
         'dessert.common',
-        'dessert.view.init',
-        "jquery"
-    ], function dessertControllerInitModule(common, viewInit, $) {
+        'dessert.view.init'
+    ], function dessertControllerInitModule(common, viewInit) {
 
         var selectors = common.selectors;
         var attrs = common.attrs;
@@ -30,6 +29,12 @@
          * @param {Function} callback The function that is invoked after the initialization is completed.
          */
         return function dessertControllerInit($module, module, app, args, page, callback) {
+            var $ = null;
+            if (app && app.providers) {
+                if (app.providers.jquery && app.providers.jquery.fn) {
+                    $ = app.providers.jquery;
+                }
+            }
             var controllers = $module.find(selectors.controller);
             var $controller;
             var controller;

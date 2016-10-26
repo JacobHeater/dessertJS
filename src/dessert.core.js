@@ -13,8 +13,7 @@
             "dessert.singlepage.init",
             "dessert.routing",
             "dessert.customtag",
-            "dessert.jquery.extend",
-            "jquery"
+            "dessert.jquery.extend"
         ],
         function dessertCoreModule(
             Application,
@@ -23,7 +22,7 @@
             spa,
             routing,
             $customTag,
-            $
+            $jQueryExtend
         ) {
 
             /**
@@ -40,17 +39,28 @@
                  * application or view. dessertJS can be used in a single-page-application
                  * methodology, or can be used for a simple MVC framework.
                  * 
+                 * @param {Application} app The application instance to initialize.
                  * @param {Function} done The callback to invoke when initialization is complete.
                  * @param {any[]} args The global arguments to be passed during initialization.
                  * @param {Boolean} isPage Indicates if the page called the init method.
                  * @param {Boolean} isHash Indicates if the hash changed event called the init method.
                  * @returns {Object} The current $dsrt instance for chaining.
                  */
-                init: function init(appName, done, args, isPage, isHash) {
-                    //TODO: figure out why when the hash changes that the old page url is getting requested again.
-                    var $app = $("[" + attrs.app + "=" + appName + "]");
+                init: function init(app, done, args, isPage, isHash) {
+
+                    var $ = null;
+
+                    if (app && app.providers) {
+                        if (app.providers.jquery && app.providers.jquery.fn) {
+                            $ = app.providers.jquery;
+                        }
+                    }
+
+                    var $app = $("[" + attrs.app + "=" + app.name + "]");
                     var $page = $app.find(selectors.page);
-                    var app = appCache[appName];
+
+                    $jQueryExtend($);
+
                     $customTag.init(app);
                     if (!isPage && $page.length > 0) {
                         spa(app, $page);
@@ -64,16 +74,16 @@
                  * Internally calls the $dsrt.init() method indicating that the page is
                  * initializing the dessertJS context.
                  */
-                pageInit: function pageInit(appName, args) {
-                    this.init(appName, null, args, true, false);
+                pageInit: function pageInit(app, args) {
+                    this.init(app, null, args, true, false);
                     return this;
                 },
                 /**
                  * Internally calls the $dsrt.init() method indicating that the hash changed event
                  * is initializing the dessertJS context.
                  */
-                hashInit: function hashInit(appName, args) {
-                    this.init(appName, null, args, false, true);
+                hashInit: function hashInit(app, args) {
+                    this.init(app, null, args, false, true);
                     return this;
                 }
             };
@@ -125,7 +135,7 @@
                     }
                     routing.onRouteChange(function appHashChangeHandler() {
                         clearApplicationScope(app);
-                        $dsrt.hashInit(app.name, []);
+                        $dsrt.hashInit(app, []);
                     });
                     if (common.utils.isFunction(onInit)) {
                         onInit.call(app, app);
@@ -143,9 +153,9 @@
                         this.instance = null;
                     });
                 });
-                app.components.each(function() {
+                app.components.each(function () {
                     if (common.utils.isArray(this.constructorInstances)) {
-                        this.constructorInstances.forEach(function(inst) {
+                        this.constructorInstances.forEach(function (inst) {
                             if (inst && utils.isFunction(inst.destroy)) {
                                 inst.destroy();
                                 inst = null;

@@ -11,13 +11,15 @@
         "dessert.core",
         "./scripts/register-components",
         "./scripts/register-tags",
-        "./scripts/module-main"
-    ], function(dessert, registerComponents, registerTags, setupMainModule) {
+        "./scripts/module-main",
+        "jquery"
+    ], function(dessert, registerComponents, registerTags, setupMainModule, $) {
         var app = dessert
             .app('controls', function() {
                 this.src = "./views/";
                 this.templates = "./templates/";
-                this.dessertPath = "./scripts/dessert/";
+                this.providers.jquery = $;
+
                 registerTags(this);
                 registerComponents(this);
             });

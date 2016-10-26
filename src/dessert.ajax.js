@@ -6,23 +6,24 @@
   
   "use strict";
 
-  define("dessert.ajax", ['jquery'], main);
+  define("dessert.ajax", main);
 
   /**
    * Require entry point.
    * 
    * @returns {Object} An object that exposes ajax capabilities.
    */
-  function main($) {
+  function main() {
 
     return {
+      jquery: null,
       /**
        * Does an AJAX get and returns a promise.
        * @param {String} url The url to perform HTTP GET on.
        * @returns {Object} A promise from the AJAX call.
        */
       get: function(url) {
-        return $.ajax({
+        return this.jquery.ajax({
           type: 'GET',
           url: url,
           cache: true,
@@ -35,7 +36,7 @@
        * @returns {Object} A promise from the AJAX call.
        */
       post: function(url, data) {
-        return $.ajax({
+        return this.jquery.ajax({
           type: "POST",
           url: url,
           cache: true,

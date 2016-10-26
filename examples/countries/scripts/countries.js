@@ -1,4 +1,4 @@
-define(['./app'], function (app) {
+define(['./app', "jquery"], function (app, $) {
     "use strict";
     var module = app.module('countries');
     module.controller('countriesController', function () {

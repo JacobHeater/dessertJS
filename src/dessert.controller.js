@@ -2,13 +2,12 @@
  * @file Defines the dessertJS Controller prototype.
  * @author Jacob Heater
  */
-(function() {
+(function () {
 
     "use strict";
 
-    define("dessert.controller", ['jquery'],
-    function dessertControllerModule($) {
-        
+    define("dessert.controller", function dessertControllerModule() {
+
         /**
          * The dessertJS controller is what drives the logic of the modules. Modules are
          * collections of controllers. The controllers are responsible for driving their
@@ -28,7 +27,7 @@
             this.name = name || "";
             this.module = module;
             this.$controller = $controller;
-            this.onInit = $.noop;
+            this.onInit = function emptyInitFunction() {};
             this.constructor = implementation || function emptyControllerConstructor() {};
             this.constructor.prototype.scope = function emptyScopeFunction() {};
             this.constructor.prototype.destroy = function emptyDestroyFunction() {};

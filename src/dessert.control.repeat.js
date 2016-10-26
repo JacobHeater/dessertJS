@@ -7,12 +7,11 @@
     "use strict";
 
     define("dessert.control.repeat", [
-        'dessert.databinding',
         "dessert.interfaces",
         'dessert.ajax',
         'dessert.common',
-        "jquery"
-    ], function dessertControlRepeatModule(databinding, interfaces, ajax, common, $) {
+        "dessert.databinding"
+    ], function dessertControlRepeatModule(interfaces, ajax, common, $dataBindingUtil) {
 
         var selectors = common.selectors;
 
@@ -26,8 +25,17 @@
          */
         return function dessertControlRepeatInit(element, app) {
 
-            if (app && app.providers && app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
-                databinding = app.providers.IDataBindingProvider;
+            var $ = null;
+            var databinding = null;
+
+            if (app && app.providers) {
+                if (app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                    databinding = app.providers.IDataBindingProvider;
+                } 
+                if (app.providers.jquery && app.providers.jquery.fn) {
+                    $ = app.providers.jquery;
+                    ajax.jquery = $;
+                }
             }
 
             /**
@@ -57,6 +65,7 @@
                     if (_config.clear === true) {
                         element.children().remove();
                     }
+                    html = $dataBindingUtil.cleanupDeferredAttrs(html);
                     element.append(!!outer ? outer.append(html) : html);
                 };
                 if (sequence && sequence.length) {

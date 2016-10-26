@@ -1,4 +1,4 @@
-define("dessert.customtag", ["jquery", "dessert.common"], function dessertCustomTagModule($, common) {
+define("dessert.customtag", ["dessert.common"], function dessertCustomTagModule(common) {
     "use strict";
     var attrs = common.attrs;
     var customTag = {
@@ -35,6 +35,13 @@ define("dessert.customtag", ["jquery", "dessert.common"], function dessertCustom
          */
         init: function init(app) {
             var $customTags;
+            var $ = null;
+
+            if (app && app.providers) {
+                if (app.providers.jquery && app.providers.jquery.fn) {
+                    $ = app.providers.jquery;
+                }
+            }
 
             if (app && app.getCustomTags) {
                 //If this is truly an application instance, it should have a getCustomTags function defined.
@@ -85,7 +92,7 @@ define("dessert.customtag", ["jquery", "dessert.common"], function dessertCustom
                                 .forEach(function $customTagAttrsEach(key) {
                                     $customTagSwap.attr(key, $customTagAttrs[key]);
                                 });
-                            
+
                             //Replace the custom tag with out new content.
                             $customTag.replaceContent($customTagSwap);
                         });
