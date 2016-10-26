@@ -8,16 +8,18 @@ define(['./app', "jquery"], function (app, $) {
         var data = {
             title: ""
         };
+        var that = this;
 
         this.isAsync = true;
+        this.asyncInit = function () {
+            setTimeout(function () {
+                data.title = "Search for Your Country by Name:";
 
-        setTimeout(function() {
-            data.title = "Search for Your Country by Name:";
+                that.notify();
+            }, 1000);
+        };
 
-            this.notify();
-        }.bind(this), 1000);
-
-        this.initData = function() {
+        this.initData = function () {
             return data;
         };
 
@@ -25,7 +27,7 @@ define(['./app', "jquery"], function (app, $) {
             view = scope.view;
             model = scope.model;
             module = scope.module;
-        };  
+        };
 
         this.init = function () {
             var controls = view.controls;
@@ -41,20 +43,20 @@ define(['./app', "jquery"], function (app, $) {
                 if (val.length > 3) {
                     $.get('https://restcountries.eu/rest/v1/name/%name'.replace('%name', val))
                         .then(function (data) {
-                            data = data.map(function(row) {
-                                row.getCapital = function() {
+                            data = data.map(function (row) {
+                                row.getCapital = function () {
                                     return this.capital || "Unlisted";
                                 };
 
-                                row.getCurrencies = function() {
+                                row.getCurrencies = function () {
                                     return this.currencies.join(',');
                                 };
 
-                                row.getTimezones = function() {
+                                row.getTimezones = function () {
                                     return this.timezones ? this.timezones.join(',') : "N/A";
                                 };
 
-                                row.getRegion = function() {
+                                row.getRegion = function () {
                                     return this.region || "Unlisted";
                                 };
 
