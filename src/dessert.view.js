@@ -1,13 +1,15 @@
-﻿(function() {
+﻿(function () {
 
     "use strict";
 
     define("dessert.view", [
             "dessert.events"
         ],
-        function dessertViewModule(events) {
+        function dessertViewModule(
+            events
+        ) {
 
-            
+
             /**
              * A view in dessertJS is a self-explanatory component, it represents
              * the visual element of your application. That being said, Views are
@@ -20,8 +22,11 @@
              * @param {Object} controller The controller that the view is associated with.
              * @param {Object} $view The jQuery object that represents the view on the page.
              */
-            function View(name, controller, $view) {
+            function View($view, name, app, module, controller, args) {
                 this.name = name || "";
+                this.app = app;
+                this.module = module;
+                this.viewArgs = args;
                 this.controller = controller;
                 this.$view = $view;
                 /**
@@ -81,6 +86,9 @@
                 this.controlGroups = {};
                 this.components = {};
             };
+
+            View.prototype.refresh = function emptyRefreshFunction() {}; //To be set in the view builder.
+
             return View;
         });
 })();

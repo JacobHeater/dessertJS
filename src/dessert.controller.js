@@ -82,6 +82,15 @@
                             _isControllerAsync = value;
                         }
                     }
+                },
+                bindTemplateToData: {
+                    writable: false,
+                    value: function(template, data) {
+                        if (app && app.providers && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                            template = app.providers.IDataBindingProvider.bindTemplateToData(template, data);
+                        }
+                        return template;
+                    }
                 }
             });
             this.instance = null;

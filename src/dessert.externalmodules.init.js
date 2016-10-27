@@ -89,6 +89,13 @@
                             .done(function externalModulesInitDone(html) {
                                 //We got the html back from the server, let's build it out.
                                 $data = $(html);
+
+                                //It's possible that the HTML is just a block of text, which in this case,
+                                //We need to present it as text, and not a HTML element.
+                                if ($data.length === 0 && typeof html === "string" && html.trim().length) {
+                                    $data = html;
+                                }
+
                                 //Replace the [dsrt-src] element with the newly created element from our server call.
                                 //Don't replace it if this is the page element. We need to be able to find this later.
                                 if ($exMod.is(selectors.page)) {

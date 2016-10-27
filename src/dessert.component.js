@@ -28,6 +28,7 @@
         }
 
         Component.prototype.constructor = common.utils.noop;
+        Component.prototype.constructor.bindTemplateToData = common.utils.noop;
         Component.prototype.constructor.prototype.destroy = common.utils.noop;
         Component.prototype.constructorInstances = [];
         Component.prototype.render = common.utils.noop;

@@ -3,12 +3,14 @@
     <hr />
     <div dsrt-repeat>
         <div class="wrapper">
+          <div>This Textbox will become a control group after view.refresh() is called...</div>
+          <input type="text" dsrt-control-group="name" placeholder="Enter name of country..." />
           <h3>Details About {{ name }}</h3>
           <table>
             <tbody>
               <tr>
                 <td>Name</td>
-                <td>{{ name }}</td>
+                <td><span class="countryName">{{ name }}</span></td>
               </tr>
               <tr>
                 <td>Native Name</td>
