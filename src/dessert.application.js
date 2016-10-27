@@ -49,8 +49,8 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
              * @param {Object} globals The global variables that can be used to initialize module related pieces.
              * @returns {Object} A new instance of the Module prototype.
              */
-            this.module = function (name, globals) {
-                modules[name] = new $module(name, this, globals);
+            this.module = function (name, onInit, globals) {
+                modules[name] = new $module(name, this, undefined, onInit, globals);
                 return modules[name];
             };
             /**

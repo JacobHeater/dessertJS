@@ -1,0 +1,18 @@
+.left {
+    float: left;
+    width: 45%;
+}
+
+.right {
+    float: right;
+    width: 45%;
+}
+
+.todo-container .tbTaskName {
+    width: 250px;
+}
+
+.close {
+    font-size: 1.2em;
+    cursor: default;
+}

@@ -65,9 +65,29 @@ define(['./app', "jquery"], function (app, $) {
                             if (loader.is(':visible')) {
                                 loader.hide();
                             }
+
                             countryDetail.dsrt.repeat(data, module.template('countries'), {
-                                clear: true
+                                clear: true,
+                                done: function () {
+                                    view.refresh();
+
+                                    view.controlGroups.name.forEach(function (n) {
+                                        (function () {
+                                            var parent = n.parent();
+                                            var countryName = parent.find(".countryName");
+                                            var oldCountryName = countryName.text().trim();
+                                            n.keyup(function () {
+                                                if (n.val().trim() !== "") {
+                                                    countryName.text(n.val().trim());
+                                                } else {
+                                                    countryName.text(oldCountryName);
+                                                }
+                                            });
+                                        })();
+                                    });
+                                }
                             });
+
                         }).fail(function () {
                             countryDetail.html("<h3 style='color: red;'>No results found from your query</h3>");
                             if (loader.is(':visible')) {

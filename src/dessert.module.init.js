@@ -74,7 +74,7 @@
                 if (module) {
                     module.$module = $module;
                     if ($.isFunction(module.onInit)) {
-                        module.onInit();
+                        module.onInit.call(module, module);
                     }
                     controllerInit($module, module, app, args, page, callback);
                 }

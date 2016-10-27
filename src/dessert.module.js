@@ -30,7 +30,7 @@
              * @param {Object} $module The jQuery instance that encapsulates the [dsrt-module] element.
              * @param {Object} globals The global variables that need to be shared among Modules.
              */
-            function Module(name, app, $module, globals) {
+            function Module(name, app, $module, onInit, globals) {
 
                 /**
                  * A cache of all of the controllers this Module is a parent to.
@@ -94,7 +94,7 @@
                 this.$module = $module;
                 this.globals = globals || {};
                 this.app = app;
-                this.onInit = function emptyModuleOnInitFunction() {};
+                this.onInit = $common.utils.isFunction(onInit) ? onInit : function emptyModuleOnInitFunction() {};
                 /**
                  * Constructs a path to file for the Module based on the given
                  * pathType and path url.

@@ -67,6 +67,9 @@
                     }
                     html = $dataBindingUtil.cleanupDeferredAttrs(html);
                     element.append(!!outer ? outer.append(html) : html);
+                    if (typeof _config.done === "function") {
+                        _config.done();
+                    }
                 };
                 if (sequence && sequence.length) {
                     iterateSequence = function iterateSequence(callback) {
