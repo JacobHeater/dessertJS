@@ -14,11 +14,14 @@ define(['./loginConfig', '../app'], function (loginConfig, app) {
             page = scope.page;
         };
 
+        this.initData = function() {
+            return {
+                salutation: "Welcome to the Login Example!"
+            };
+        };
+
         this.init = function () {
             loginConfig(model, view, this);
-            view.controls.lblSalutation.dsrt.dataBind({
-                salutation: "Welcome to the Login Example"
-            });
             view.onLogin.addListener(function (m) {
                 if (m.userName !== "" && m.password !== "") {
                     page.route('/home', [{

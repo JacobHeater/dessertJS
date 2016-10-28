@@ -44,7 +44,7 @@
             Object.defineProperties(this.constructor.prototype, {
                 ready: {
                     writable: false,
-                    value: function (callback) {
+                    value: function controllerReady(callback) {
                         if (typeof callback === "function") {
                             _readyCallbacks.push(callback);
                         }
@@ -65,7 +65,7 @@
                 },
                 dataBind: {
                     writable: false,
-                    value: function (view) {
+                    value: function dataBind(view) {
                         if (app && app.providers && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
                             var output = app.providers.IDataBindingProvider.bindTemplateToData(view, this.initData());
                             return output;
@@ -74,10 +74,10 @@
                     }
                 },
                 isAsync: {
-                    get: function() {
+                    get: function getIsAsync() {
                         return _isControllerAsync;
                     },
-                    set: function(value) {
+                    set: function setIsAsync(value) {
                         if (typeof value === "boolean") {
                             _isControllerAsync = value;
                         }
@@ -85,7 +85,7 @@
                 },
                 bindTemplateToData: {
                     writable: false,
-                    value: function(template, data) {
+                    value: function bindTemplateToData(template, data) {
                         if (app && app.providers && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
                             template = app.providers.IDataBindingProvider.bindTemplateToData(template, data);
                         }
