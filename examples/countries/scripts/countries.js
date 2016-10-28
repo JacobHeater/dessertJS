@@ -11,7 +11,7 @@ define(['./app', "jquery"], function (app, $) {
         var that = this;
 
         this.isAsync = true;
-        this.asyncInit = function () {
+        this.init = function () {
             setTimeout(function () {
                 data.title = "Search for Your Country by Name:";
 

@@ -24,7 +24,7 @@
                 };
 
                 this.isAsync = true;
-                this.asyncInit = function () {
+                this.init = function () {
                     $.get("./json/view-data.json")
                         .then(function (data) {
                             viewData = data;

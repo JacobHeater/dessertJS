@@ -56,7 +56,7 @@
                                 controller.instance.ready(function () {
                                     viewInit($controller, controller, module, $module, app, args, page, callback);
                                 });
-                                controller.instance.asyncInit();
+                                controller.instance.init();
                             } else {
                                 viewInit($controller, controller, module, $module, app, args, page, callback);
                             }
