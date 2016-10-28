@@ -36,8 +36,6 @@
             this.constructor.prototype.scope = function emptyScopeFunction() {};
             this.constructor.prototype.destroy = function emptyDestroyFunction() {};
             this.constructor.prototype.init = function emptyControllerInit() {};
-            this.constructor.prototype.isAsync = false;
-            this.constructor.prototype.asyncInit = function emptyControllerAsyncInit() {};
             this.constructor.prototype.initData = function () {
                 return {};
             };
