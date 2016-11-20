@@ -8,7 +8,6 @@
         "dessert.model",
         "dessert.asyncresource",
         "dessert.customtag",
-        "dessert.interfaces",
         "dessert.component"
     ], dessertViewBuilderModule);
 
@@ -18,8 +17,7 @@
         $Control,
         $Model,
         $asyncResource,
-        $customTag,
-        interfaces
+        $customTag
     ) {
         return function dessertViewBuilder($view, controller, module, app, args, page, isRefresh, refreshModel) {
 
@@ -27,10 +25,8 @@
             var selectors = $common.selectors;
             var attrs = $common.attrs;
 
-            if (app && app.providers) {
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $jquery = app.providers.jquery;
-                }
+            if (app.providers.jquery) {
+                $jquery = app.providers.jquery;
             }
 
             var components;
@@ -119,19 +115,24 @@
                     functions that we need to render and instantiate the component definition.
                     */
                     if ($common.utils.isString(componentEntry)) {
-                        if (!app.components.instances[componentEntry]) {
+                        var componentCacheEntry = app.cache.componentCache.getEntry(componentEntry);
+                        if (!componentCacheEntry) {
+                            //This component hasn't been cached yet. Require it and then cache it.
+                            //Save some network bandwidth and cache it.
                             require([componentEntry], function (_component) {
                                 if (_component) {
                                     //Let's instantiate the component using its constructor function.
                                     var c = new _component();
-                                    app.components.instances[componentEntry] = c;
-                                    initializeComponent(view, c, componentId, $component, app, interfaces);
+                                    app.cache.componentCache.addEntry(componentEntry, c);
+                                    initializeComponent(view, c, componentId, $component, app);
                                 }
                             });
                         } else {
+                            //We need the component initialization to perform as if it was a require call, which
+                            //by nature is asynchronous. Therefore, we'll add this function the the event queue,
+                            //and get it off the main thread.
                             $common.utils.defer(function () {
-                                var c = app.components.instances[componentEntry];
-                                initializeComponent(view, c, componentId, $component, app, interfaces);
+                                initializeComponent(view, componentCacheEntry, componentId, $component, app);
                             });
                         }
 
@@ -146,13 +147,14 @@
                         */
                         $common.utils.defer(function () {
                             var c;
-                            if (!app.components.instances[componentEntry.toString()]) {
+                            var componentCacheEntry = app.cache.componentCache.getEntry(componentName);
+                            if (!componentCacheEntry) {
                                 c = new componentEntry();
-                                app.components.instances[componentEntry.toString()] = c;
+                                app.cache.componentCache.addEntry(componentName, c);
                             } else {
-                                c = app.components.instances[componentEntry.toString()];
+                                c = componentCacheEntry;
                             }
-                            initializeComponent(view, c, componentId, $component, app, interfaces);
+                            initializeComponent(view, c, componentId, $component, app);
                         });
                     }
                 }
@@ -224,7 +226,7 @@
         /**
          * TODO: document this function.
          */
-        function initializeComponent(view, c, componentId, $component, app, interfaces) {
+        function initializeComponent(view, c, componentId, $component, app) {
             var component;
             if (c && $component) {
                 /*
@@ -240,9 +242,11 @@
                     //Call the component instance's constructor function that
                     //exposes the components functionality.
                     component = new c.constructor(componentView);
-                    if (app && app.providers && app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+
+                    if (app.providers.IDataBindingProvider) {
                         component.bindTemplateToData = app.providers.IDataBindingProvider.bindTemplateToData;
                     }
+
                     if (Array.isArray(c.constructorInstances)) {
                         //Push this instance into the instance cache.
                         c.constructorInstances.push(component);

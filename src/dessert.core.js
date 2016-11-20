@@ -50,10 +50,8 @@
 
                     var $ = null;
 
-                    if (app && app.providers) {
-                        if (app.providers.jquery && app.providers.jquery.fn) {
-                            $ = app.providers.jquery;
-                        }
+                    if (app.providers.jquery) {
+                        $ = app.providers.jquery;
                     }
 
                     var $app = $("[" + attrs.app + "=" + app.name + "]");

@@ -33,7 +33,7 @@ define(['./app', "jquery"], function (app, $) {
                                     return id.type === "ISBN_13";
                                 })[0];
 
-                                item.isbn = (isbn10 || isbn13).identifier;
+                                item.isbn = ((isbn10 || isbn13) || { identifier: "N/A" }).identifier
                             } else {
                                 item.isbn = "Unspecified";
                             }

@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.controller", ["dessert.interfaces"], function dessertControllerModule(interfaces) {
+    define("dessert.controller", function dessertControllerModule() {
 
         /**
          * The dessertJS controller is what drives the logic of the modules. Modules are
@@ -64,7 +64,7 @@
                 dataBind: {
                     writable: false,
                     value: function dataBind(view) {
-                        if (app && app.providers && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                        if (app.providers.IDataBindingProvider) {
                             var output = app.providers.IDataBindingProvider.bindTemplateToData(view, this.initData());
                             return output;
                         }
@@ -84,7 +84,7 @@
                 bindTemplateToData: {
                     writable: false,
                     value: function bindTemplateToData(template, data) {
-                        if (app && app.providers && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+                        if (app.providers.IDataBindingProvider) {
                             template = app.providers.IDataBindingProvider.bindTemplateToData(template, data);
                         }
                         return template;
