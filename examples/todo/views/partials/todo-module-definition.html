@@ -2,10 +2,12 @@
     <div dsrt-controller="todoController">
         <div dsrt-view="todoView">
             <div dsrt-src="/partials/todo-header"></div>
-            <div class="left">
+            <div class="left" dsrt-control="panelLeft">
+                <input type="button" value="Insert todo list" dsrt-control="btnInsertLeft" />
                 <todoList id="todo1"></todoList>
             </div>
-            <div class="right">
+            <div class="right" dsrt-control="panelRight">
+                <input type="button" value="Insert todo list" dsrt-control="btnInsertRight" />
                 <todoList id="todo2"></todoList>
             </div>
         </div>

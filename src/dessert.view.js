@@ -3,10 +3,14 @@
     "use strict";
 
     define("dessert.view", [
-            "dessert.events"
+            "dessert.common",
+            "dessert.events",
+            "dessert.control"
         ],
         function dessertViewModule(
-            events
+            common,
+            events,
+            Control
         ) {
 
 
@@ -58,8 +62,8 @@
                      * @returns {Object} The current instance of the controls object.
                      */
                     add: function add(control) {
-                        if (control && control.dsrt) {
-                            this[control.dsrt.name] = control;
+                        if (common.utils.isObject(control)) {
+                            this[control.name] = new Control(control.name, control.elem, control.view, control.app);
                         }
                         return this;
                     },

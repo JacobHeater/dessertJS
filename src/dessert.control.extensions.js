@@ -11,12 +11,13 @@ These are simply just extensions of the jQuery object, which are added to the ds
         'dessert.control.repeat',
         'dessert.common',
         'dessert.ajax',
-        "dessert.databinding"
-    ], function dessertControlExtensionsModule(repeater, common, ajax, $dataBindingUtil) {
+        "dessert.databinding",
+        'dessert.viewhelpers'
+    ], function dessertControlExtensionsModule(repeater, common, ajax, $dataBindingUtil, $viewHelpers) {
 
         var attrs = common.attrs;
         //The $ factory element result to extend with the dsrt object.
-        return function dessertControlExtensionsInit(element, app) {
+        return function dessertControlExtensionsInit(element, app, view) {
 
             var $ = null;
             var databinding = null;
@@ -158,22 +159,33 @@ These are simply just extensions of the jQuery object, which are added to the ds
                 if (typeof config === "object") {
                     var TYPE_COMPONENT = "component";
                     var TYPE_CONTROL = "control";
+                    var IS_INJECTION = true;
                     var settings = Object.assign({
                         type: "",
                         name: "",
-                        callback: null
+                        control: null,
+                        target: null,
+                        callback: null,
+                        id: ""
                     }, config);
 
                     switch (settings.type.toLowerCase()) {
                         case TYPE_COMPONENT:
+                            $viewHelpers.renderComponent(app, view, element, settings.name, settings.id, IS_INJECTION);
                             break;
                         case TYPE_CONTROL:
+                            $viewHelpers.renderControl(app, view, settings.control, settings.name, settings.target);
                             break;
                         default: 
                             //Do nothing, there's nothing to inject...
                             break;
                     }
+
+                    if (common.utils.isFunction(settings.callback)) {
+                        settings.callback(view);
+                    }
                 }
+                return this;
             };
 
             /**
