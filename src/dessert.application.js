@@ -10,7 +10,9 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
     define("dessert.application", [
         'dessert.module',
         'dessert.common',
-        "dessert.httphandlercache"
+        "dessert.httphandlercache",
+        "dessert.cache",
+        "dessert.interfaces"
     ], main);
 
     /**
@@ -21,7 +23,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
      * @param {Function} $httpHandlerCache A constructor that represents a cache of HTTP response handlers.
      * @returns {Function} A constructor function that represents a dessertJS application.
      */
-    function main($module, $common, $httpHandlerCache) {
+    function main($module, $common, $httpHandlerCache, $cache, $interfaces) {
 
         var emptyString = $common.utils.emptyString;
         var utils = $common.utils;
@@ -35,9 +37,14 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
          */
         function Application(name, dsrt, $app) {
             var modules = {};
+            var providers = {
+                IDataBindingProvider: null,
+                jquery: null
+            };
             var componentRegistry = {};
             var tagRegistry = {};
             var elems = [];
+            var that = this;
             /**
              * The name of the app
              */
@@ -120,10 +127,10 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
 
             var _initalized = false;
             Object.defineProperty(this, "initialized", {
-                get: function() {
+                get: function () {
                     return _initalized;
                 },
-                set: function(value) {
+                set: function (value) {
                     if (typeof value === "boolean") {
                         _initalized = value;
                     }
@@ -156,27 +163,23 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                 },
                 /**
                  * Iterates over each components in the application
-                 * componentRegistry and calls the handler function.
+                 * component cache and calls the handler function.
                  * 
                  * @param {Function} handler The function to call over each component.
                  * @returns {Object} The current instance Application.components.
                  */
                 each: function (handler) {
-                    var that = this;
                     if (utils.isFunction(handler)) {
+                        var instances = that.cache.componentCache.getHashTable();
                         Object
-                            .keys(this.instances)
+                            .keys(instances)
                             .forEach(function (key) {
-                                handler.call(that.instances[key], that.instances[key]);
+                                handler.call(instances[key], instances[key]);
                             });
                     }
 
                     return this;
-                },
-                /**
-                 * A cache of instances of component singletons.
-                 */
-                instances: {}
+                }
             };
 
             /**
@@ -202,13 +205,13 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             };
 
             this.trackedElements = {
-                add: function(elem) {
+                add: function (elem) {
                     elems.push(elem);
 
                     return this;
                 },
-                destroyAll: function() {
-                    elems.forEach(function(elem) {
+                destroyAll: function () {
+                    elems.forEach(function (elem) {
                         elem.off().off("**");
                         elem.children().off().off("**");
                     });
@@ -216,17 +219,49 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             };
 
             this.$app = $app;
+
+            Object.defineProperty(this, "providers", {
+                writable: false,
+                value: {}
+            });
+
+            Object.defineProperties(this.providers, {
+                IDataBindingProvider: {
+                    get: function() {
+                        return providers.IDataBindingProvider;
+                    },
+                    set: function(value) {
+                        if (value && value instanceof $interfaces.IDataBindingProvider) {
+                            providers.IDataBindingProvider = value;
+                        }
+                    }
+                },
+                jquery: {
+                    get: function() {
+                        return providers.jquery;
+                    },
+                    set: function(value) {
+                        if (value && value.fn && value.fn.jquery) {
+                            providers.jquery = value;
+                        }
+                    }
+                }
+            });
         };
 
         Application.prototype.pathTypes = $common.pathTypes;
         Application.prototype.dsrtPath = emptyString;
         Application.prototype.templates = emptyString;
         Application.prototype.src = emptyString;
-        Application.prototype.providers = {
-            IDataBindingProvider: null,
-            jquery: null
-        };
         Application.prototype.maskLifted = function emptyMaskLifted() {};
+        Application.prototype.cache = new $cache();
+
+        Object.defineProperties(Application.prototype.cache, {
+            TYPE: {
+                writable: false,
+                value: $cache.TYPE
+            }
+        });
 
         return Application;
     }

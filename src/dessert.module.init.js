@@ -2,7 +2,7 @@
  * @file A require.js module responsible for initializing dessertJS Modules.
  * @author Jacob Heater
  */
-(function() {
+(function () {
 
     "use strict";
 
@@ -11,7 +11,7 @@
         'dessert.common',
         'dessert.page',
         'dessert.routing'
-    ], function(
+    ], function (
         controllerInit,
         common,
         Page,
@@ -32,13 +32,11 @@
         return function dessertModuleInit($context, app, args, callback) {
 
             var $ = null;
-            
-            if (app && app.providers) {
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $ = app.providers.jquery;
-                }
+
+            if (app.providers.jquery) {
+                $ = app.providers.jquery;
             }
-            
+
             var page;
             var modules;
             var $page;
@@ -60,14 +58,14 @@
             }
 
             $page = $context.find(selectors.page).eq(0);
-            
+
             if ($page && $page.length > 0) {
                 page = new Page(app, $page, args);
                 if (!routing.hasRoute()) {
                     routing.setRoute($page.attr(attrs.page), args);
                 }
             }
-            
+
             modules.each(function modulesEach() {
                 $module = $(this);
                 module = app.modules.get($module.attr(attrs.module));
@@ -79,7 +77,7 @@
                     controllerInit($module, module, app, args, page, callback);
                 }
             });
-            
+
             if (typeof callback === "function") {
                 callback(app, $context, args);
             }

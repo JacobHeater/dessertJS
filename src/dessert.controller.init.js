@@ -30,11 +30,11 @@
          */
         return function dessertControllerInit($module, module, app, args, page, callback) {
             var $ = null;
-            if (app && app.providers) {
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $ = app.providers.jquery;
-                }
+
+            if (app.providers.jquery) {
+                $ = app.providers.jquery;
             }
+
             var controllers = $module.find(selectors.controller);
             var $controller;
             var controller;

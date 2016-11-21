@@ -28,10 +28,8 @@
 
             var $jquery = null;
 
-            if (app && app.providers) {
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $jquery = app.providers.jquery;
-                }
+            if (app.providers.jquery) {
+                $jquery = app.providers.jquery;
             }
 
             var views;
@@ -50,7 +48,7 @@
             views.each(function () {
                 //Keep a reference to the jQuery view object.
                 $view = $jquery(this);
-                
+
                 $ViewBuilder($view, controller, module, app, args, page);
             });
 

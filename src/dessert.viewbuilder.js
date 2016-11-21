@@ -4,22 +4,19 @@
     define("dessert.viewbuilder", [
         "dessert.common",
         "dessert.view",
-        "dessert.control",
         "dessert.model",
-        "dessert.asyncresource",
         "dessert.customtag",
-        "dessert.interfaces",
-        "dessert.component"
+        "dessert.component",
+        "dessert.viewhelpers"
     ], dessertViewBuilderModule);
 
     function dessertViewBuilderModule(
         $common,
         $View,
-        $Control,
         $Model,
-        $asyncResource,
         $customTag,
-        interfaces
+        $component$, //eslint-disable-line no-unused-vars
+        $viewHelpers
     ) {
         return function dessertViewBuilder($view, controller, module, app, args, page, isRefresh, refreshModel) {
 
@@ -27,10 +24,8 @@
             var selectors = $common.selectors;
             var attrs = $common.attrs;
 
-            if (app && app.providers) {
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $jquery = app.providers.jquery;
-                }
+            if (app.providers.jquery) {
+                $jquery = app.providers.jquery;
             }
 
             var components;
@@ -44,7 +39,6 @@
             var $model;
             var $control;
             var controlName;
-            var control;
             var model;
             var dsrtController; //eslint-disable-line no-unused-vars
 
@@ -90,72 +84,9 @@
             members of that they're ready to be interacted with.
             */
             components.each(function () {
-                var $component;
-                var componentName;
-                var componentId;
-                var componentEntry;
-                //Keep a reference to the component jquery object.
-                $component = $jquery(this);
-                //Track the component for destruction later.
-                app.trackedElements.add($component);
-                //Get the name of the component from the component element
-                //We're going to look it up in the dessertJS app configuration.
-                componentName = $component.attr(attrs.component);
-                //Find the component by name in the app configuration.
-                componentEntry = app.components.get(componentName);
-                //Because components require a unique name, we're goin to expect that the 
-                //component has an ID to identify it by.
-                componentId = $component.prop(attrs.id);
-                /*
-                Set the view's component member as a new instance of asyncResouce.
-                asyncResource exposes some functionality to allow us to notify the 
-                controller of when the component is interactive.
-                */
-                view.components[componentId] = new $asyncResource();
-                if (componentEntry) {
-                    /*
-                    If the component entry is valid, then we're going to do a require call to
-                    get the component definition. The component definition should expose the necessary
-                    functions that we need to render and instantiate the component definition.
-                    */
-                    if ($common.utils.isString(componentEntry)) {
-                        if (!app.components.instances[componentEntry]) {
-                            require([componentEntry], function (_component) {
-                                if (_component) {
-                                    //Let's instantiate the component using its constructor function.
-                                    var c = new _component();
-                                    app.components.instances[componentEntry] = c;
-                                    initializeComponent(view, c, componentId, $component, app, interfaces);
-                                }
-                            });
-                        } else {
-                            $common.utils.defer(function () {
-                                var c = app.components.instances[componentEntry];
-                                initializeComponent(view, c, componentId, $component, app, interfaces);
-                            });
-                        }
-
-                    } else if ($common.utils.isFunction(componentEntry)) {
-                        /*
-                        This scenario allows for users to pass functions in as the 
-                        component definition, instead of relying on require to go out
-                        and get the component definition, we can directly get the constructor
-                        function for the component and instantiate it. This use case behaves
-                        exactly the same as the scenario above, but allows for direct
-                        consumption of the component constructor function.
-                        */
-                        $common.utils.defer(function () {
-                            var c;
-                            if (!app.components.instances[componentEntry.toString()]) {
-                                c = new componentEntry();
-                                app.components.instances[componentEntry.toString()] = c;
-                            } else {
-                                c = app.components.instances[componentEntry.toString()];
-                            }
-                            initializeComponent(view, c, componentId, $component, app, interfaces);
-                        });
-                    }
-                }
+                var $component = $(this);
+                var componentName = $component.attr(attrs.component);
+                $viewHelpers.renderComponent(app, view, $component, componentName);
             });
 
             //Iterate over all of the [dsrt-model] members, and add them as modelMembers.
@@ -171,13 +102,9 @@
             controls.each(function () {
                 //Keep a reference to the jquery instance of the control element.
                 $control = $jquery(this);
-                app.trackedElements.add($control);
                 //Get the name of the control from the element.
                 controlName = $control.attr(attrs.control);
-                //Instantiate a new instance of the dessertJS Control class.
-                control = new $Control(controlName, $control, view, app);
-                //Add the new instance of the control to the view's controls dictionary.
-                view.controls.add(control);
+                $viewHelpers.renderControl(app, view, $control, controlName);
             });
 
             //Iterate over all of the [dsrt-controlGroup] elements.
@@ -215,46 +142,9 @@
 
                 controller.instance.scope(scope);
 
-                if (!isRefresh) {
+                if (!isRefresh && !controller.instance.isAsync) {
                     controller.instance.init();
                 }
-            }
-        }
-
-        /**
-         * TODO: document this function.
-         */
-        function initializeComponent(view, c, componentId, $component, app, interfaces) {
-            var component;
-            if (c && $component) {
-                /*
-                The component should have a render function that does its 
-                work to render its view. When the component view is rendered,
-                they can invoke our callback and give us the view for passing
-                it into its constructor.
-                */
-                c.render(function (componentView) {
-                    //The view is rendered, and we have the view.s
-                    //Replace the [dsrt-component] element with the view element.
-                    $component.replaceContent(componentView);
-                    //Call the component instance's constructor function that
-                    //exposes the components functionality.
-                    component = new c.constructor(componentView);
-                    if (app && app.providers && app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
-                        component.bindTemplateToData = app.providers.IDataBindingProvider.bindTemplateToData;
-                    }
-                    if (Array.isArray(c.constructorInstances)) {
-                        //Push this instance into the instance cache.
-                        c.constructorInstances.push(component);
-                    }
-                    /*
-                    Using the asyncResouce .notify() function, we can 
-                    now notify the controller that the component is 
-                    interactive and give it the component as the "this"
-                    arg. We'll also pass in the component as the first argument.
-                    */
-                    view.components[componentId].notify(component, [component]);
-                });
             }
         }
     }

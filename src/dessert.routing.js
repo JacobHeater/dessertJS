@@ -117,6 +117,10 @@
                     //Handle hash change when there is truly only a hash in the url.
                     if ($this.hasRoute()) {
                         handler();
+                    } else {
+                        //This means that we're back at the entry point.
+                        //We should send them back to the referrer URL.
+                        window.location.href = document.referrer.trim() || window.location.href;
                     }
                 });
             }

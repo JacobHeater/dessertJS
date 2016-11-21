@@ -2,7 +2,7 @@
  * @file A require.js module responsible for loading dessertJS modules asynchronously.
  * @author Jacob Heater
  */
-(function() {
+(function () {
 
     "use strict";
 
@@ -36,11 +36,9 @@
 
             var $ = null;
 
-            if (app && app.providers) {
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $ = app.providers.jquery;
-                    ajax.jquery = $;
-                }
+            if (app.providers.jquery) {
+                $ = app.providers.jquery;
+                ajax.jquery = $;
             }
 
             var selectors = common.selectors;
@@ -84,48 +82,66 @@
                     url = utils.cleanPath("$base$modulePath.html".replace("$base", app.src).replace("$modulePath", cleanedPath));
                     //Make sure that the url doesn't contain any undefined vars because something didn't get replaced properly.
                     if (url && !((/undefined/g).test(url))) {
-                        //Let's go out and fetch the HTML for the external module.
-                        ajax.get(url)
-                            .done(function externalModulesInitDone(html) {
-                                //We got the html back from the server, let's build it out.
-                                $data = $(html);
+                        var externalModulesInitDone = function externalModulesInitDone(html) {
+                            //We got the html back from the server, let's build it out.
+                            $data = $(html);
 
-                                //It's possible that the HTML is just a block of text, which in this case,
-                                //We need to present it as text, and not a HTML element.
-                                if ($data.length === 0 && typeof html === "string" && html.trim().length) {
-                                    $data = html;
-                                }
+                            //It's possible that the HTML is just a block of text, which in this case,
+                            //We need to present it as text, and not a HTML element.
+                            if ($data.length === 0 && typeof html === "string" && html.trim().length) {
+                                $data = html;
+                            }
 
-                                //Replace the [dsrt-src] element with the newly created element from our server call.
-                                //Don't replace it if this is the page element. We need to be able to find this later.
-                                if ($exMod.is(selectors.page)) {
-                                    $exMod.setContent($data);
-                                    $exMod.removeAttr(attrs.src);
-                                } else if ($exMod.attr("embed") && $exMod.attr("embed").toLowerCase() === "true") {
-                                    $exMod.setContent($data);
-                                    $exMod.removeAttr(attrs.src);
-                                } else {
-                                    $exMod.replaceContent($data);
-                                }
-                                $customTag.init(app);
-                                //If there are any more external modules to process, let's recursively call the initialize function again.
-                                if (externalModules.length) {
-                                    externalModulesInit($context, app)(done, syncModulesDone);
-                                }
-                            }).fail(function externalModulesInitFail(xhr) {
-                                //Hanlde any errors here by looking up any error handlers in the 
-                                //application httpHandlers cache.
-                                if ($exMod.is(selectors.page)) {
-                                    //If you $exMod object is the single page element, then we need to handle that here.
-                                    app
-                                        .httpHandlers
-                                        .page
-                                        .getHandlersByStatusCode(xhr.status)
-                                        .forEach(function externalModuleInitFailForEach(h) {
-                                            h.handler(xhr, $routing);
-                                        });
-                                }
-                            });
+                            //Replace the [dsrt-src] element with the newly created element from our server call.
+                            //Don't replace it if this is the page element. We need to be able to find this later.
+                            if ($exMod.is(selectors.page)) {
+                                $exMod.setContent($data);
+                                $exMod.removeAttr(attrs.src);
+                            } else if ($exMod.attr("embed") && $exMod.attr("embed").toLowerCase() === "true") {
+                                $exMod.setContent($data);
+                                $exMod.removeAttr(attrs.src);
+                            } else {
+                                $exMod.replaceContent($data);
+                            }
+                            $customTag.init(app);
+                            //If there are any more external modules to process, let's recursively call the initialize function again.
+                            if (externalModules.length) {
+                                externalModulesInit($context, app)(done, syncModulesDone);
+                            }
+                        };
+
+                        var moduleCacheEntry = app.cache.externalModuleCache.getEntry(url);
+
+                        if (!moduleCacheEntry) {
+                            //Let's go out and fetch the HTML for the external module.
+                            ajax.get(url)
+                                .done(function moduleRetrieveDone(html) {
+                                    //Add a cache entry for this external module. We don't want
+                                    //to make another round trip for this entry.
+                                    app.cache.externalModuleCache.addEntry(url, html);
+                                    //Build out the module with this html now.
+                                    externalModulesInitDone(html);
+                                })
+                                .fail(function externalModulesInitFail(xhr) {
+                                    //Handle any errors here by looking up any error handlers in the 
+                                    //application httpHandlers cache.
+                                    if ($exMod.is(selectors.page)) {
+                                        //If you $exMod object is the single page element, then we need to handle that here.
+                                        app
+                                            .httpHandlers
+                                            .page
+                                            .getHandlersByStatusCode(xhr.status)
+                                            .forEach(function externalModuleInitFailForEach(h) {
+                                                h.handler(xhr, $routing);
+                                            });
+                                    }
+                                });
+                        } else {
+                            //There was a cache entry for this external module.
+                            //Build out the module with the cached html.
+                            externalModulesInitDone(moduleCacheEntry);
+                        }
+
                     }
                 }
                 if (externalModules.length > 0) {

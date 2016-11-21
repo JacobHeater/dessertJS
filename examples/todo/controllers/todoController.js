@@ -11,12 +11,33 @@
 
                 var view;
                 var viewData;
-                var resolveToDoLists = function() {
+                var resolveToDoLists = function () {
                     this.setPlaceholder("Enter task name...");
                 };
                 var initView = function () {
                     view.components.todo1.resolve(resolveToDoLists);
                     view.components.todo2.resolve(resolveToDoLists);
+                    view.controls.btnInsertLeft.click(function () {
+                        var id = prompt("Enter an id for the todo list...");
+                        view.controls.panelLeft.dsrt.inject({
+                            type: "component",
+                            name: "todoList",
+                            id: id
+                        });
+
+                        view.components[id].resolve(resolveToDoLists);
+                    });
+
+                    view.controls.btnInsertRight.click(function() {
+                        var id = prompt("Enter an id for the todo list...");
+                        view.controls.panelRight.dsrt.inject({
+                            type: "component",
+                            name: "todoList",
+                            id: id
+                        });
+
+                        view.components[id].resolve(resolveToDoLists);
+                    });
                 };
 
                 this.scope = function ($scope) {

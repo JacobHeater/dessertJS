@@ -3,7 +3,7 @@
 These are simply just extensions of the jQuery object, which are added to the dsrt "namespace."
 @author Jacob Heater
 */
-(function() {
+(function () {
 
     "use strict";
 
@@ -11,31 +11,27 @@ These are simply just extensions of the jQuery object, which are added to the ds
         'dessert.control.repeat',
         'dessert.common',
         'dessert.ajax',
-        "dessert.interfaces",
-        "dessert.databinding"
-    ], function dessertControlExtensionsModule(repeater, common, ajax, interfaces, $dataBindingUtil) {
+        "dessert.databinding",
+        'dessert.viewhelpers'
+    ], function dessertControlExtensionsModule(repeater, common, ajax, $dataBindingUtil, $viewHelpers) {
 
         var attrs = common.attrs;
         //The $ factory element result to extend with the dsrt object.
-        return function dessertControlExtensionsInit(element, app) {
+        return function dessertControlExtensionsInit(element, app, view) {
 
             var $ = null;
-            var databinding = null
+            var databinding = null;
 
-            if (app && app.providers && app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
+            if (app.providers.IDataBindingProvider) {
                 databinding = app.providers.IDataBindingProvider;
             }
 
-            if (app && app.providers) {
-                if (app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
-                    databinding = app.providers.IDataBindingProvider;
-                }
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $ = app.providers.jquery;
-                    ajax.jquery = $;
-                }
+            if (app.providers.jquery) {
+                $ = app.providers.jquery;
+                ajax.jquery = $;
             }
-            
+
+
             /**
              * Binds the control to the given model using event driven
              * data binding. This is unlike two-way data binding because
@@ -50,7 +46,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
                     //First init the control with the model value
                     element.val(model[element.attr(attrs.control)]);
                     //Then set the handler to track the changes.
-                    element.on('keyup keydown change', function() {
+                    element.on('keyup keydown change', function () {
                         //TODO: Handle different types of controls such as SELECT and RadioButton
                         model[$(this).attr(attrs.control)] = ($(this).val() || $(this).text());
                     });
@@ -67,7 +63,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              */
             element.dsrt.watch = function dessertElementWatch(watcher) {
                 if (typeof watcher === 'function') {
-                    element.on('keyup keydown change', function() {
+                    element.on('keyup keydown change', function () {
                         watcher.call($(this));
                     });
                 }
@@ -79,7 +75,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
              * @param {Object} data The data to bind the control to.
              * @returns {Object} The current instance of the control dsrt namespace.
              */
-            element.dsrt.dataBind = function(data) {
+            element.dsrt.dataBind = function (data) {
                 if (data) {
                     var dataBoundTemplate = databinding.bindTemplateToData(element.html(), data);
                     dataBoundTemplate = $dataBindingUtil.cleanupDeferredAttrs(dataBoundTemplate);
@@ -129,13 +125,13 @@ These are simply just extensions of the jQuery object, which are added to the ds
                 require([
                     dsrtPath.concat('dsrt.context.init'),
                     dsrtPath.concat('dsrt.externalmodules.init')
-                ], function(contextInit, externalInit) {
+                ], function (contextInit, externalInit) {
                     ajax.get(path.path)
-                        .then(function(data) {
+                        .then(function (data) {
                             element.children().remove();
                             element.append(data);
                             var asyncInit = externalInit(element, app);
-                            asyncInit(0, function() {
+                            asyncInit(0, function () {
                                 contextInit(element, element.dsrt.view.controller.module.app, {}, callback);
                             });
                         });
@@ -150,6 +146,48 @@ These are simply just extensions of the jQuery object, which are added to the ds
             element.dsrt.outerHtml = function dessertElementGetOuterHtml($elem) {
                 return common.utils.getOuterHtml($elem);
             };
+
+            /**
+             * Injects the given dessert view element into the current element
+             * and given a callback is present, allows for interaction with
+             * newly injected view element.
+             * 
+             * @param {Object} config The configuration that instructs dessert what to inject into
+             *                        the current element.
+             */
+            element.dsrt.inject = function (config) {
+                if (typeof config === "object") {
+                    var TYPE_COMPONENT = "component";
+                    var TYPE_CONTROL = "control";
+                    var IS_INJECTION = true;
+                    var settings = Object.assign({
+                        type: "",
+                        name: "",
+                        control: null,
+                        target: null,
+                        callback: null,
+                        id: ""
+                    }, config);
+
+                    switch (settings.type.toLowerCase()) {
+                        case TYPE_COMPONENT:
+                            $viewHelpers.renderComponent(app, view, element, settings.name, settings.id, IS_INJECTION);
+                            break;
+                        case TYPE_CONTROL:
+                            $viewHelpers.renderControl(app, view, settings.control, settings.name, settings.target);
+                            break;
+                        default: 
+                            //Do nothing, there's nothing to inject...
+                            break;
+                    }
+
+                    if (common.utils.isFunction(settings.callback)) {
+                        settings.callback(view);
+                    }
+                }
+                return this;
+            };
+
             /**
              * Repeats the given template over the given sequence for n times
              * where n is the length of the sequence.

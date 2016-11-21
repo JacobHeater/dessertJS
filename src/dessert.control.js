@@ -59,7 +59,7 @@
                 element.remove();
             };
             //Extend the dessertJS control.
-            extender(element, app);
+            extender(element, app, view);
             return element;
         };
 

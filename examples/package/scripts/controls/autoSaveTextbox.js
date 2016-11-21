@@ -26,7 +26,7 @@ define(['../app', './autoSaveTextboxSetup'], function (app, setup) {
                 view.controls.console.log("The value of the age textbox changed from $old to $value.".replace("$value", value).replace("$old", old || '""'));
             });
             view.doneEditing.addListener(function () {
-                view.controls.console.log("Saving the model in it's current state: $model".replace("$model", JSON.stringify(model)));
+                view.controls.console.log("Saving the model in its current state: $model".replace("$model", JSON.stringify(model)));
                 setTimeout(function () {
                     view.controls.console.log("Saved!");
                 }, 1500);

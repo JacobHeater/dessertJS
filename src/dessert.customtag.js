@@ -37,10 +37,8 @@ define("dessert.customtag", ["dessert.common"], function dessertCustomTagModule(
             var $customTags;
             var $ = null;
 
-            if (app && app.providers) {
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $ = app.providers.jquery;
-                }
+            if (app.providers.jquery) {
+                $ = app.providers.jquery;
             }
 
             if (app && app.getCustomTags) {
@@ -113,7 +111,7 @@ define("dessert.customtag", ["dessert.common"], function dessertCustomTagModule(
         this.tag = common.utils.emptyString;
         this.replaceWith = common.utils.emptyString;
 
-        $.extend(this, definition);
+        Object.assign(this, definition);
     }
 
     return customTag;

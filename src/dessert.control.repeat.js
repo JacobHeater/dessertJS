@@ -2,16 +2,15 @@
 @file Defines the repeat method which is defined in the dsrt.control.extensions module.
 @author Jacob Heater
 */
-(function() {
+(function () {
 
     "use strict";
 
     define("dessert.control.repeat", [
-        "dessert.interfaces",
         'dessert.ajax',
         'dessert.common',
         "dessert.databinding"
-    ], function dessertControlRepeatModule(interfaces, ajax, common, $dataBindingUtil) {
+    ], function dessertControlRepeatModule(ajax, common, $dataBindingUtil) {
 
         var selectors = common.selectors;
 
@@ -28,15 +27,15 @@
             var $ = null;
             var databinding = null;
 
-            if (app && app.providers) {
-                if (app.providers.IDataBindingProvider && app.providers.IDataBindingProvider instanceof interfaces.IDataBindingProvider) {
-                    databinding = app.providers.IDataBindingProvider;
-                } 
-                if (app.providers.jquery && app.providers.jquery.fn) {
-                    $ = app.providers.jquery;
-                    ajax.jquery = $;
-                }
+            if (app.providers.IDataBindingProvider) {
+                databinding = app.providers.IDataBindingProvider;
             }
+
+            if (app.providers.jquery) {
+                $ = app.providers.jquery;
+                ajax.jquery = $;
+            }
+
 
             /**
              * Enumerates over the given sequence or data set, and injects the template
@@ -55,7 +54,7 @@
                 var $bindable;
                 var $output = [];
                 var $elem;
-                var _config = $.extend({
+                var _config = Object.assign({
                     clear: true
                 }, config);
                 var buildOutput = function buildOutput(output) {
@@ -93,22 +92,36 @@
                         });
                         buildOutput($output);
                     } else if (typeof template === 'object') {
-                        ajax.get(template.path)
-                            .then(function dessertControlRepeatGetThen(data) {
-                                bindable = data;
-                                outer = "";
-                                $bindable = $(bindable);
-                                if ($bindable.find(selectors.rpt).length === 1) {
-                                    bindable = $bindable.find(selectors.rpt).eq(0).html();
-                                    $bindable.find(selectors.rpt).remove();
-                                    outer = $bindable;
-                                }
-                                iterateSequence(function internalIterateSequenceCallback(obj) {
-                                    $elem = bindTemplate(bindable, obj);
-                                    $output.push($elem);
-                                })
-                                buildOutput($output);
-                            });
+                        //We need to look up the template in the templates
+                        //directory and bind the string data.
+                        var templateCacheEntry = app.cache.templateCache.getEntry(template.path);
+                        var doTemplateDataBinding = function doTemplateDataBinding(data) {
+                            bindable = data;
+                            outer = "";
+                            $bindable = $(bindable);
+                            if ($bindable.find(selectors.rpt).length === 1) {
+                                bindable = $bindable.find(selectors.rpt).eq(0).html();
+                                $bindable.find(selectors.rpt).remove();
+                                outer = $bindable;
+                            }
+                            iterateSequence(function internalIterateSequenceCallback(obj) {
+                                $elem = bindTemplate(bindable, obj);
+                                $output.push($elem);
+                            })
+                            buildOutput($output);
+                        };
+
+                        if (!templateCacheEntry) {
+                            ajax.get(template.path)
+                                .then(function dessertControlRepeatGetThen(data) {
+                                    app.cache.templateCache.addEntry(template.path, data);
+
+                                    doTemplateDataBinding(data);
+                                });
+                        } else {
+                            doTemplateDataBinding(templateCacheEntry);
+                        }
+
                     }
                 }
                 return this;
