@@ -7,20 +7,22 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
 
     "use strict";
 
-    define("dessert.application", [
-        'dessert.module',
-        'dessert.common',
-        "dessert.httphandlercache",
-        "dessert.cache",
-        "dessert.interfaces"
+    define([
+        './dessert.module',
+        './dessert.common',
+        "./dessert.httphandlercache",
+        "./dessert.cache",
+        "./dessert.interfaces"
     ], main);
 
     /**
      * RequireJS entry point.
      * 
      * @param {Function} $module A constructor that represents dessertJS modules.
-     * @param {Object} $common A library of common dessertJS functionality.
+     * @param {Object} $common A library of common dessertJS functionality. 
      * @param {Function} $httpHandlerCache A constructor that represents a cache of HTTP response handlers.
+     * @param {Function} $cache A constructor that represents a general cache for dessertJS view.
+     * @param {Object} $interfaces A set of common interfaces for dessertJS.
      * @returns {Function} A constructor function that represents a dessertJS application.
      */
     function main($module, $common, $httpHandlerCache, $cache, $interfaces) {

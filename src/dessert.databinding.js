@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.databinding", dessertDataBindingModule);
+    define(dessertDataBindingModule);
 
     function dessertDataBindingModule() {
         var dessertDatabindingUtil = {

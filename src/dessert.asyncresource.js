@@ -3,10 +3,10 @@
     "use strict";
 
     var depedencies = [
-        "dessert.common"
+        "./dessert.common"
     ];
 
-    define("dessert.asyncresource", depedencies, main);
+    define(depedencies, main);
 
     /**
      * Require entry point.

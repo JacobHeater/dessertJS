@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.control", ['dessert.control.extensions'], dessertControlModule);
+    define(['./dessert.control.extensions'], dessertControlModule);
 
     /**
      * RequireJS entry point.

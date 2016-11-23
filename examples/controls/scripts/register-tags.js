@@ -1,4 +1,4 @@
-define(["dessert.customtag"], function(customTag) {
+define(["../../../bin/dessertJS/dessert.customtag"], function(customTag) {
     "use strict";
 
     return function(app) {

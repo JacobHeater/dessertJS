@@ -1,14 +1,25 @@
 (function () {
     "use strict";
 
-    define("dessert.cache", dessertCachingModule);
+    define(dessertCachingModule);
 
+    /**
+     * Entry point for require for the dessertJS caching class.
+     * 
+     * @returns {Cache} The constructor for the dessertJS Cache. 
+     */
     function dessertCachingModule() {
         return Cache;
     }
 
     /**
-     * TODO: Document this constructor
+     * @class
+     * 
+     * @classdesc
+     * 
+     * A caching mechanism for dessertJS to cache different elements of the view. This helps with performance
+     * during building of the views of the dessertJS initialization process. The caching mechanism tracks
+     * several different elements of the view including Components, ExternalModules, and Templates.
      */
     function Cache() {
         var componentCacheHashTable = {};

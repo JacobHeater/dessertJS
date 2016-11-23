@@ -7,7 +7,7 @@
 
     "use strict";
 
-    define("dessert.events", [], dessertEventsModule);
+    define(dessertEventsModule);
 
     function dessertEventsModule() {
         /**

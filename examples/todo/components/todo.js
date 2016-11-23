@@ -2,7 +2,7 @@
     "use strict";
 
     define([
-        "dessert.component",
+        "../../../bin/dessertJS/dessert.component",
         "jquery"
     ], function (
         $component,

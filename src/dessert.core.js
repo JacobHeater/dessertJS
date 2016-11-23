@@ -6,14 +6,14 @@
 
     "use strict";
 
-    define("dessert.core", [
-            "dessert.application",
-            "dessert.common",
-            "dessert.init",
-            "dessert.singlepage.init",
-            "dessert.routing",
-            "dessert.customtag",
-            "dessert.jquery.extend"
+    define([
+            "./dessert.application",
+            "./dessert.common",
+            "./dessert.init",
+            "./dessert.singlepage.init",
+            "./dessert.routing",
+            "./dessert.customtag",
+            "./dessert.jquery.extend"
         ],
         function dessertCoreModule(
             Application,

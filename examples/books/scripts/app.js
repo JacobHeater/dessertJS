@@ -1,6 +1,6 @@
 define([
-  'dessert.core',
-  'dessert.interfaces',
+  '../../../bin/dessertJS/dessert.core',
+  '../../../bin/dessertJS/dessert.interfaces',
   "jquery",
   "handlebars"
 ], function(dessert, interfaces, $, handlebars) {

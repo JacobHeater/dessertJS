@@ -6,16 +6,14 @@
 
     "use strict";
 
-    define("dessert.externalmodules.init", [
-        'dessert.common',
-        'dessert.ajax',
-        "dessert.routing",
-        "dessert.customtag"
+    define([
+        './dessert.common',
+        './dessert.ajax',
+        "./dessert.viewhelpers"
     ], function dessertExternalModulesInitModule(
         common,
         ajax,
-        $routing,
-        $customTag
+        $viewHelpers
     ) {
 
         /**
@@ -51,7 +49,6 @@
             //the external module init.
             var qStringParams; //eslint-disable-line no-unused-vars
             var cleanedPath;
-            var $data;
 
             /**
              * Internally calls a recursive function to load dessertJS modules asynchronously.
@@ -78,70 +75,18 @@
                     qStringParams = utils.parseQueryString($exMod.attr(attrs.src));
                     //Clean the path of any characters that we're not allowing.
                     cleanedPath = utils.cleanQueryString($exMod.attr(attrs.src));
-                    //Build out the URL that we're going to use for the AJAX call.
-                    url = utils.cleanPath("$base$modulePath.html".replace("$base", app.src).replace("$modulePath", cleanedPath));
-                    //Make sure that the url doesn't contain any undefined vars because something didn't get replaced properly.
-                    if (url && !((/undefined/g).test(url))) {
-                        var externalModulesInitDone = function externalModulesInitDone(html) {
-                            //We got the html back from the server, let's build it out.
-                            $data = $(html);
 
-                            //It's possible that the HTML is just a block of text, which in this case,
-                            //We need to present it as text, and not a HTML element.
-                            if ($data.length === 0 && typeof html === "string" && html.trim().length) {
-                                $data = html;
-                            }
-
-                            //Replace the [dsrt-src] element with the newly created element from our server call.
-                            //Don't replace it if this is the page element. We need to be able to find this later.
-                            if ($exMod.is(selectors.page)) {
-                                $exMod.setContent($data);
-                                $exMod.removeAttr(attrs.src);
-                            } else if ($exMod.attr("embed") && $exMod.attr("embed").toLowerCase() === "true") {
-                                $exMod.setContent($data);
-                                $exMod.removeAttr(attrs.src);
-                            } else {
-                                $exMod.replaceContent($data);
-                            }
-                            $customTag.init(app);
-                            //If there are any more external modules to process, let's recursively call the initialize function again.
-                            if (externalModules.length) {
-                                externalModulesInit($context, app)(done, syncModulesDone);
-                            }
-                        };
-
-                        var moduleCacheEntry = app.cache.externalModuleCache.getEntry(url);
-
-                        if (!moduleCacheEntry) {
-                            //Let's go out and fetch the HTML for the external module.
-                            ajax.get(url)
-                                .done(function moduleRetrieveDone(html) {
-                                    //Add a cache entry for this external module. We don't want
-                                    //to make another round trip for this entry.
-                                    app.cache.externalModuleCache.addEntry(url, html);
-                                    //Build out the module with this html now.
-                                    externalModulesInitDone(html);
-                                })
-                                .fail(function externalModulesInitFail(xhr) {
-                                    //Handle any errors here by looking up any error handlers in the 
-                                    //application httpHandlers cache.
-                                    if ($exMod.is(selectors.page)) {
-                                        //If you $exMod object is the single page element, then we need to handle that here.
-                                        app
-                                            .httpHandlers
-                                            .page
-                                            .getHandlersByStatusCode(xhr.status)
-                                            .forEach(function externalModuleInitFailForEach(h) {
-                                                h.handler(xhr, $routing);
-                                            });
-                                    }
-                                });
-                        } else {
-                            //There was a cache entry for this external module.
-                            //Build out the module with the cached html.
-                            externalModulesInitDone(moduleCacheEntry);
+                    if (cleanedPath.trim()) {
+                        //Build out the URL that we're going to use for the AJAX call.
+                        url = "$base$modulePath.html".replace("$base", app.src).replace("$modulePath", cleanedPath);
+                        //Make sure that the url doesn't contain any undefined vars because something didn't get replaced properly.
+                        if (url && !((/undefined/g).test(url))) {
+                            $viewHelpers.renderExternalModule(app, url, $exMod, function doneRenderExternalModule() {
+                                if (externalModules.length) {
+                                    externalModulesInit($context, app)(done, syncModulesDone);
+                                }
+                            });
                         }
-
                     }
                 }
                 if (externalModules.length > 0) {

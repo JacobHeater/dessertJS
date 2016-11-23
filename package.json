@@ -28,17 +28,21 @@
     "express": "^4.13.4",
     "gulp": "^3.9.1",
     "gulp-cached": "^1.1.0",
+    "gulp-clean": "^0.3.2",
     "gulp-eslint": "^2.0.0",
+    "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
-    "jasmine": "^2.4.1",
-    "requirejs": "^2.2.0"
+    "gulp-zip": "^3.2.0",
+    "jasmine": "^2.4.1"
   },
   "dependencies": {
     "express": "^4.14.0",
     "gulp": "^3.9.1",
     "gulp-cached": "^1.1.0",
+    "gulp-clean": "^0.3.2",
     "gulp-eslint": "^2.0.0",
+    "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
-    "requirejs": "^2.3.2"
+    "gulp-zip": "^3.2.0"
   }
 }

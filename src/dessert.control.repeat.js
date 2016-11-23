@@ -6,10 +6,10 @@
 
     "use strict";
 
-    define("dessert.control.repeat", [
-        'dessert.ajax',
-        'dessert.common',
-        "dessert.databinding"
+    define([
+        './dessert.ajax',
+        './dessert.common',
+        "./dessert.databinding"
     ], function dessertControlRepeatModule(ajax, common, $dataBindingUtil) {
 
         var selectors = common.selectors;

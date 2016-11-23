@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    define("dessert.interfaces", dessertInterfacesModule);
+    define(dessertInterfacesModule);
 
     /**
      * The require entry point for the dessert.interfaces module.

@@ -1,4 +1,4 @@
-define(["dessert.ajax"], function (ajax) {
+define(["jquery"], function ($) {
     "use strict";
     return function (app) {
         app
@@ -19,7 +19,7 @@ define(["dessert.ajax"], function (ajax) {
 
                     components.ddwn.resolve(function () {
                         components.ddwn = this;
-                        ajax.get("./data/dropdown.json")
+                        $.get("./data/dropdown.json")
                             .then(function (data) {
                                 var arr = data.data;
                                 components.ddwn.addListItems(arr);

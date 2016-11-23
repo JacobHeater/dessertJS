@@ -6,7 +6,7 @@
   
   "use strict";
 
-  define("dessert.ajax", main);
+  define(main);
 
   /**
    * Require entry point.
@@ -16,7 +16,7 @@
   function main() {
 
     return {
-      jquery: null,
+      jquery: undefined,
       /**
        * Does an AJAX get and returns a promise.
        * @param {String} url The url to perform HTTP GET on.

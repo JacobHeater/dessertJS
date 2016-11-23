@@ -1,6 +1,6 @@
 ﻿define([
-    'dessert.core',
-    "dessert.interfaces",
+    '../../../bin/dessertJS/dessert.core',
+    "../../../bin/dessertJS/dessert.interfaces",
     "./lib/mustache/mustache.min",
     "jquery"
 ], function (dessert, interfaces, mustache, $) {
