@@ -1,0 +1,1 @@
+!function(){"use strict";define(["./dessert.routing"],function(t){function e(t,e,n){this.app=t,this.$page=e,this.args=n||[]}return e.prototype.route=function(e,n){t.setRoute(e,n)},e})}();

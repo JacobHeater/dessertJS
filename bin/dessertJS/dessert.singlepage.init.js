@@ -1,0 +1,1 @@
+!function(){"use strict";define(["./dessert.routing","./dessert.common"],function(t,e){var a=e.attrs;return function(e,r){var n=t.getRoute(),s=t.getParams();if(n&&s)r.attr(a.src,n),e.pageInit(s);else if(r.attr(a.page)){var n=r.attr(a.page);t.hasRoute(n)||(n="#".concat(n)),n=t.getRoute(n);var s=t.getParams(n);r.attr(a.src,n),e.pageInit(s)}}})}();
