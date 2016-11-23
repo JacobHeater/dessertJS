@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    require(["dessert.core"], function (dessert) {
+    require(["../../../bin/dessertJS/dessert.core"], function (dessert) {
         var app = dessert
             .app('calculator', function () {
                 this.src = "./views/";
