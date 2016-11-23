@@ -1,12 +1,18 @@
 (function () {
     "use strict";
 
-    require(["../../../bin/dessertJS/dessert.core"], function (dessert) {
+    require.config({
+        paths: {
+            jquery: "https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min"
+        }
+    });
+
+    require(["../../../bin/dessertJS/dessert.core", "jquery"], function (dessert, jquery) {
         var app = dessert
             .app('calculator', function () {
                 this.src = "./views/";
                 this.templates = "./templates/";
-                this.dessertPath = "./scripts/dessert/";
+                this.providers.jquery = jquery;
             });
 
         app
