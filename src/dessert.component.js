@@ -6,12 +6,14 @@
 (function() {
     "use strict";
 
-    define("dessert.component", ["dessert.common"], function dessertComponentModule(common) {
+    define(["./dessert.common"], function dessertComponentModule(common) {
 
         /**
-         * TODO: document component
-         * 
          * @class
+         * 
+         * @classdesc
+         * 
+         * TODO: document....
          */
         function Component() {
 

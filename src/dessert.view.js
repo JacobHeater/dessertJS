@@ -2,10 +2,10 @@
 
     "use strict";
 
-    define("dessert.view", [
-            "dessert.common",
-            "dessert.events",
-            "dessert.control"
+    define([
+            "./dessert.common",
+            "./dessert.events",
+            "./dessert.control"
         ],
         function dessertViewModule(
             common,
@@ -22,9 +22,12 @@
              * is loaded, and are added to a hash table by their name. So, essentially,
              * a View is a collection of Controls on the page, that can be interacted with.
              * 
+             * @param {Element} $view The DOM Element that represents the view on the page.
              * @param {String} name The name of the view.
-             * @param {Object} controller The controller that the view is associated with.
-             * @param {Object} $view The jQuery object that represents the view on the page.
+             * @param {Application} app The dessert application instance the View instance belongs to.
+             * @param {Module} module The dessert module instance that the View instance belongs to.
+             * @param {Controller} controller The dessert controller instance that the View instance belongs to.
+             * @param {any} args Any arguments that are to be passed along to the controller when the View is rendered.
              */
             function View($view, name, app, module, controller, args) {
                 this.name = name || "";

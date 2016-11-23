@@ -6,9 +6,9 @@
 
     "use strict";
 
-    define("dessert.controller.init", [
-        'dessert.common',
-        'dessert.view.init'
+    define([
+        './dessert.common',
+        './dessert.view.init'
     ], function dessertControllerInitModule(common, viewInit) {
 
         var selectors = common.selectors;

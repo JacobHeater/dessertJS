@@ -1,4 +1,4 @@
-define(["dessert.component", "dessert.ajax"], function($component, $ajax) {
+define(["../../../../bin/dessertJS/dessert.component", "jquery"], function($component, $) {
 
     "use strict";
 
@@ -6,7 +6,7 @@ define(["dessert.component", "dessert.ajax"], function($component, $ajax) {
         $component.call(this);
 
         this.render = function(done) {
-            $ajax
+            $
                 .get("./components/dropdowns/dropdown.html")
                 .success(function(data) {
                     var elem = $(data);

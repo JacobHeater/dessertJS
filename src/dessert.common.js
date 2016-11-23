@@ -7,7 +7,7 @@
 
     "use strict";
 
-    define("dessert.common", [], dessertCommonModule);
+    define(dessertCommonModule);
 
     /**
      * RequireJS entry point.

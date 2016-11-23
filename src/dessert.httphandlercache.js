@@ -2,7 +2,7 @@
 
     "use strict";
 
-    define("dessert.httphandlercache", function dessertHttpHandlerCacheModule() {
+    define(function dessertHttpHandlerCacheModule() {
 
         /**
          * @class

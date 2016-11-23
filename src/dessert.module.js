@@ -2,13 +2,13 @@
  * @file Defines a dessertJS Module prototype.
  * @author Jacob Heater
  */
-(function() {
+(function () {
 
     "use strict";
 
-    define("dessert.module", [
-            'dessert.controller',
-            "dessert.common"
+    define([
+            './dessert.controller',
+            "./dessert.common"
         ],
         function dessertModuleModule(Controller, $common) {
 
@@ -79,11 +79,11 @@
                      * @param {Function} handler The callback to fire over each controller.
                      * @returns {Object} The current instance of the Module.controllers object.
                      */
-                    each: function(handler) {
+                    each: function (handler) {
                         if (utils.isFunction(handler)) {
                             Object
                                 .keys(controllers)
-                                .forEach(function(key) {
+                                .forEach(function (key) {
                                     handler.call(controllers[key], controllers[key]);
                                 });
                         }
@@ -95,46 +95,50 @@
                 this.globals = globals || {};
                 this.app = app;
                 this.onInit = $common.utils.isFunction(onInit) ? onInit : function emptyModuleOnInitFunction() {};
-                /**
-                 * Constructs a path to file for the Module based on the given
-                 * pathType and path url.
-                 * 
-                 * @param {Number} pathType The pathTypes enum member value to lookup.
-                 * @param {String} path The path to construct the string out of.
-                 * @returns {String} The constructed path.
-                 */
-                this.getPath = function getPath(pathType, path) {
-                    if (pathType === app.pathTypes.src) {
-                        return {
-                            path: app.src + path + '.html'
-                        };
-                    } else if (pathType === app.pathTypes.templates) {
-                        return {
-                            path: app.templates + path + '.html'
-                        };
-                    }
-                };
-                /**
-                 * Creates a dsrt-src path from the given url using the
-                 * pathTypes.src enum member value.
-                 * 
-                 * @param {String} path The path used to construct the absolute path.
-                 * @returns {String} The fully constructed path.
-                 */
-                this.src = function src(path) {
-                    return this.getPath(app.pathTypes.src, path);
-                };
-                /**
-                 * Creates a template url from the given url using the
-                 * pathTypes.templates enum member value.
-                 * 
-                 * @param {String} path The path used to construct the absolute path.
-                 * @returns {String} The fully constructed path.
-                 */
-                this.template = function template(path) {
-                    return this.getPath(app.pathTypes.templates, path);
+            };
+
+            /**
+             * Constructs a path to file for the Module based on the given
+             * pathType and path url.
+             * 
+             * @param {Number} pathType The pathTypes enum member value to lookup.
+             * @param {String} path The path to construct the string out of.
+             * @returns {String} The constructed path.
+             */
+            Module.prototype.getPath = function getPath(pathType, path) {
+                if (pathType === this.app.pathTypes.src) {
+                    return {
+                        path: this.app.src + path + '.html'
+                    };
+                } else if (pathType === this.app.pathTypes.templates) {
+                    return {
+                        path: this.app.templates + path + '.html'
+                    };
                 }
             };
+
+            /**
+             * Creates a template url from the given url using the
+             * pathTypes.templates enum member value.
+             * 
+             * @param {String} path The path used to construct the absolute path.
+             * @returns {String} The fully constructed path.
+             */
+            Module.prototype.template = function template(path) {
+                return this.getPath(this.app.pathTypes.templates, path);
+            };
+
+            /**
+             * Creates a dsrt-src path from the given url using the
+             * pathTypes.src enum member value.
+             * 
+             * @param {String} path The path used to construct the absolute path.
+             * @returns {String} The fully constructed path.
+             */
+            Module.prototype.src = function src(path) {
+                return this.getPath(this.app.pathTypes.src, path);
+            };
+
             return Module;
         });
 

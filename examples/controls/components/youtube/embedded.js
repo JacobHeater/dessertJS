@@ -1,11 +1,11 @@
-define(["dessert.component", "dessert.ajax"], function($component, $ajax) {
+define(["../../../../bin/dessertJS/dessert.component", "jquery"], function($component, $) {
     "use strict";
 
     var youtube = $component.extend(function() {
         $component.call(this);
 
         this.render = function(done) {
-            $ajax.get("./components/youtube/embedded.html")
+            $.get("./components/youtube/embedded.html")
             .then(function(html) {
                 var elem = $(html);
                 done(elem);

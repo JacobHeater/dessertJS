@@ -1,4 +1,4 @@
-define(["dessert.ajax"], function(ajax) {
+define(["jquery"], function($) {
     "use strict";
 
     return function(app) {
@@ -18,7 +18,7 @@ define(["dessert.ajax"], function(ajax) {
             name: "textbox",
             entry: function() {
                 this.render = function(done) {
-                    ajax
+                    $
                         .get("./components/inputs/textboxes/simple-textbox.html")
                         .then(function(html) {
                             var elem = $(html);

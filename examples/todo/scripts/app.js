@@ -4,9 +4,9 @@
     define([
         "jquery",
         "handlebars",
-        "dessert.core",
-        "dessert.interfaces",
-        "dessert.customtag",
+        "../../../bin/dessertJS/dessert.core",
+        "../../../bin/dessertJS/dessert.interfaces",
+        "../../../bin/dessertJS/dessert.customtag",
         "./app.setup"
     ], appModule);
 

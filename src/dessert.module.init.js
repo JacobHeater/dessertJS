@@ -6,11 +6,11 @@
 
     "use strict";
 
-    define("dessert.module.init", [
-        'dessert.controller.init',
-        'dessert.common',
-        'dessert.page',
-        'dessert.routing'
+    define([
+        './dessert.controller.init',
+        './dessert.common',
+        './dessert.page',
+        './dessert.routing'
     ], function (
         controllerInit,
         common,

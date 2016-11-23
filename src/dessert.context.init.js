@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.context.init", ['dessert.module.init'], dessertContextInitModule);
+    define(['./dessert.module.init'], dessertContextInitModule);
 
     /**
      * The require entry point.

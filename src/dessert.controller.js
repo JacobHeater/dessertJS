@@ -6,7 +6,7 @@
 
     "use strict";
 
-    define("dessert.controller", function dessertControllerModule() {
+    define(function dessertControllerModule() {
 
         /**
          * The dessertJS controller is what drives the logic of the modules. Modules are

@@ -7,12 +7,12 @@ These are simply just extensions of the jQuery object, which are added to the ds
 
     "use strict";
 
-    define("dessert.control.extensions", [
-        'dessert.control.repeat',
-        'dessert.common',
-        'dessert.ajax',
-        "dessert.databinding",
-        'dessert.viewhelpers'
+    define([
+        './dessert.control.repeat',
+        './dessert.common',
+        './dessert.ajax',
+        "./dessert.databinding",
+        './dessert.viewhelpers'
     ], function dessertControlExtensionsModule(repeater, common, ajax, $dataBindingUtil, $viewHelpers) {
 
         var attrs = common.attrs;
@@ -159,6 +159,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
                 if (typeof config === "object") {
                     var TYPE_COMPONENT = "component";
                     var TYPE_CONTROL = "control";
+                    var TYPE_SRC = "src";
                     var IS_INJECTION = true;
                     var settings = Object.assign({
                         type: "",
@@ -166,7 +167,8 @@ These are simply just extensions of the jQuery object, which are added to the ds
                         control: null,
                         target: null,
                         callback: null,
-                        id: ""
+                        id: "",
+                        url: ""
                     }, config);
 
                     switch (settings.type.toLowerCase()) {
@@ -174,7 +176,10 @@ These are simply just extensions of the jQuery object, which are added to the ds
                             $viewHelpers.renderComponent(app, view, element, settings.name, settings.id, IS_INJECTION);
                             break;
                         case TYPE_CONTROL:
-                            $viewHelpers.renderControl(app, view, settings.control, settings.name, settings.target);
+                            $viewHelpers.renderControl(app, view, settings.control, settings.name, settings.target || element);
+                            break;
+                        case TYPE_SRC:
+                            $viewHelpers.renderExternalModule(app, settings.url, settings.target || element, callback)
                             break;
                         default: 
                             //Do nothing, there's nothing to inject...

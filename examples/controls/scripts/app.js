@@ -8,7 +8,7 @@
     });
 
     require([
-        "dessert.core",
+        "../../../bin/dessertJS/dessert.core",
         "./scripts/register-components",
         "./scripts/register-tags",
         "./scripts/module-main",

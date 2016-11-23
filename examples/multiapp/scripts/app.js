@@ -9,8 +9,8 @@
     });
 
     require([
-        "dessert.core",
-        "dessert.routing",
+        "../../../bin/dessertJS/dessert.core",
+        "../../../bin/dessertJS/dessert.routing",
         "jquery"
     ], function (dessert, routing, $) {
         var app = dessert

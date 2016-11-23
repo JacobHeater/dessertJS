@@ -6,10 +6,10 @@
 
     "use strict";
 
-    define("dessert.init", [
-        'dessert.externalmodules.init',
-        'dessert.syncmodules.init',
-        "dessert.common"
+    define([
+        './dessert.externalmodules.init',
+        './dessert.syncmodules.init',
+        "./dessert.common"
     ], function dessertInitModule(exmod, syncmod, common) {
         return function dessertInit($app, app, args, isPage, isHash, done) {
             var $context;

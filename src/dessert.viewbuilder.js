@@ -1,13 +1,13 @@
 (function () {
     "use strict";
 
-    define("dessert.viewbuilder", [
-        "dessert.common",
-        "dessert.view",
-        "dessert.model",
-        "dessert.customtag",
-        "dessert.component",
-        "dessert.viewhelpers"
+    define([
+        "./dessert.common",
+        "./dessert.view",
+        "./dessert.model",
+        "./dessert.customtag",
+        "./dessert.component",
+        "./dessert.viewhelpers"
     ], dessertViewBuilderModule);
 
     function dessertViewBuilderModule(
@@ -18,6 +18,19 @@
         $component$, //eslint-disable-line no-unused-vars
         $viewHelpers
     ) {
+        /**
+         * Builds out the given $view element using the give application and module information
+         * to lookup the components and controls that belong to this view.
+         * 
+         * @param {Element} $view The DOM element that represents the view to be built.
+         * @param {Controller} controller The dessert controller instance that binds the view with the model.
+         * @param {Module} module The dessert module instance that contains this view and controller.
+         * @param {Application} app The dessert application instance that contains the module, view and controller instances.
+         * @param {any} args Any arguments that are to be passed along to the controller when the view is loaded.
+         * @param {Page} page The dessert page instance that contains the view.
+         * @param {Boolean} isRefresh Indicates whether the view builder was called from initialization of refresh.
+         * @param {Object} refreshModel The model to use when the view is refreshed.
+         */
         return function dessertViewBuilder($view, controller, module, app, args, page, isRefresh, refreshModel) {
 
             var $jquery = null;

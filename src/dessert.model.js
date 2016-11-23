@@ -2,28 +2,31 @@
  * @file A simple prototype that defines a data model.
  * @author Jacob Heater
  */
-(function() {
+(function () {
 
     "use strict";
 
-    define("dessert.model", function dessertModelModule() {
-        //A Model is a data object for the view.
+    define(
         /**
-         * Defines a data model for the dessertJS MVC application.
+         * The dessertJS Model module that exposes the Model prototype.
          * 
-         * @class
-         * 
-         * @param {Object} members The members hash table to merge into the current
-         * Model instance.
+         * @returns {Model} The Model prototype.
          */
-        function Model(members) {
-            if (typeof members === 'object') {
-                Object.keys(members).forEach(function modelKeysEach(key) {
-                    this[key] = members[key];
-                }.bind(this));
-            }
-        };
-        return Model;
-    });
+        function dessertModelModule() {
+            /**
+             * Defines a data model for the dessertJS MVC application.
+             * 
+             * @class
+             * 
+             * @param {Object} members The members hash table to merge into the current
+             * Model instance.
+             */
+            function Model(members) {
+                if (typeof members === 'object') {
+                    Object.assign(this, members);
+                }
+            };
+            return Model;
+        });
 
 })();
