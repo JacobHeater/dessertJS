@@ -9,7 +9,16 @@
     define([
         './dessert.common',
         './dessert.view.init'
-    ], function dessertControllerInitModule(common, viewInit) {
+    ],
+    /**
+     * The require module that is responsible for initializing dessertJS Controllers.
+     * 
+     * @param {Common} common The dessertJS common helper library.
+     * @param {viewInit} viewInit The view init helper function.
+     * 
+     * @return {Function} The function that is responsible for initializing dessertJS Controllers.
+     */
+    function dessertControllerInitModule(common, viewInit) {
 
         var selectors = common.selectors;
         var attrs = common.attrs;

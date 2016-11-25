@@ -9,6 +9,11 @@
 
     define(dessertEventsModule);
 
+    /**
+     * The module that represents exposes the events helpers for dessertJS views.
+     * 
+     * @returns {Function} The function that sets up the view with an event bus system.
+     */
     function dessertEventsModule() {
         /**
          * Iterates over the eventNames array and creates a new hash table that allows for adding

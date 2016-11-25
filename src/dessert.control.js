@@ -12,7 +12,7 @@
      * RequireJS entry point.
      * 
      * @param {Function} extender The dessertJS control extender that initializes control extensions.
-     * @returns {Function} 
+     * @returns {Function} The Control prototype.
      */
     function dessertControlModule(extender) {
 

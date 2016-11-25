@@ -11,7 +11,19 @@
         './dessert.common',
         './dessert.page',
         './dessert.routing'
-    ], function (
+    ], 
+    /**
+     * The requirejs entry point for the dessertJS Module initialization
+     * module.
+     * 
+     * @param {ControllerInit} controllerInit The function that initializes the controllers of each module.
+     * @param {Common} common The dessertJS common shared library.
+     * @param {Page} Page The dessertJS Page prototype.
+     * @param {Routing} routing The dessertJS routing library.
+     * 
+     * @returns {Function} The function that is responsible for initializing all dessertJS modules.
+     */
+    function dessertModuleInitModule(
         controllerInit,
         common,
         Page,

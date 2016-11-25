@@ -7,6 +7,15 @@
             "./dessert.events",
             "./dessert.control"
         ],
+        /**
+         * The dessert View module exposes the dessert View constructor.
+         * 
+         * @param {Common} common The dessertJS common library.
+         * @param {Events} events The events module.
+         * @param {Control} Control The dessertJS Control prototype.
+         * 
+         * @returns {View} The View constructor.
+         */
         function dessertViewModule(
             common,
             events,
@@ -57,6 +66,11 @@
                     events(this, Array.apply(null, arguments));
                     return this;
                 };
+                /**
+                 * A hash table of controls that are added by unique name.
+                 * Because of the nature of the controls hash table, the names of
+                 * controsl must be unique.
+                 */
                 this.controls = {
                     /**
                      * Adds a control instance to the view controls hash table.
@@ -90,10 +104,22 @@
                         return this;
                     }
                 };
+                /**
+                 * Control groups are groups of controls that are grouped together by a common name.
+                 * This makes it easy to apply common functionality to a group of controls.
+                 */
                 this.controlGroups = {};
+                /**
+                 * A hash table that represents the components of the view. Components are reusable
+                 * controls that encapsulate their own logic.
+                 */
                 this.components = {};
             };
 
+            /**
+             * Refreshes the current View and rebuilds the controls hash, components hash, and
+             * reinitializes external modules.
+             */
             View.prototype.refresh = function emptyRefreshFunction() {}; //To be set in the view builder.
 
             return View;

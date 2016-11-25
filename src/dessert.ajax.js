@@ -33,6 +33,7 @@
       /**
        * Does an AJAX POST and returns a promise.
        * @param {String} url The url to perform the HTTP POST on.
+       * @param {Object} data The data to pass to the request body.
        * @returns {Object} A promise from the AJAX call.
        */
       post: function(url, data) {

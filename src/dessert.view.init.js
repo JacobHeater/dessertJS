@@ -59,7 +59,7 @@
             var $view;
 
             //We need to go through each view and start building out the view elements.
-            views.each(function () {
+            views.each(function viewInitFoEach() {
                 //Keep a reference to the jQuery view object.
                 $view = $jquery(this);
                 //Use the $ViewBuilder function to render the view.

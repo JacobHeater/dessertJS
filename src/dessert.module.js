@@ -10,6 +10,12 @@
             './dessert.controller',
             "./dessert.common"
         ],
+        /**
+         * The dessertJS Module module entry point for require.
+         * 
+         * @param {Controller} Controller The dessertJS Controller prototype.
+         * @param {Common} $common The dessertJS common library.
+         */
         function dessertModuleModule(Controller, $common) {
 
             var utils = $common.utils;
@@ -28,6 +34,7 @@
              * of the dsrt-module attribute value is on the element.
              * @param {Object} app The application scope of which the Module is a child of.
              * @param {Object} $module The jQuery instance that encapsulates the [dsrt-module] element.
+             * @param {Function} onInit The function that is to be called when the Module gets initialized.
              * @param {Object} globals The global variables that need to be shared among Modules.
              */
             function Module(name, app, $module, onInit, globals) {
@@ -36,6 +43,9 @@
                  * A cache of all of the controllers this Module is a parent to.
                  */
                 var controllers = {};
+                /**
+                 * The name of the module.
+                 */
                 this.name = name || "";
                 /**
                  * Bootstraps a new Controller singleton instance to be appended to the
@@ -49,6 +59,10 @@
                     controllers[name] = new Controller(name, this, app, undefined, implementation);
                     return controllers[name];
                 };
+                /**
+                 * All controllers that are part of this module are to be uniquely named and
+                 * stored in this hash table.
+                 */
                 this.controllers = {
                     /**
                      * Gets a Controller instance from the controllers cache
@@ -91,9 +105,21 @@
                         return this;
                     }
                 };
+                /**
+                 * The DOM element that represents this Module.
+                 */
                 this.$module = $module;
+                /**
+                 * Any members that are to be shared between controllers of the module.
+                 */
                 this.globals = globals || {};
+                /**
+                 * The Application instance that this Module belongs to.
+                 */
                 this.app = app;
+                /**
+                 * The function that is to be invoked when the Module is initialized.
+                 */
                 this.onInit = $common.utils.isFunction(onInit) ? onInit : function emptyModuleOnInitFunction() {};
             };
 

@@ -10,7 +10,17 @@
         './dessert.common',
         './dessert.ajax',
         "./dessert.viewhelpers"
-    ], function dessertExternalModulesInitModule(
+    ], 
+    /**
+     * The dessertJS module that is responsible for initializing external modules.
+     * 
+     * @param {Common} common The dessertJS common helper library.
+     * @param {Ajax} ajax The dessertJS ajax helper library.
+     * @param {ViewHelpers} $viewHelpers The dessertJS helper library for dessert views.
+     * 
+     * @returns {Function} The function that is responsible for initializing external modules.
+     */
+    function dessertExternalModulesInitModule(
         common,
         ajax,
         $viewHelpers

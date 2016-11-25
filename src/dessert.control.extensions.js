@@ -13,7 +13,19 @@ These are simply just extensions of the jQuery object, which are added to the ds
         './dessert.ajax',
         "./dessert.databinding",
         './dessert.viewhelpers'
-    ], function dessertControlExtensionsModule(repeater, common, ajax, $dataBindingUtil, $viewHelpers) {
+    ], 
+    /**
+     * A module that extends the dessertJS Control with additional functionality.
+     * 
+     * @param {ControlRepeat} repeater The repeater function that adds repeater capabilities to the Control.
+     * @param {Common} common The dessertJS common helper library.
+     * @param {Ajax} ajax The dsessertJS AJAX helper library.
+     * @param {DataBinding} $dataBindingUtil The utility that helps with data binding for dessertJS.
+     * @param {ViewHelper} $viewHelpers The helper library that aids in constructing dessertJS Views.
+     * 
+     * @returns {Function} A function that extends dessertJS Controls with additional functionality.
+     */
+    function dessertControlExtensionsModule(repeater, common, ajax, $dataBindingUtil, $viewHelpers) {
 
         var attrs = common.attrs;
         //The $ factory element result to extend with the dsrt object.
