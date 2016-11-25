@@ -7,12 +7,15 @@
     "use strict";
 
     define(
+        ["./dessert.common"],
         /**
          * The dessertJS Model module that exposes the Model prototype.
          * 
+         * @param {Common} $common The dessertJS common helper library.
+         * 
          * @returns {Model} The Model prototype.
          */
-        function dessertModelModule() {
+        function dessertModelModule($common) {
             /**
              * Defines a data model for the dessertJS MVC application.
              * 
@@ -22,7 +25,7 @@
              * Model instance.
              */
             function Model(members) {
-                if (typeof members === 'object') {
+                if ($common.utils.isObject(members)) {
                     Object.assign(this, members);
                 }
             };

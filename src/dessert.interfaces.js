@@ -39,7 +39,15 @@
             throw new InvalidArgumentError("implementation", "object");
         }
     }
-    
+     
+    /**
+     * An error message for when any interface members are not implemented.
+     * 
+     * @class
+     * 
+     * @param {String} interfaceName The name of the interface that correlates to this error.
+     * @param {String} methodName The name of the method that was not implemented.
+     */
     function NotImplementedError(interfaceName, methodName) {
         var message = 'Method "' + methodName + '" not implemented in interface "' + interfaceName + '"!';
         

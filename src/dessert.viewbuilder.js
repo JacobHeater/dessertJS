@@ -96,14 +96,14 @@
             and then when they're ready, we'll notify the controller that they're
             members of that they're ready to be interacted with.
             */
-            components.each(function () {
+            components.each(function viewBuilderComponentsForEach() {
                 var $component = $(this);
                 var componentName = $component.attr(attrs.component);
                 $viewHelpers.renderComponent(app, view, $component, componentName);
             });
 
             //Iterate over all of the [dsrt-model] members, and add them as modelMembers.
-            models.each(function () {
+            models.each(function viewBuilderModelsForEach () {
                 $model = $jquery(this);
                 //Track the jQuery $model element.
                 app.trackedElements.add($model);
@@ -112,7 +112,7 @@
             });
 
             //Iterate over all of the [dsrt-control] elements.
-            controls.each(function () {
+            controls.each(function viewBuilderControlsForEach () {
                 //Keep a reference to the jquery instance of the control element.
                 $control = $jquery(this);
                 //Get the name of the control from the element.
@@ -121,7 +121,7 @@
             });
 
             //Iterate over all of the [dsrt-controlGroup] elements.
-            controlGroups.each(function () {
+            controlGroups.each(function viewBuilderControlGroupsForEach() {
                 //Keep a reference to the jquery object.
                 $ctrlGroup = $jquery(this);
                 app.trackedElements.add($ctrlGroup);

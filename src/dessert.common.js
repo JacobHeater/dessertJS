@@ -248,19 +248,42 @@
             isString: function(str) {
                 return typeof str === "string";
             },
-
+ 
+            /**
+             * Adds an immutable property to the object.
+             * 
+             * @param {Object} obj The object to add the immutable property to.
+             * @param {String} propName The name of the property to add.
+             * @param {any} value The value of the property.
+             * 
+             * @returns {Object} The current instance of the utils object.
+             */
             addReadOnlyProperty: function(obj, propName, value) {
                 defineReadOnlyProperty(obj, propName, value);
 
                 return this;
             },
 
+            /**
+             * Adds a list of immutable properties to the object.
+             * 
+             * @param {Object} obj The object to add the properties to.
+             * @param {Object} hash The hash table that defines the properties.
+             * 
+             * @returns {Object} The current instance of the utils object.
+             */
             addReadOnlyProperties: function(obj, hash) {
                 defineReadOnlyProperties(obj, hash);
 
                 return this;
             },
 
+            /**
+             * Sets an immediate timeout that points to the current function.
+             * 
+             * @param {Function} action The function to set the immediate timeout on.
+             * @param {any[]} args The arguments to pass into the action function.
+             */
             defer: function(action, args) {
                 args = args && Array.isArray(args) ? args : [];
                 if (this.isFunction(action)) {

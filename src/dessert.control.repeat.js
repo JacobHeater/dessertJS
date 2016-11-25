@@ -10,7 +10,17 @@
         './dessert.ajax',
         './dessert.common',
         "./dessert.databinding"
-    ], function dessertControlRepeatModule(ajax, common, $dataBindingUtil) {
+    ],  
+    /**
+     * The module that add repeater capabilities to dessertJS Controls. 
+     * 
+     * @param {Ajax} ajax The dessertJS ajax helper library.
+     * @param {Common} common The dessertJS common helper library.
+     * @param {DataBinding} $dataBindingUtil The utility that is responsible for doing databinding in dessertJS.
+     * 
+     * @returns {Function} The dessertJS function that extends the control with repeater capabilities.
+     */
+    function dessertControlRepeatModule(ajax, common, $dataBindingUtil) {
 
         var selectors = common.selectors;
 

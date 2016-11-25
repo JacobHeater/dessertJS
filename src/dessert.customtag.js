@@ -1,6 +1,14 @@
 (function () {
     "use strict";
-    define(["./dessert.common"], function dessertCustomTagModule(common) {
+    define(["./dessert.common"],
+    /**
+     * The module that is responsible for creating, parsing, and initializing custom tags
+     * in dessertJS. Custom tags are HTML tags that are not natively understood by the browser,
+     * but will be rendered into native HTML tags.
+     * 
+     * @returns {Object} The custom tag helper object.
+     */
+    function dessertCustomTagModule(common) {
         var attrs = common.attrs;
         var CUSTOM_TAG_LITERAL = "CUSTOM_TAG_LITERAL";
         var customTag = {

@@ -2,7 +2,15 @@
 
     "use strict";
 
-    define(function dessertHttpHandlerCacheModule() {
+    
+    define(
+        /**
+         * dessertJS HTTP handler cache that is responsible for caching
+         * helper functions for HTTP status codes.
+         * 
+         * @returns {Function} The prototype constructor for the HttpHandlerCache.
+         */
+        function dessertHttpHandlerCacheModule() {
 
         /**
          * @class

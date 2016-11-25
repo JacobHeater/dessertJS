@@ -25,8 +25,17 @@
              * @param {Object} args The arguments that the page is initialized with.
              */
             function Page(app, $page, args) {
+                /**
+                 * The Application that the page belongs to.
+                 */
                 this.app = app;
+                /**
+                 * The DOM element that represents the page.
+                 */
                 this.$page = $page;
+                /**
+                 * The page level arguments that are to be passed to any controllers.
+                 */
                 this.args = args || [];
             };
 

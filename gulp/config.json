@@ -1,0 +1,7 @@
+{
+    "build": {
+        "src": "src/**/*.js",
+        "zip": "dessertjs.min.zip",
+        "dest": "./bin/dessertJS"
+    }
+}

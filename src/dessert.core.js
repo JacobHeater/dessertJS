@@ -15,6 +15,19 @@
             "./dessert.customtag",
             "./dessert.jquery.extend"
         ],
+        /**
+         * The core module of dessertJS that the rest of dessertJS is built off of.
+         * 
+         * @param {Application} Application The dessertJS Application class.
+         * @param {Common} common The dessertJS common helper library.
+         * @param {Init} $init The dessertJS initialization function.
+         * @param {SinglePageInit} spa The dessertJS helper for single page app initialization.
+         * @param {Routing} routing The dessertJS routing helper library.
+         * @param {CustomTag} $customTag The dessertJS custom tag helper library.
+         * @param {jQueryExtend} $jQueryExtend The function that extends jQuery for dessertJS.
+         * 
+         * @returns {Object} The dessertJS core helper library.
+         */
         function dessertCoreModule(
             Application,
             common,
