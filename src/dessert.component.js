@@ -1,5 +1,5 @@
 /**
- * @file TODO: document
+ * @file Creates a require module to define the dessertJS Component prototype.
  * @author Jacob Heater
  * @since 09/18/2016
  */
