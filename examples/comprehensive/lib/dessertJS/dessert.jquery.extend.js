@@ -1,0 +1,1 @@
+!function(){"use strict";function t(){return function(t){return t.fn.setContent=function(t){return this.html("").append(t)},t.fn.replaceContent=function(t){return this.replaceWith(t)},t.fn.outerHtml=function(){return this.get(0).outerHTML},t}}define(t)}();

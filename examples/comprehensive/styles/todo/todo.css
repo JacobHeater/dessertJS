@@ -1,0 +1,8 @@
+.todo-container .tbTaskName {
+    width: 250px;
+}
+
+.close {
+    font-size: 1.2em;
+    cursor: default;
+}

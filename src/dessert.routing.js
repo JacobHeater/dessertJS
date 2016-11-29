@@ -8,12 +8,14 @@
     "use strict";
 
     define(
+        ['./dessert.common'],
         /**
          * The module that is responsible for routing in dessert.
          * 
+         * @param {Common} common The dessertJS common helper library.
          * @returns {Object} The singleton that contains functions pertinent to routing.
          */
-        function dessertRoutingModel() {
+        function dessertRoutingModel(common) {
 
             var location = window.location;
 
@@ -69,13 +71,18 @@
                 return (path.split('#')[1] || "").indexOf(":") > -1;
             }
 
-            return {
+            var routingObj = {
                 hasRoute: function routingHasRoute(path) {
                     var href = path || location.href;
                     return hasRoute(href);
                 },
                 setRoute: function routingSetRoute(path, params) {
                     var href = location.href;
+
+                    if (path === this.CURRENT) {
+                        path = this.getRoute();
+                    }
+                    
                     if (params) {
                         path += parseArgs(params);
                     }
@@ -131,6 +138,10 @@
                     });
                 }
             };
+
+            common.utils.addReadOnlyProperty(routingObj, "CURRENT", "CURRENT");
+
+            return routingObj;
         });
 
 })();
