@@ -7,15 +7,20 @@
     "use strict";
 
     define([
-            './dessert.routing'
+            './dessert.routing',
+            './dessert.common'
         ],
         /**
          * The module that exposes the dessert Page prototype.
          * 
          * @param {Routing} routing The dessert routing module that routes for the page.
+         * @param {Common} common The dessertJS common helper library.
          * @returns {Page} The Page prototype.
          */
-        function dessertPageModule(routing) {
+        function dessertPageModule(
+            routing,
+            common
+        ) {
 
             /**
              * Defines a dessertJS page prototype for singe page application modes.
@@ -48,6 +53,8 @@
             Page.prototype.route = function route(path, args) {
                 routing.setRoute(path, args);
             };
+
+            common.utils.addReadOnlyProperty(Page.prototype, "currentRoute", routing.CURRENT);
 
             return Page;
         });

@@ -185,7 +185,11 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             };
 
             /**
-             * TODO: document
+             * Registers tags to the application instance, so that the application knows that it needs
+             * to render out those tags to their respective dessertJS markup.
+             * 
+             * @param {CutomTag[]} tags The array of CustomTag instances to load into the application tag registry.
+             * @returns {Application} The current instance of the Application class.
              */
             this.registerTags = function (tags) {
                 if ($common.utils.isArray(tags)) {
@@ -193,10 +197,15 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                         tagRegistry[t.name] = t;
                     });
                 }
+
+                return this;
             };
 
             /**
-             * TODO: document
+             * Iterates over the Application's custom tag registry hash table, and converts the hash table
+             * entries into an array CustomTag instances.
+             * 
+             * @returns {CustomTag[]} The custom tags that were registered to the tag registry.
              */
             this.getCustomTags = function () {
                 var arr = [];
@@ -206,42 +215,100 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                 return arr;
             };
 
+            /**
+             * dessertJS uses tracking on DOM elements to ensure that views and their event listeners are
+             * properly cleaned up when the current view is destroyed. Destruction of the view in dessertJS
+             * can happen when the Page URL is changed, or when the View.prototype.destroy() method is
+             * explicitly invoked.
+             * 
+             * @private
+             */
             this.trackedElements = {
+                /**
+                 * Adds a DOM element to track in the Application instance, so that the Application can clean
+                 * up each DOM element from the View before initializing the Page.
+                 * 
+                 * @param {Element} elem The DOM element to be tracked by the Application.
+                 * 
+                 * @returns {Object} The trackedElements hash table.
+                 */
                 add: function (elem) {
                     elems.push(elem);
 
                     return this;
                 },
+                /**
+                 * Destroys all of the DOM elements on the page by ensuring that all
+                 * event listeners are removed the DOM elements.
+                 */
                 destroyAll: function () {
                     elems.forEach(function (elem) {
                         elem.off().off("**");
                         elem.children().off().off("**");
                     });
+
+                    return this;
                 }
             };
 
+            /**
+             * The DOM element that represents this Application instance. 
+             */
             this.$app = $app;
 
+            //Set an immutable providers property on the Application instance.
             Object.defineProperty(this, "providers", {
                 writable: false,
                 value: {}
             });
 
+            //Define the difference types of providers as immutable properties on
+            //the providers hash table.
             Object.defineProperties(this.providers, {
+                /**
+                 * The IDataBindingProvider should be an instance of the IDataBindingProvider interface as defined
+                 * in the dessertJS common interfaces module (dessert.interfaces), and should implement
+                 * all of the interface members. 
+                 */
                 IDataBindingProvider: {
+                    /**
+                     * Returns the configured IDataBindingProvider provider instance.
+                     * 
+                     * @returns {IDataBindingProvider} The configured IDataBindingProvider instance.
+                     */
                     get: function() {
                         return providers.IDataBindingProvider;
                     },
+                    /**
+                     * Sets the Application IDataBindingProvider provider.
+                     * 
+                     * @param {IDataBindingProvider} value The IDataBindingProvider instance.
+                     */
                     set: function(value) {
                         if (value && value instanceof $interfaces.IDataBindingProvider) {
                             providers.IDataBindingProvider = value;
                         }
                     }
                 },
+                /**
+                 * dessertJS is built on top of jQuery, but does not require a specific version of
+                 * jQuery to operate. This is the configured version of jQuery that should be used
+                 * to run dessertJS.
+                 */
                 jquery: {
+                    /**
+                     * Returns the configured jQuery provider.
+                     * 
+                     * @returns {jQuery} jQuery.
+                     */
                     get: function() {
                         return providers.jquery;
                     },
+                    /**
+                     * Sets the jQuery provider for this Application.
+                     * 
+                     * @param {jQuery} value The desired version of jQuery to use.
+                     */
                     set: function(value) {
                         if (value && value.fn && value.fn.jquery) {
                             providers.jquery = value;
@@ -251,13 +318,49 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             });
         };
 
+        /**
+         * Sets the different path types that the Application can understand.
+         * This currently is implemented in the dessertJS common helper library
+         */
         Application.prototype.pathTypes = $common.pathTypes;
+        /**
+         * An immutable property that has an empty string value.
+         * 
+         * @returns {String} "".
+         */
         Application.prototype.dsrtPath = emptyString;
+        /**
+         * The path where the templates are stored and should be retrieved from.
+         * This should be the top level directory, and all other paths will be relative
+         * to that. dessertJS will use the top level directory to construct relative paths
+         * to that directory to find the templates for this Application instance.
+         */
         Application.prototype.templates = emptyString;
+        /**
+         * The path where the views are stored and should be retrieved from.
+         * This should be the top level directory. All other paths will be relative to
+         * this top level directory. The paths used to retrieve the HTML files for views
+         * will be constructed using this top level directory.
+         */
         Application.prototype.src = emptyString;
+        /**
+         * A function to call when the [dsrt-mask] attribute is removed when the
+         * dessertJS runtime has finished constructing the views.
+         */
         Application.prototype.maskLifted = function emptyMaskLifted() {};
+        /**
+         * A cache for the Application to use to hold various singleton references.
+         * 
+         * @private
+         */
         Application.prototype.cache = new $cache();
 
+        /**
+         * An enumeration that helps the cache to track the type of record that is being cached.
+         * This property is immutable to prevent it from being overwritten.
+         * 
+         * @private
+         */
         Object.defineProperties(Application.prototype.cache, {
             TYPE: {
                 writable: false,

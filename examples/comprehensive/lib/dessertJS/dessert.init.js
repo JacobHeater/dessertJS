@@ -1,0 +1,1 @@
+!function(){"use strict";define(["./dessert.externalmodules.init","./dessert.syncmodules.init","./dessert.common"],function(e,i,n){return function(t,s,r,d,o,c){var u;s.initialized?u=d?t.find(n.selectors.page).parent():t:(u=t,s.initialized=!0);var a=e(u,s,d),f=i(u,s,r);o?a(function(){},c):a(f,c)}})}();
