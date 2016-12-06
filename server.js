@@ -4,11 +4,14 @@
     var path = require('path');
 
     var paths = ['/src', '/examples', '/bin', '/lib'];
-    var defaults = ['/countries', '/singlepage', '/package', '/books', '/multiapp', '/controls', '/todo', '/comprehensive'];
+    var defaults = ['/comprehensive'];
     var port = 1025;
 
     app.get('/', function(request, response) {
-      response.sendFile(path.join(__dirname.concat("/index.html")));
+        //We're using the framework to drive the examples.
+        //Redirect the user to the comprehensive example single page app.
+        response.redirect("/examples/comprehensive");
+        response.end();
     });
     //Make these directories static so that their files can be served.
     paths.map(p => app.use(p, express.static(__dirname.concat(p))));
