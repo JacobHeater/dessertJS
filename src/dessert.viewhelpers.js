@@ -15,7 +15,7 @@
         './dessert.asyncresource',
         './dessert.ajax',
         './dessert.customtag',
-        './dessert.component',
+        './dessert.component'
     ], main);
 
     /**

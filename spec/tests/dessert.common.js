@@ -33,7 +33,7 @@
                 that.r([
                     'dessert.common'
                 ], common => {
-                    done(!common.utils.isFunction('Not a function!'));
+                    done(common.utils.isFunction('Not a function!'));
                 });
             });
 
