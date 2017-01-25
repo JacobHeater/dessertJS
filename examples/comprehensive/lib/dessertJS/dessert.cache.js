@@ -1,1 +1,166 @@
-!function(){"use strict";function t(){return e}function e(){var t={},n={},r={},i=this,E=!0,s=function(i){var E;switch(i){case e.TYPE.COMPONENT:E=t;break;case e.TYPE.EXTERNAL_MODULE:E=n;break;case e.TYPE.TEMPLATE:E=r}return E};this.componentCache={TYPE:e.TYPE.COMPONENT,addEntry:function(t,e){return i.addEntry(this.TYPE,t,e),this},getEntry:function(t){return i.getEntry(this.TYPE,t)},removeEntry:function(t){return i.removeEntry(this.TYPE,t),this},getHashTable:function(){return i.getHashTable(this.TYPE)}},this.templateCache={TYPE:e.TYPE.TEMPLATE,addEntry:function(t,e){return i.addEntry(this.TYPE,t,e),this},getEntry:function(t){return i.getEntry(this.TYPE,t)},removeEntry:function(t){return i.removeEntry(this.TYPE,t),this},getHashTable:function(){return i.getHashTable(this.TYPE)}},this.externalModuleCache={TYPE:e.TYPE.EXTERNAL_MODULE,addEntry:function(t,e){return i.addEntry(this.TYPE,t,e),this},getEntry:function(t){return i.getEntry(this.TYPE,t)},removeEntry:function(t){return i.removeEntry(this.TYPE,t),this},getHashTable:function(){return i.getHashTable(this.TYPE)}},this.addEntry=function(t,e,n){if(this.enabled){var r=s(t);r&&(r[e]=n)}return this},this.getEntry=function(t,e){var n;if(this.enabled){var r=s(t);r&&(n=r[e])}return n},this.removeEntry=function(t,e){if(this.enabled){var n=s(t);n&&delete n[e]}return this},this.getHashTable=function(t){var e;return this.enabled&&(e=s(t)),e},Object.defineProperties(this,{enabled:{get:function(){return E},set:function(t){"boolean"==typeof t&&(E=t)}}})}define(t),Object.defineProperties(e,{TYPE:{writable:!1,value:{COMPONENT:1,EXTERNAL_MODULE:2,TEMPLATE:3}}})}();
+(function () {
+    "use strict";
+
+    define(dessertCachingModule);
+
+    /**
+     * Entry point for require for the dessertJS caching class.
+     * 
+     * @returns {Cache} The constructor for the dessertJS Cache. 
+     */
+    function dessertCachingModule() {
+        return Cache;
+    }
+
+    /**
+     * @class
+     * 
+     * @classdesc
+     * 
+     * A caching mechanism for dessertJS to cache different elements of the view. This helps with performance
+     * during building of the views of the dessertJS initialization process. The caching mechanism tracks
+     * several different elements of the view including Components, ExternalModules, and Templates.
+     */
+    function Cache() {
+        var componentCacheHashTable = {};
+        var externalModuleCacheHashTable = {};
+        var templateCacheHashTable = {};
+        var parentCache = this;
+        var enabled = true;
+        var getCacheForType = function getCacheForType(type) {
+            var cache;
+            switch (type) {
+                case Cache.TYPE.COMPONENT:
+                    cache = componentCacheHashTable;
+                    break;
+                case Cache.TYPE.EXTERNAL_MODULE:
+                    cache = externalModuleCacheHashTable;
+                    break;
+                case Cache.TYPE.TEMPLATE:
+                    cache = templateCacheHashTable;
+                    break;
+                default:
+                    break;
+            }
+
+            return cache;
+        };
+
+        this.componentCache = {
+            TYPE: Cache.TYPE.COMPONENT,
+            addEntry: function componentCacheAddEntry(name, value) {
+                parentCache.addEntry(this.TYPE, name, value);
+                return this;
+            },
+            getEntry: function componentCacheGetEntry(name) {
+                return parentCache.getEntry(this.TYPE, name);
+            },
+            removeEntry: function componentCacheRemoveEntry(name) {
+                parentCache.removeEntry(this.TYPE, name);
+                return this;
+            },
+            getHashTable: function componentCacheGetHashTable() {
+                return parentCache.getHashTable(this.TYPE);
+            }
+        };
+
+        this.templateCache = {
+            TYPE: Cache.TYPE.TEMPLATE,
+            addEntry: function templateCacheAddEntry(name, value) {
+                parentCache.addEntry(this.TYPE, name, value);
+                return this;
+            },
+            getEntry: function templateCacheGetEntry(name) {
+                return parentCache.getEntry(this.TYPE, name);
+            },
+            removeEntry: function templateCacheRemoveEntry(name) {
+                parentCache.removeEntry(this.TYPE, name);
+                return this;
+            },
+            getHashTable: function templateCacheGetHashTable() {
+                return parentCache.getHashTable(this.TYPE);
+            }
+        };
+
+        this.externalModuleCache = {
+            TYPE: Cache.TYPE.EXTERNAL_MODULE,
+            addEntry: function externalModuleCacheAddEntry(name, value) {
+                parentCache.addEntry(this.TYPE, name, value);
+                return this;
+            },
+            getEntry: function externalModuleCacheGetEntry(name) {
+                return parentCache.getEntry(this.TYPE, name);
+            },
+            removeEntry: function externalModuleCacheRemoveEntry(name) {
+                parentCache.removeEntry(this.TYPE, name);
+                return this;
+            },
+            getHashTable: function externalModuleCacheGetHashTable() {
+                return parentCache.getHashTable(this.TYPE);
+            }
+        };
+
+        this.addEntry = function cacheAddEntry(type, name, value) {
+            if (this.enabled) {
+                var cache = getCacheForType(type);
+                if (cache) {
+                    cache[name] = value;
+                }
+            }
+            return this;
+        };
+
+        this.getEntry = function cacheGetEntry(type, name) {
+            var entry;
+            if (this.enabled) {
+                var cache = getCacheForType(type);
+                if (cache) {
+                    entry = cache[name];
+                }
+            }
+            return entry;
+        };
+
+        this.removeEntry = function cacheRemoveEntry(type, name) {
+            if (this.enabled) {
+                var cache = getCacheForType(type);
+                if (cache) {
+                    delete cache[name];
+                }
+            }
+            return this;
+        };
+
+        this.getHashTable = function cacheGetHashTable(type) {
+            var hashTable;
+            if (this.enabled) {
+                hashTable = getCacheForType(type);
+            }
+            return hashTable;
+        };
+
+        Object.defineProperties(this, {
+            enabled: {
+                get: function get_cacheEnabled() {
+                    return enabled;
+                },
+                set: function set_cacheEnabled(value) {
+                    if (typeof value === "boolean") {
+                        enabled = value;
+                    }
+                }
+            }
+        });
+    }
+
+    Object.defineProperties(Cache, {
+        TYPE: {
+            writable: false,
+            value: {
+                COMPONENT: 1,
+                EXTERNAL_MODULE: 2,
+                TEMPLATE: 3
+            }
+        }
+    });
+})();

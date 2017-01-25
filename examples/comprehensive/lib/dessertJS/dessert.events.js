@@ -1,1 +1,76 @@
-!function(){"use strict";function t(){return function(t,n){n&&n.length&&n.concat&&n.shift&&n.splice&&n.pop&&n.map&&n.map(function(n){t[n]={listeners:[],addListener:function(t){return"function"==typeof t&&this.listeners.push(t),this},removeListener:function(t){var n=this.listeners.indexOf(t);return n>-1&&this.listeners.splice(n,1),this},trigger:function(){for(var t=0,n=this.listeners.length;t<n;t++)this.listeners[t].apply(null,arguments);return this}}})}}define(t)}();
+/**
+ * @file Sets up events for the given view, and allows for custom event handling
+ * in the dessertJS view context.
+ * @author Jacob Heater
+ */
+(function() {
+
+    "use strict";
+
+    define(dessertEventsModule);
+
+    /**
+     * The module that represents exposes the events helpers for dessertJS views.
+     * 
+     * @returns {Function} The function that sets up the view with an event bus system.
+     */
+    function dessertEventsModule() {
+        /**
+         * Iterates over the eventNames array and creates a new hash table that allows for adding
+         * event listeners to custom events. The events can be looked up in the view by their name.
+         * 
+         * @param {Object} view The dessertJS view instance to add events to.
+         * @param {String[]} eventNames The list of event names to add as events.
+         */
+        return function dessertEventsInit(view, eventNames) {
+            //Duck type eventNames to check if it's an array
+            if (eventNames && eventNames.length && eventNames.concat && eventNames.shift && eventNames.splice && eventNames.pop && eventNames.map) {
+                eventNames.map(function dessertEventsInitMap(n) {
+                    view[n] = {
+                        listeners: [],
+                        //Adds a listener to the listeners stack
+                        /**
+                         * Adds an event listener to the current event.
+                         * 
+                         * @param {Function} handler The function to be invoked when
+                         * the event is raised.
+                         * @returns {Object} The current event for chaining.
+                         */
+                        addListener: function addListener(handler) {
+                            if (typeof handler === 'function') {
+                                this.listeners.push(handler);
+                            }
+                            return this;
+                        },
+                        /**
+                         * Removes the given listener from the listener array.
+                         * 
+                         * @param {Function} handler The handler to remove from the array.
+                         * @returns {Object} The current instance of the event for chaining.
+                         */
+                        removeListener: function removeListener(handler) {
+                            var indexOf = this.listeners.indexOf(handler);
+                            if (indexOf > -1) {
+                                this.listeners.splice(indexOf, 1);
+                            }
+                            return this;
+                        },
+                        /**
+                         * Triggers all of the event listeners for the current event,
+                         * and supplies any arguments to the handler functions.
+                         * 
+                         * @returns {Object} The current event instance for chaining.
+                         */
+                        trigger: function trigger() {
+                            for (var i = 0, len = this.listeners.length; i < len; i++) {
+                                this.listeners[i].apply(null, arguments);
+                            }
+                            return this;
+                        }
+                    };
+                });
+            }
+        };
+    }
+
+})();

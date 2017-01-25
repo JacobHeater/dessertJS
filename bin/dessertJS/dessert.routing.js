@@ -1,1 +1,147 @@
-!function(){"use strict";define(["./dessert.common"],function(t){function n(t){var n="";return t&&t.length&&t.length>0&&(n+="/:",n+=t.map(function(t){return t.key.concat("=").concat(escape(t.value))}).reduce(function(t,n){return t.concat("&").concat(n)})),n}function e(t){return t.replace(/[#]+/g,"")}function r(t){var n=/(#\/[\w\d\/&=:]+)/gi;return n.test(t)}function o(t){return(t.split("#")[1]||"").indexOf(":")>-1}var c=window.location,a={hasRoute:function(t){var n=t||c.href;return r(n)},setRoute:function(t,o){var a=c.href;t===this.CURRENT&&(t=this.getRoute()),o&&(t+=n(o)),r(c.href)&&(a=c.href.split("#")[0]),c.href=e(a).concat("#").concat(t)},getRoute:function(t){var n=t||c.href,e=n.split("#")[1]||"",r=e.split(":")[0]||"",o=/\/$/gim;return r.match(o)&&(r=r.replace(o,"")),r},getParams:function(t){var n=/[a-z]+:\/\//gim,e=t||c.href;n.test(e)&&(e=e.replace(c.protocol.concat("//").concat(c.host).concat("/"),""));var r=[],a="";return o(e)&&(a=e.split(":")[1],r=a.split("&"),r=r.map(function(t){var n=t.split("=");return{key:n[0]||"",value:unescape(n[1]||"")}})),r},onRouteChange:function(t){var n=this;window.addEventListener("hashchange",function(){n.hasRoute()?t():window.location.href=document.referrer.trim()||window.location.href})}};return t.utils.addReadOnlyProperty(a,"CURRENT","CURRENT"),a})}();
+/**
+ * @file A require.js module responsible for routing in the application.
+ * @author Jacob Heater
+ * @since
+ */
+(function () {
+
+    "use strict";
+
+    define(
+        ['./dessert.common'],
+        /**
+         * The module that is responsible for routing in dessert.
+         * 
+         * @param {Common} common The dessertJS common helper library.
+         * @returns {Object} The singleton that contains functions pertinent to routing.
+         */
+        function dessertRoutingModel(common) {
+
+            var location = window.location;
+
+            /**
+             * Convert the arguments array into a dessertJS routing arguments string.
+             * 
+             * @param {Object[]} args The array of key value pairs to convert.
+             * @returns {String} The arguments string.
+             */
+            function parseArgs(args) {
+                var result = "";
+                if (args && args.length && args.length > 0) {
+                    result += "/:";
+                    result += args.map(function argsMap(a) {
+                        return a.key.concat("=").concat(escape(a.value));
+                    }).reduce(function argsReduce(current, next) {
+                        return current.concat("&").concat(next);
+                    });
+                }
+                return result;
+            };
+
+            /**
+             * Cleans any hash tags from the given path.
+             * 
+             * @param {String} path The path to clean.
+             * @returns {String} The cleaned string.
+             */
+            function cleanHash(path) {
+                return path.replace(/[#]+/g, '');
+            }
+
+            /**
+             * Inspects the path for a hash tag and any arguments to determine if
+             * this is a valid route for dessertJS routing.
+             * 
+             * @param {String} path The path to inspect.
+             * @returns {Boolean} True of the path is a valid dessertJS route.
+             */
+            function hasRoute(path) {
+                var routeRegex = /(#\/[\w\d\/&=:]+)/gi;
+                return routeRegex.test(path);
+            }
+
+            /**
+             * Insepcts the given path to determine if any arguments
+             * are present in the given string.
+             * 
+             * @param {String} path The path to insepct for arguments.
+             * @returns {Boolean} True if the path contains any routing arguments.
+             */
+            function hasArgs(path) {
+                return (path.split('#')[1] || "").indexOf(":") > -1;
+            }
+
+            var routingObj = {
+                hasRoute: function routingHasRoute(path) {
+                    var href = path || location.href;
+                    return hasRoute(href);
+                },
+                setRoute: function routingSetRoute(path, params) {
+                    var href = location.href;
+
+                    if (path === this.CURRENT) {
+                        path = this.getRoute();
+                    }
+                    
+                    if (params) {
+                        path += parseArgs(params);
+                    }
+                    //This will resolve to http://host:{port}/path/:arg1=value&arg2=value
+                    if (hasRoute(location.href)) {
+                        href = location.href.split("#")[0]; //Take the left side of the split
+                    }
+                    location.href = cleanHash(href).concat("#").concat(path);
+                },
+                getRoute: function routingGetRoute(path) {
+                    var href = path || location.href;
+                    var pathWithParams = href.split('#')[1] || "";
+                    var pathOnly = pathWithParams.split(':')[0] || "";
+                    var endForwardSlash = /\/$/gmi;
+                    if (pathOnly.match(endForwardSlash)) {
+                        pathOnly = pathOnly.replace(endForwardSlash, '');
+                    }
+                    return pathOnly;
+                },
+                getParams: function routingGetParams(path) {
+                    var protocol = /[a-z]+:\/\//gmi;
+                    var href = path || location.href;
+                    if (protocol.test(href)) {
+                        href = href.replace(location.protocol.concat("//").concat(location.host).concat("/"), "");
+                    }
+                    var params = [];
+                    var args = "";
+                    if (hasArgs(href)) {
+                        args = href.split(":")[1]; //Get the right side, because the args will be on the right of the split.
+                        params = args.split("&");
+                        params = params.map(function getParamsMap(p) {
+                            var kvp = p.split("="); //Creates a key value pair
+                            return {
+                                key: kvp[0] || "",
+                                value: unescape(kvp[1] || "")
+                            };
+                        }); //Resolves to [{key: 'key', value: 'value'},...];
+                    }
+                    return params;
+                },
+                onRouteChange: function routingOnRouteChange(handler) {
+                    var $this = this;
+
+                    window.addEventListener("hashchange", function windowOnHashChangeHanlder() {
+                        //Handle hash change when there is truly only a hash in the url.
+                        if ($this.hasRoute()) {
+                            handler();
+                        } else {
+                            //This means that we're back at the entry point.
+                            //We should send them back to the referrer URL.
+                            window.location.href = document.referrer.trim() || window.location.href;
+                        }
+                    });
+                }
+            };
+
+            common.utils.addReadOnlyProperty(routingObj, "CURRENT", "CURRENT");
+
+            return routingObj;
+        });
+
+})();

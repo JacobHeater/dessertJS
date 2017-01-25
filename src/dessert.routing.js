@@ -15,7 +15,19 @@
          * @param {Common} common The dessertJS common helper library.
          * @returns {Object} The singleton that contains functions pertinent to routing.
          */
-        function dessertRoutingModel(common) {
+        function dessertRoutingModule(common) {
+
+            /*
+            For testing purposes in a node environment, there will be no window object present.
+            This is just to mock the window object. Add mock data here as needed to pass test.
+            */
+            var window = typeof window !== typeof undefined ? window : {
+                location: {
+                    href: '',
+                    hash: ''
+                },
+                addEventListener: common.utils.noop
+            };
 
             var location = window.location;
 
@@ -82,7 +94,7 @@
                     if (path === this.CURRENT) {
                         path = this.getRoute();
                     }
-                    
+
                     if (params) {
                         path += parseArgs(params);
                     }

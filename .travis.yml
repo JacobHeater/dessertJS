@@ -3,4 +3,7 @@ node_js:
   - "6"
 before_script:
   - npm install gulp -g
-script: gulp travis
+script: 
+  - gulp travis
+  - cd spec
+  - node dessert.test.js
