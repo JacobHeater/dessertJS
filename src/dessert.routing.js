@@ -21,7 +21,7 @@
             For testing purposes in a node environment, there will be no window object present.
             This is just to mock the window object. Add mock data here as needed to pass test.
             */
-            var window = typeof window !== typeof undefined ? window : {
+            var $window = typeof window !== typeof undefined ? window : {
                 location: {
                     href: '',
                     hash: ''
@@ -29,7 +29,7 @@
                 addEventListener: common.utils.noop
             };
 
-            var location = window.location;
+            var location = $window.location;
 
             /**
              * Convert the arguments array into a dessertJS routing arguments string.
@@ -138,14 +138,14 @@
                 onRouteChange: function routingOnRouteChange(handler) {
                     var $this = this;
 
-                    window.addEventListener("hashchange", function windowOnHashChangeHanlder() {
+                    $window.addEventListener("hashchange", function windowOnHashChangeHanlder() {
                         //Handle hash change when there is truly only a hash in the url.
                         if ($this.hasRoute()) {
                             handler();
                         } else {
                             //This means that we're back at the entry point.
                             //We should send them back to the referrer URL.
-                            window.location.href = document.referrer.trim() || window.location.href;
+                            $window.location.href = document.referrer.trim() || $window.location.href;
                         }
                     });
                 }

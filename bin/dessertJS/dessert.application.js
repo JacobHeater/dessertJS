@@ -12,8 +12,7 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
         './dessert.common',
         './dessert.httphandlercache',
         './dessert.cache',
-        './dessert.interfaces',
-        './dessert.component'
+        './dessert.interfaces'
     ], main);
 
     /**
@@ -31,8 +30,7 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
         $common,
         $httpHandlerCache,
         $cache,
-        $interfaces,
-        $component
+        $interfaces
     ) {
 
         var emptyString = $common.utils.emptyString;
