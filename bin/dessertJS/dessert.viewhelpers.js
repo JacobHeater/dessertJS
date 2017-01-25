@@ -129,12 +129,30 @@
                             var c;
 
                             if ($common.utils.isFunction(_component) && _component.prototype instanceof $component) {
-                                //Let's instantiate the component using its constructor function.
+                                /*
+                                The user's component entry returned a dessert component constructor to us, so we
+                                don't need to provide the dessert component module to them. We can just go ahead
+                                and construct the component now.
+                                */
                                 c = new _component();
                             } else if ($common.utils.isFunction(_component)) {
-                                //We need to get a component back from the function.
+                                /*
+                                The user has the option to require the component module and
+                                create a component that way, and directly return the constructor
+                                to us, or they can ask us to provide that dependency for them.
+                                
+                                This option may be ideal in circumstances where the dessert path is
+                                unknown the module in cases where a third party may want to share
+                                that component. By providing the component module for the component,
+                                we are able to simplify the creation of distributable components.
+                                */
                                 var ctor = _component($component);
-                                c = new ctor();
+                                /*
+                                The user's function should have returned a $component to us.
+                                 */
+                                if ($common.utils.isFunction(ctor) && ctor.prototype instanceof $component) {
+                                    c = new ctor();
+                                }
                             }
 
                             if (c) {
