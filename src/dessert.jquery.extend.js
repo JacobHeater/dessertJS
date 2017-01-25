@@ -40,8 +40,23 @@
              * 
              * @returns {String} The outer HTML of the current element.
              */
-            $.fn.outerHtml = function() {
+            $.fn.outerHtml = function () {
                 return this.get(0).outerHTML;
+            };
+
+            /**
+             * Determines if the element is within the parent selector.
+             * 
+             * Based on: http://stackoverflow.com/questions/2389540/jquery-hasparent
+             * 
+             * @param {String} pSelector The selector of the parent element.
+             * @returns {Boolean} A flag indicating if the element(s) is in the parent selector.
+             */
+            $.fn.isWithin = function (pSelector) {
+                return this.filter(function () {
+                    // Return truthy/falsey based on presence in parent
+                    return $(this).closest(pSelector).length;
+                }).length;
             };
 
             return $;

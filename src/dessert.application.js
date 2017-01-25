@@ -1,18 +1,18 @@
 /**
 @file The class definition for the dessertJS App class. The App class defines the scope of the application context as defined by the element that wraps the application.
-Example of an application definition in the markup is <div dsrt-app="my-first-dsrt-app"></div>
+Example of an application definition in the markup is <div dsrt-app='my-first-dsrt-app'></div>
 @author Jacob Heater
 */
 (function () {
 
-    "use strict";
+    'use strict';
 
     define([
         './dessert.module',
         './dessert.common',
-        "./dessert.httphandlercache",
-        "./dessert.cache",
-        "./dessert.interfaces"
+        './dessert.httphandlercache',
+        './dessert.cache',
+        './dessert.interfaces'
     ], main);
 
     /**
@@ -25,7 +25,13 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
      * @param {Object} $interfaces A set of common interfaces for dessertJS.
      * @returns {Function} A constructor function that represents a dessertJS application.
      */
-    function main($module, $common, $httpHandlerCache, $cache, $interfaces) {
+    function main(
+        $module,
+        $common,
+        $httpHandlerCache,
+        $cache,
+        $interfaces
+    ) {
 
         var emptyString = $common.utils.emptyString;
         var utils = $common.utils;
@@ -50,7 +56,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             /**
              * The name of the app
              */
-            this.name = name || "";
+            this.name = name || '';
             /**
              * Adds a new module to the application. A module is an isolated piece of functionality
              * that contains its own MVC logic.
@@ -128,12 +134,12 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             };
 
             var _initalized = false;
-            Object.defineProperty(this, "initialized", {
+            Object.defineProperty(this, 'initialized', {
                 get: function () {
                     return _initalized;
                 },
                 set: function (value) {
-                    if (typeof value === "boolean") {
+                    if (typeof value === 'boolean') {
                         _initalized = value;
                     }
                 }
@@ -243,8 +249,8 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                  */
                 destroyAll: function () {
                     elems.forEach(function (elem) {
-                        elem.off().off("**");
-                        elem.children().off().off("**");
+                        elem.off().off('**');
+                        elem.children().off().off('**');
                     });
 
                     return this;
@@ -257,7 +263,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
             this.$app = $app;
 
             //Set an immutable providers property on the Application instance.
-            Object.defineProperty(this, "providers", {
+            Object.defineProperty(this, 'providers', {
                 writable: false,
                 value: {}
             });
@@ -276,7 +282,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                      * 
                      * @returns {IDataBindingProvider} The configured IDataBindingProvider instance.
                      */
-                    get: function() {
+                    get: function () {
                         return providers.IDataBindingProvider;
                     },
                     /**
@@ -284,7 +290,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                      * 
                      * @param {IDataBindingProvider} value The IDataBindingProvider instance.
                      */
-                    set: function(value) {
+                    set: function (value) {
                         if (value && value instanceof $interfaces.IDataBindingProvider) {
                             providers.IDataBindingProvider = value;
                         }
@@ -301,7 +307,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                      * 
                      * @returns {jQuery} jQuery.
                      */
-                    get: function() {
+                    get: function () {
                         return providers.jquery;
                     },
                     /**
@@ -309,7 +315,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
                      * 
                      * @param {jQuery} value The desired version of jQuery to use.
                      */
-                    set: function(value) {
+                    set: function (value) {
                         if (value && value.fn && value.fn.jquery) {
                             providers.jquery = value;
                         }
@@ -326,7 +332,7 @@ Example of an application definition in the markup is <div dsrt-app="my-first-ds
         /**
          * An immutable property that has an empty string value.
          * 
-         * @returns {String} "".
+         * @returns {String} ''.
          */
         Application.prototype.dsrtPath = emptyString;
         /**

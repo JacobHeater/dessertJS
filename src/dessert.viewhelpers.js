@@ -1,5 +1,5 @@
 (function () {
-    "use strict";
+    'use strict';
 
     var $common,
         $asyncResource,
@@ -7,13 +7,15 @@
         $customTag,
         attrs,
         selectors,
-        utils;
+        utils,
+        $component;
 
     define([
-        "./dessert.common",
-        "./dessert.asyncresource",
-        "./dessert.ajax",
-        "./dessert.customtag"
+        './dessert.common',
+        './dessert.asyncresource',
+        './dessert.ajax',
+        './dessert.customtag',
+        './dessert.component'
     ], main);
 
     /**
@@ -27,7 +29,8 @@
         common,
         asyncResource,
         ajax,
-        customTag
+        customTag,
+        component
     ) {
 
         $common = common;
@@ -37,6 +40,7 @@
         attrs = common.attrs;
         $ajax = ajax;
         $customTag = customTag;
+        $component = component;
 
         return {
             renderComponent: renderComponent,
@@ -122,10 +126,39 @@
                     //Save some network bandwidth and cache it.
                     require([componentEntry], function (_component) {
                         if (_component) {
-                            //Let's instantiate the component using its constructor function.
-                            var c = new _component();
-                            app.cache.componentCache.addEntry(componentEntry, c);
-                            initializeComponent(view, c, componentId, target, app, isInjection);
+                            var c;
+
+                            if ($common.utils.isFunction(_component) && _component.prototype instanceof $component) {
+                                /*
+                                The user's component entry returned a dessert component constructor to us, so we
+                                don't need to provide the dessert component module to them. We can just go ahead
+                                and construct the component now.
+                                */
+                                c = new _component();
+                            } else if ($common.utils.isFunction(_component)) {
+                                /*
+                                The user has the option to require the component module and
+                                create a component that way, and directly return the constructor
+                                to us, or they can ask us to provide that dependency for them.
+                                
+                                This option may be ideal in circumstances where the dessert path is
+                                unknown the module in cases where a third party may want to share
+                                that component. By providing the component module for the component,
+                                we are able to simplify the creation of distributable components.
+                                */
+                                var ctor = _component($component);
+                                /*
+                                The user's function should have returned a $component to us.
+                                 */
+                                if ($common.utils.isFunction(ctor) && ctor.prototype instanceof $component) {
+                                    c = new ctor();
+                                }
+                            }
+
+                            if (c) {
+                                app.cache.componentCache.addEntry(componentEntry, c);
+                                initializeComponent(view, c, componentId, target, app, isInjection);
+                            }
                         }
                     });
                 } else {
@@ -230,7 +263,7 @@
 
         //It's possible that the HTML is just a block of text, which in this case,
         //We need to present it as text, and not a HTML element.
-        if ($elem.length === 0 && typeof html === "string" && html.trim().length) {
+        if ($elem.length === 0 && typeof html === 'string' && html.trim().length) {
             $elem = html;
         }
 
@@ -239,7 +272,7 @@
         if (target.is(selectors.page)) {
             target.setContent($elem);
             target.removeAttr(attrs.src);
-        } else if (target.attr("embed") && target.attr("embed").toLowerCase() === "true") {
+        } else if (target.attr('embed') && target.attr('embed').toLowerCase() === 'true') {
             target.setContent($elem);
             target.removeAttr(attrs.src);
         } else {
@@ -295,7 +328,7 @@
                 /*
                 Using the asyncResouce .notify() function, we can 
                 now notify the controller that the component is 
-                interactive and give it the component as the "this"
+                interactive and give it the component as the 'this'
                 arg. We'll also pass in the component as the first argument.
                 */
                 view.components[componentId].notify(_component, [_component]);
