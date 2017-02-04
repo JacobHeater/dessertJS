@@ -98,7 +98,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
                                 } else if ($this.contains('input:radio') || $this.is('input:radio')) {
                                     val = $this.find('input:radio:checked').val() || $this.filter(':checked').val();
                                 } else if ($this.contains('select') || $this.is('select')) {
-                                    val = $this.find('option:selected').map(function (i, e) {
+                                    val = $this.find('option:selected').map(function (i, e) { //eslint-disable-line no-unused-vars
                                         return $(e).val();
                                     }).toArray();
                                 } else {
@@ -201,7 +201,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
                  * @returns {String} The outer HTML of the DOM element.
                  */
                 element.dsrt.outerHtml = function dessertElementGetOuterHtml($elem) {
-                    return common.utils.getOuterHtml($elem);
+                    return utils.getOuterHtml($elem);
                 };
 
                 /**
@@ -243,7 +243,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
                                 break;
                         }
 
-                        if (common.utils.isFunction(settings.callback)) {
+                        if (utils.isFunction(settings.callback)) {
                             settings.callback(view);
                         }
                     }
