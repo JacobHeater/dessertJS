@@ -8,7 +8,8 @@
             "handlebars",
             "./books/booksearch",
             "./countries/countries",
-            "./todo/todo.js"
+            "./todo/todo.js",
+            './data-binding/data-binding.js'
         ],
         main);
 
@@ -19,7 +20,8 @@
         handlebars,
         initBookSearch,
         initCountrySearch,
-        initTodo
+        initTodo,
+        initDataBinding
     ) {
         var app = dessert.app("dessertJSExamples", function () {
             this.src = "./views/";
@@ -36,6 +38,7 @@
         initBookSearch(app);
         initCountrySearch(app);
         initTodo(app);
+        initDataBinding(app);
 
         app.init();
 

@@ -59,6 +59,37 @@
                 }).length;
             };
 
+            /**
+             * Returns a boolean indicating if the element contains the selector or not.
+             * 
+             * @param {String} selector The selector to lookup.
+             * @returns {Boolean}
+             */
+            $.fn.contains = function(selector) {
+                return this.find(selector).length > 0;
+            };
+
+            /**
+             * Returns a boolean indicating if the element is any of the given selectors.
+             * 
+             * @param {...String} selectors The selectors to lookup.
+             * @returns {Boolean}
+             */
+            $.fn.isAny = function() {
+                var isAny = false;
+                var selector;
+
+                for (var i = 0; i < arguments.length; i++) {
+                    selector = arguments[i];
+                    if (this.is(selector)) {
+                        isAny = true;
+                        break;
+                    }
+                }
+
+                return isAny;
+            };
+
             return $;
         };
     }
