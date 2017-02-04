@@ -16,14 +16,25 @@
              * Creates a new CustomTag class instance with the given name and
              * custom tag defintion.
              * 
-             * @param {String} name The name of the custom tag.
              * @param {Object} definition The definition of the custom tag that tells dessertJS
              * how to render the custom tag.
              * @returns {CustomTag} A new instance of the CustomTag class.
              */
-            create: function create(name, definition) {
-                return new CustomTag(name, definition);
+            create: function create(definition) {
+                return new CustomTag(definition);
             },
+
+            /**
+             * Returns a boolean indicating if the object is an instance
+             * of CustomTag.
+             * 
+             * @param {any} obj The object to check.
+             * @returns {Boolean}
+             */
+            isCustomTag: function(obj) {
+                return obj instanceof CustomTag;
+            },
+
             /**
              * Defines how dessertJS should render the custom tags as dessertJS element attributes.
              * 
