@@ -12,7 +12,8 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
         './dessert.common',
         './dessert.httphandlercache',
         './dessert.cache',
-        './dessert.interfaces'
+        './dessert.interfaces',
+        './dessert.customtag'
     ], main);
 
     /**
@@ -30,7 +31,8 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
         $common,
         $httpHandlerCache,
         $cache,
-        $interfaces
+        $interfaces,
+        $customTag
     ) {
 
         var emptyString = $common.utils.emptyString;
@@ -199,9 +201,16 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
              */
             this.registerTags = function (tags) {
                 if ($common.utils.isArray(tags)) {
-                    tags.forEach(function (t) {
-                        tagRegistry[t.name] = t;
-                    });
+                    tags
+                        .map(function (t) {
+                            if (!$customTag.isCustomTag(t)) {
+                                return $customTag.create(t);
+                            }
+                            return t;
+                        })
+                        .forEach(function (t) {
+                            tagRegistry[t.name] = t;
+                        });
                 }
 
                 return this;
@@ -360,6 +369,13 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
          * @private
          */
         Application.prototype.cache = new $cache();
+
+        /**
+         * A pointer to the custom tag types enumeration.
+         * 
+         * @public
+         */
+        $common.utils.addReadOnlyProperty(Application.prototype, 'customTagTypes', $customTag.types);
 
         /**
          * An enumeration that helps the cache to track the type of record that is being cached.
