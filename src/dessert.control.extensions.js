@@ -29,7 +29,7 @@ These are simply just extensions of the jQuery object, which are added to the ds
 
             var attrs = common.attrs;
             var utils = common.utils;
-            var eventStr = 'keyup keydown change click blur focus modelinit';
+            var eventStr = 'keyup change click blur focus modelinit';
             //The $ factory element result to extend with the dsrt object.
             return function dessertControlExtensionsInit(element, app, view) {
 
