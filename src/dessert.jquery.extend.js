@@ -90,6 +90,12 @@
                 return isAny;
             };
 
+            if ($.fn.addBack && !$.fn.andSelf) {
+                //This version of jQuery does not support $.fn.andSelf.
+                //Let's add a pointer to andSelf.
+                $.fn.andSelf = $.fn.addBack;
+            }
+
             return $;
         };
     }

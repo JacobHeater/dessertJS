@@ -1,1 +1,0 @@
-!function(){"use strict";function n(n){function t(){var t=n.utils.noop;this.resolve=function(n){return t=n,this},this.notify=function(i,r){return r=Array.isArray(r)?r:[],n.utils.isFunction(t)&&t.apply(i,r),this}}return t}var t=["./dessert.common"];define(t,n)}();

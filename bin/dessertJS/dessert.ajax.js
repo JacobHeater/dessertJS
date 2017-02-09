@@ -1,1 +1,0 @@
-!function(){"use strict";function t(){return{jquery:void 0,get:function(t){return this.jquery.ajax({type:"GET",url:t,cache:!0,async:!0})},post:function(t,n){return this.jquery.ajax({type:"POST",url:t,cache:!0,async:!0,data:n,contentType:"application/json; charset=utf-8",dataType:"json"})}}}define(t)}();

@@ -103,31 +103,6 @@
              */
             var dsrtModule = {
                 /**
-                 * Sets up a function to be invoked before the dessertJS context
-                 * is initialized. This allows for some environment setup that
-                 * dessertJS may be contigent upon.
-                 * 
-                 * @param {Function} handler The method to invoke prior to dessertJS init.
-                 * @returns {Object} The dsrtModule instance for chaining.
-                 */
-                preinit: function preInit(handler) {
-                    handler.call(this);
-                    return this;
-                },
-                /**
-                 * requires The given dependency array, and initializes the dessertJS
-                 * application context. Calls the provided callback after dessertJS
-                 * has been fully initialized.
-                 * 
-                 * @param {String[]} dependencies The list of dependencies to require.
-                 * @param {Function} done The callback to invoke when dessertJS has been initialized.
-                 */
-                init: function init(dependencies, done) {
-                    require(dependencies, function () {
-                        $dsrt.init(done);
-                    });
-                },
-                /**
                  * Creates a new dessertJS App singleton using the given name
                  * and exposes methods to prepare to initialize the app.
                  * 

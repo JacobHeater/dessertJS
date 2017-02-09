@@ -1,1 +1,0 @@
-!function(){"use strict";define(["./dessert.common"],function(t){function n(n){t.utils.isObject(n)&&Object.assign(this,n)}return n})}();
