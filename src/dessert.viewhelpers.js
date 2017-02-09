@@ -237,7 +237,8 @@
                                 .forEach(function externalModuleInitFailForEach(h) {
                                     h.handler(xhr, $routing);
                                 });
-                        } else if (utils.isFunction(fail)) {
+                        }
+                        if (utils.isFunction(fail)) {
                             fail();
                         }
                     })
