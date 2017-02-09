@@ -3,7 +3,7 @@
  * This common module contains mostly helper methods and common variables.
  * @author Jacob Heater 
  */
-(function() {
+(function () {
 
     "use strict";
 
@@ -39,10 +39,10 @@
         function defineReadOnlyProperties(obj, dictionary) {
             if (typeof dictionary === "object") {
                 Object
-                .keys(dictionary)
-                .forEach(function propsDictionaryKeysForEach(key) {
-                    defineReadOnlyProperty(obj, key, dictionary[key]);
-                });
+                    .keys(dictionary)
+                    .forEach(function propsDictionaryKeysForEach(key) {
+                        defineReadOnlyProperty(obj, key, dictionary[key]);
+                    });
             }
         }
 
@@ -111,12 +111,12 @@
 
         defineReadOnlyProperties(utils, {
             emptyString: "",
-            noop: function() {},
+            noop: function () {},
             /**
              * Gets the outer html of the given jQuery element. 
              * @param {Object} $context The jQuery instance to get the outer html of.
              */
-            getOuterHtml: function($context) {
+            getOuterHtml: function ($context) {
                 var elem = $context;
                 var wrapped = elem.wrap('<div />');
                 var html = wrapped.parent().html();
@@ -130,7 +130,7 @@
              * @param {String} path The path to clean.
              * @returns {String} The cleaned path.
              */
-            cleanPath: function(path) {
+            cleanPath: function (path) {
                 var protocol = /[a-z]+:\/\//gmi;
                 var duplFwdSlash = /\/\//gmi;
                 var pathSplit = path.split(protocol);
@@ -152,13 +152,13 @@
              * @param {String} path The path to parse.
              * @returns {Object} A hash table of key value pairs.
              */
-            parseQueryString: function(path) {
+            parseQueryString: function (path) {
                 var obj = {};
                 if (path && path.indexOf("?") > -1) {
                     var pathSplit = path.split("?");
                     var qStr = pathSplit[1];
                     var pairs = qStr.split("&");
-                    pairs.forEach(function(p) {
+                    pairs.forEach(function (p) {
                         var kvp = p.split("=");
                         var key = kvp[0];
                         var value = kvp[1];
@@ -178,7 +178,7 @@
              * @param {String} path The path to clean.
              * @returns {String} The cleaned path.
              */
-            cleanQueryString: function(path) {
+            cleanQueryString: function (path) {
                 return path ? path.split("?")[0] : path;
             },
 
@@ -189,7 +189,7 @@
              * @param {Array.<string>} exclude The list of attrs to exclude.
              * @returns {Object} The attribute map.
              */
-            getElementAttrs: function(elem, exclude) {
+            getElementAttrs: function (elem, exclude) {
                 var attrMap = {};
                 exclude = this.isArray(exclude) ? exclude : [];
                 if (elem) {
@@ -197,7 +197,7 @@
                     if (nativeElem) {
                         var nativeAttrs = nativeElem.attributes;
                         if (nativeAttrs.length) {
-                            Object.keys(nativeAttrs).forEach(function(key) {
+                            Object.keys(nativeAttrs).forEach(function (key) {
                                 var attr = nativeAttrs[key];
                                 if (typeof attr.nodeValue !== "undefined" && attr.nodeName && exclude.indexOf(attr.nodeName) === -1) {
                                     attrMap[attr.nodeName] = attr.nodeValue;
@@ -210,12 +210,34 @@
             },
 
             /**
+             * Takes the attributes from the source element and gives them to the
+             * destination element.
+             * 
+             * @param {Element} source The DOM element to take the properties of.
+             * @param {Element} destination The DOM element to pass the properties to.
+             * @param {String[]=} exclusion The attributes to ignore.
+             */
+            shareElementAttrs: function (source, destination, exclusion) {
+                var sourceAttrs = this.getElementAttrs(source, exclusion);
+
+                Object
+                    .keys(sourceAttrs)
+                    .forEach(function $customTagAttrsEach(key) {
+                        var attrVal = sourceAttrs[key];
+                        if (destination.hasAttr(key)) {
+                            attrVal = destination.attr(key) + ' ' + attrVal;
+                        }
+                        destination.attr(key, attrVal);
+                    });
+            },
+
+            /**
              * Determines if the given object is of typeof "object."
              * 
              * @param {Object} ref The object to check.
              * @returns {Boolean} True if is of type "object."
              */
-            isObject: function(ref) {
+            isObject: function (ref) {
                 return typeof ref === "object";
             },
 
@@ -225,7 +247,7 @@
              * @param {function} fn The object to check.
              * @returns {Boolean} True if is typeof "function".
              */
-            isFunction: function(fn) {
+            isFunction: function (fn) {
                 return typeof fn === "function";
             },
 
@@ -235,7 +257,7 @@
              * @param {Object} arr The object to inspect.
              * @returns {Boolean} True if it is an array.
              */
-            isArray: function(arr) {
+            isArray: function (arr) {
                 return Array.isArray(arr);
             },
 
@@ -245,10 +267,10 @@
              * @param {String} str The object to check the type of.
              * @returns {Boolean} True if the object is a string.
              */
-            isString: function(str) {
+            isString: function (str) {
                 return typeof str === "string";
             },
- 
+
             /**
              * Adds an immutable property to the object.
              * 
@@ -258,7 +280,7 @@
              * 
              * @returns {Object} The current instance of the utils object.
              */
-            addReadOnlyProperty: function(obj, propName, value) {
+            addReadOnlyProperty: function (obj, propName, value) {
                 defineReadOnlyProperty(obj, propName, value);
 
                 return this;
@@ -272,7 +294,7 @@
              * 
              * @returns {Object} The current instance of the utils object.
              */
-            addReadOnlyProperties: function(obj, hash) {
+            addReadOnlyProperties: function (obj, hash) {
                 defineReadOnlyProperties(obj, hash);
 
                 return this;
@@ -284,10 +306,10 @@
              * @param {Function} action The function to set the immediate timeout on.
              * @param {any[]} args The arguments to pass into the action function.
              */
-            defer: function(action, args) {
+            defer: function (action, args) {
                 args = args && Array.isArray(args) ? args : [];
                 if (this.isFunction(action)) {
-                    setTimeout(function() {
+                    setTimeout(function () {
                         action.apply(null, args);
                     }, 0);
                 }
