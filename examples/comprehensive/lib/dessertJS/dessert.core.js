@@ -1,1 +1,158 @@
-!function(){"use strict";define(["./dessert.application","./dessert.common","./dessert.init","./dessert.singlepage.init","./dessert.routing","./dessert.customtag","./dessert.jquery.extend"],function(t,n,i,s,e,r,c){function o(t){t.modules.each(function(){this.controllers.each(function(){this.instance&&l.isFunction(this.instance.destroy)&&this.instance.destroy(),this.instance=null})}),t.components.each(function(){n.utils.isArray(this.constructorInstances)&&(this.constructorInstances.forEach(function(t){t&&l.isFunction(t.destroy)&&(t.destroy(),t=null)}),this.constructorInstances.length=0)})}var u={},a=n.selectors,h=n.attrs,l=n.utils,f={init:function(t,n,e,o,u){var l=null;t.providers.jquery&&(l=t.providers.jquery);var f=l("["+h.app+"="+t.name+"]"),d=f.find(a.page);return c(l),r.init(t),!o&&d.length>0?s(t,d):i(f,t,e,o,u,n),this},pageInit:function(t,n){return this.init(t,null,n,!0,!1),this},hashInit:function(t,n){return this.init(t,null,n,!1,!0),this}},d={preinit:function(t){return t.call(this),this},init:function(t,n){require(t,function(){f.init(n)})},app:function i(s,r){var i;return u[s]?i=u[s]:(i=new t(s,f),u[s]=i),e.onRouteChange(function(){o(i),f.hashInit(i,[])}),n.utils.isFunction(r)&&r.call(i,i),i}};return d})}();
+/**
+ * @file The dessertJS core library.
+ * @author Jacob Heater
+ */
+(function () {
+
+    "use strict";
+
+    define([
+            "./dessert.application",
+            "./dessert.common",
+            "./dessert.init",
+            "./dessert.singlepage.init",
+            "./dessert.routing",
+            "./dessert.customtag",
+            "./dessert.jquery.extend"
+        ],
+        /**
+         * The core module of dessertJS that the rest of dessertJS is built off of.
+         * 
+         * @param {Application} Application The dessertJS Application class.
+         * @param {Common} common The dessertJS common helper library.
+         * @param {Init} $init The dessertJS initialization function.
+         * @param {SinglePageInit} spa The dessertJS helper for single page app initialization.
+         * @param {Routing} routing The dessertJS routing helper library.
+         * @param {CustomTag} $customTag The dessertJS custom tag helper library.
+         * @param {jQueryExtend} $jQueryExtend The function that extends jQuery for dessertJS.
+         * 
+         * @returns {Object} The dessertJS core helper library.
+         */
+        function dessertCoreModule(
+            Application,
+            common,
+            $init,
+            spa,
+            routing,
+            $customTag,
+            $jQueryExtend
+        ) {
+
+            /**
+             * Holds all dessertJS App singletons for later retrieval.
+             */
+            var appCache = {};
+            var selectors = common.selectors;
+            var attrs = common.attrs;
+            var utils = common.utils;
+            //This is a private wrapper for our $.dsrt object
+            var $dsrt = {
+                /**
+                 * Initializes all dessertJS [dsrt-app] scopes within the current
+                 * application or view. dessertJS can be used in a single-page-application
+                 * methodology, or can be used for a simple MVC framework.
+                 * 
+                 * @param {Application} app The application instance to initialize.
+                 * @param {Function} done The callback to invoke when initialization is complete.
+                 * @param {any[]} args The global arguments to be passed during initialization.
+                 * @param {Boolean} isPage Indicates if the page called the init method.
+                 * @param {Boolean} isHash Indicates if the hash changed event called the init method.
+                 * @returns {Object} The current $dsrt instance for chaining.
+                 */
+                init: function init(app, done, args, isPage, isHash) {
+
+                    var $ = null;
+
+                    if (app.providers.jquery) {
+                        $ = app.providers.jquery;
+                    }
+
+                    var $app = $("[" + attrs.app + "=" + app.name + "]");
+                    var $page = $app.find(selectors.page);
+
+                    $jQueryExtend($);
+
+                    $customTag.init(app);
+                    if (!isPage && $page.length > 0) {
+                        spa(app, $page);
+                    } else {
+                        $init($app, app, args, isPage, isHash, done);
+                    }
+                    return this;
+                },
+                /**
+                 * Internally calls the $dsrt.init() method indicating that the page is
+                 * initializing the dessertJS context.
+                 */
+                pageInit: function pageInit(app, args) {
+                    this.init(app, null, args, true, false);
+                    return this;
+                },
+                /**
+                 * Internally calls the $dsrt.init() method indicating that the hash changed event
+                 * is initializing the dessertJS context.
+                 */
+                hashInit: function hashInit(app, args) {
+                    this.init(app, null, args, false, true);
+                    return this;
+                }
+            };
+            /**
+             * Exposes the dessertJS core functionality to set up a new dessertJS
+             * application context.
+             */
+            var dsrtModule = {
+                /**
+                 * Creates a new dessertJS App singleton using the given name
+                 * and exposes methods to prepare to initialize the app.
+                 * 
+                 * @param {String} name The name of the application to add to the appCache.
+                 * @param {Function} onInit A function to call after the application has been initialized.
+                 * @returns {Object} The newly constructed app, or the singleton from the app cache if one already exists.
+                 */
+                app: function app(name, onInit) {
+                    var app;
+                    if (!appCache[name]) {
+                        app = new Application(name, $dsrt);
+                        appCache[name] = app;
+                    } else {
+                        app = appCache[name];
+                    }
+                    routing.onRouteChange(function appHashChangeHandler() {
+                        clearApplicationScope(app);
+                        $dsrt.hashInit(app, []);
+                    });
+                    if (common.utils.isFunction(onInit)) {
+                        onInit.call(app, app);
+                    }
+                    return app;
+                }
+            };
+
+            function clearApplicationScope(app) {
+                app.modules.each(function () {
+                    this.controllers.each(function () {
+                        if (this.instance && utils.isFunction(this.instance.destroy)) {
+                            this.instance.destroy();
+                        }
+                        this.instance = null;
+                    });
+                });
+                app.components.each(function () {
+                    if (common.utils.isArray(this.constructorInstances)) {
+                        this.constructorInstances.forEach(function (inst) {
+                            if (inst && utils.isFunction(inst.destroy)) {
+                                inst.destroy();
+                                inst = null;
+                            }
+                        });
+                        this.constructorInstances.length = 0;
+                    }
+                });
+            }
+
+            return dsrtModule;
+        }
+    );
+
+})();

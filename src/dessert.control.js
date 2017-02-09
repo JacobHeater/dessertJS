@@ -56,6 +56,7 @@
              * Call the $.fn.remove() function.
              */
             element.destroy = function() {
+                element.off("**");
                 element.remove();
             };
             //Extend the dessertJS control.

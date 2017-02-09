@@ -22,6 +22,8 @@
             Control
         ) {
 
+            var utils = common.utils;
+
 
             /**
              * A view in dessertJS is a self-explanatory component, it represents
@@ -79,8 +81,8 @@
                      * @returns {Object} The current instance of the controls object.
                      */
                     add: function add(control) {
-                        if (common.utils.isObject(control)) {
-                            this[control.name] = new Control(control.name, control.elem, control.view, control.app);
+                        if (utils.isObject(control)) {
+                            this[control.name] = new Control(control.name, control.elem, control.view, control.app, controller);
                         }
                         return this;
                     },
@@ -120,7 +122,7 @@
              * Refreshes the current View and rebuilds the controls hash, components hash, and
              * reinitializes external modules.
              */
-            View.prototype.refresh = function emptyRefreshFunction() {}; //To be set in the view builder.
+            View.prototype.refresh = utils.noop; //To be set in the view builder.
 
             return View;
         });

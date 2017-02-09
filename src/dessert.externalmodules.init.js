@@ -10,7 +10,8 @@
         './dessert.common',
         './dessert.ajax',
         "./dessert.viewhelpers"
-    ], 
+    ], dessertExternalModulesInitModule);
+
     /**
      * The dessertJS module that is responsible for initializing external modules.
      * 
@@ -26,6 +27,8 @@
         $viewHelpers
     ) {
 
+        return externalModulesInit;
+
         /**
          * Creates a closure that will be used for loading all dessertJS context
          * external modules asynchronously. External modules can be defined as those
@@ -40,7 +43,7 @@
          * @param {Boolean} isPage Determines if the page called the external module init.
          * @returns {Function} A recursive function that loads async dessertJS modules.
          */
-        return function externalModulesInit($context, app, isPage) {
+        function externalModulesInit($context, app, isPage) {
 
             var $ = null;
 
@@ -91,11 +94,24 @@
                         url = "$base$modulePath.html".replace("$base", app.src).replace("$modulePath", cleanedPath);
                         //Make sure that the url doesn't contain any undefined vars because something didn't get replaced properly.
                         if (url && !((/undefined/g).test(url))) {
-                            $viewHelpers.renderExternalModule(app, url, $exMod, function doneRenderExternalModule() {
-                                if (externalModules.length) {
-                                    externalModulesInit($context, app)(done, syncModulesDone);
+                            $viewHelpers.renderExternalModule(
+                                app,
+                                url,
+                                $exMod,
+                                function doneRenderExternalModule() {
+                                    if (externalModules.length) {
+                                        externalModulesInit($context, app)(done, syncModulesDone);
+                                    }
+                                },
+                                function externalModuleRenderFail() {
+                                    /*
+                                    When rendering of an external module fails, don't reprocess
+                                    it. Just remove it from the DOM so it doesn't get picked up
+                                    again.
+                                    */
+                                    $exMod.remove();
                                 }
-                            });
+                            );
                         }
                     }
                 }
@@ -115,7 +131,7 @@
             }
             //Return the function that does the external module initialization.
             return processExternalModules;
-        };
-    });
+        }
+    }
 
 })();

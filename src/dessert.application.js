@@ -141,7 +141,7 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
                     return _initalized;
                 },
                 set: function (value) {
-                    if (typeof value === 'boolean') {
+                    if (value === true) {
                         _initalized = value;
                     }
                 }
@@ -362,7 +362,7 @@ Example of an application definition in the markup is <div dsrt-app='my-first-ds
          * A function to call when the [dsrt-mask] attribute is removed when the
          * dessertJS runtime has finished constructing the views.
          */
-        Application.prototype.maskLifted = function emptyMaskLifted() {};
+        Application.prototype.maskLifted = utils.noop;
         /**
          * A cache for the Application to use to hold various singleton references.
          * 

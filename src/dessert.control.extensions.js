@@ -12,7 +12,9 @@ These are simply just extensions of the jQuery object, which are added to the ds
             './dessert.common',
             './dessert.ajax',
             "./dessert.databinding",
-            './dessert.viewhelpers'
+            './dessert.viewhelpers',
+            './dessert.context.init',
+            './dessert.externalmodules.init'
         ],
         /**
          * A module that extends the dessertJS Control with additional functionality.
@@ -25,11 +27,21 @@ These are simply just extensions of the jQuery object, which are added to the ds
          * 
          * @returns {Function} A function that extends dessertJS Controls with additional functionality.
          */
-        function dessertControlExtensionsModule(repeater, common, ajax, $dataBindingUtil, $viewHelpers) {
+        function dessertControlExtensionsModule(
+            repeater,
+            common,
+            ajax,
+            $dataBindingUtil,
+            $viewHelpers,
+            contextInit,
+            externalInit
+        ) {
 
             var attrs = common.attrs;
             var utils = common.utils;
-            var eventStr = 'keyup change click blur focus modelinit';
+            var EVENT_MODEL_INIT = 'modelinit ';
+            var EVENT_STR_TEXT_INPUT = 'blur focus click keyup';
+            var EVENT_STR_SELECTABLE = 'click blur change';
             //The $ factory element result to extend with the dsrt object.
             return function dessertControlExtensionsInit(element, app, view) {
 
@@ -61,16 +73,16 @@ These are simply just extensions of the jQuery object, which are added to the ds
                     if (model) {
                         //First init the control with the model value
                         if (modelVal) {
-                            if (element.isAny('input:text', 'textarea', 'input:password')) {
+                            if (element.is('input, textarea') && !element.is('input:radio, input:checkbox')) {
                                 element.val(modelVal);
                             } else if (element.contains('input:radio') || element.is('input:radio')) {
-                                var radios = element.find('input:radio').addBack();
+                                var radios = element.find('input:radio').andSelf();
                                 var hasValue = radios.filter('[value="' + modelVal + '"]');
 
                                 hasValue.attr('checked', true);
 
                             } else if (element.contains('select') || element.is('select')) {
-                                var options = element.find('option').addBack();
+                                var options = element.find('option').andSelf();
 
                                 if (Array.isArray(modelVal)) {
                                     modelVal.forEach(function (val) {
@@ -85,28 +97,35 @@ These are simply just extensions of the jQuery object, which are added to the ds
                             }
                             element.trigger('modelinit');
                         }
+
                         //Then set the handler to track the changes.
-                        element
-                            .find('input, select, input, textarea')
-                            .addBack()
-                            .on(eventStr, function () {
-                                var $this = $(this);
-                                var val;
+                        var matches = element
+                            .find('input, textarea, select')
+                            .andSelf();
 
-                                if ($this.isAny('input:text', 'textarea', 'input:password')) {
-                                    val = $this.val();
-                                } else if ($this.contains('input:radio') || $this.is('input:radio')) {
-                                    val = $this.find('input:radio:checked').val() || $this.filter(':checked').val();
-                                } else if ($this.contains('select') || $this.is('select')) {
-                                    val = $this.find('option:selected').map(function (i, e) { //eslint-disable-line no-unused-vars
-                                        return $(e).val();
-                                    }).toArray();
-                                } else {
-                                    return $this.val() || $this.text();
-                                }
+                        matches.filter(':not(input:radio, input:checkbox)').on(EVENT_STR_TEXT_INPUT, handleElementEvent);
+                        matches.filter('input:radio, input:checkbox, select').on(EVENT_STR_SELECTABLE, handleElementEvent);
 
-                                model[modelKey] = val;;
-                            });
+                        function handleElementEvent() {
+                            var $this = $(this);
+                            var val;
+
+                            if ($this.is('input, textarea') && !$this.is('input:radio, input:checkbox')) {
+                                val = $this.val();
+                            } else if ($this.contains('input:radio') || $this.is('input:radio')) {
+                                val = $this.find('input:radio:checked').val() || $this.filter(':checked').val();
+                            } else if ($this.contains('input:checkbox') || $this.is('input:checkbox')) {
+                                val = $this.find('input:checkbox:checked').val() || $this.filter(':checked').val();
+                            } else if ($this.contains('select') || $this.is('select')) {
+                                val = $this.find('option:selected').map(function (i, e) { //eslint-disable-line no-unused-vars
+                                    return $(e).val();
+                                }).toArray();
+                            } else {
+                                return $this.val() || $this.text();
+                            }
+
+                            model[modelKey] = val;
+                        }
                     }
                     return this;
                 };
@@ -115,14 +134,13 @@ These are simply just extensions of the jQuery object, which are added to the ds
                  * This is a fairly comprehensive set of event listeners to listen for,
                  * therefore, watchers should be pretty concise.
                  * 
-                 * @param {Function} watcher The function to fire when the event has been raised.
+                 * @param {Function} callback The function to fire when the event has been raised.
                  * @returns {Object} The current instance of the dsrt control for chaining.
                  */
-                element.dsrt.watch = function dessertElementWatch(watcher) {
-                    if (typeof watcher === 'function') {
-                        element.on(eventStr, function () {
-                            watcher.call($(this));
-                        });
+                element.dsrt.watch = function dessertElementWatch(callback) {
+                    if (typeof callback === 'function') {
+                        element
+                            .on(EVENT_MODEL_INIT + EVENT_STR_SELECTABLE + EVENT_STR_TEXT_INPUT, callback);
                     }
                     return this;
                 };
@@ -177,22 +195,17 @@ These are simply just extensions of the jQuery object, which are added to the ds
                  * @param {Function} callback The function to invoke when the module has been loaded.
                  */
                 element.dsrt.load = function dessertElementLoad(path, callback) {
-                    var app = element.dsrt.view.controller.module.app;
-                    var dsrtPath = app.dsrtPath;
-                    require([
-                        dsrtPath.concat('dsrt.context.init'),
-                        dsrtPath.concat('dsrt.externalmodules.init')
-                    ], function (contextInit, externalInit) {
-                        ajax.get(path.path)
-                            .then(function (data) {
-                                element.children().remove();
-                                element.append(data);
-                                var asyncInit = externalInit(element, app);
-                                asyncInit(0, function () {
-                                    contextInit(element, element.dsrt.view.controller.module.app, {}, callback);
-                                });
+
+                    ajax.get(path.path)
+                        .then(function (data) {
+                            element.children().remove();
+                            element.append(data);
+                            var asyncInit = externalInit(element, app);
+                            asyncInit(0, function () {
+                                contextInit(element, element.dsrt.view.controller.module.app, {}, callback);
                             });
-                    });
+                        });
+
                 };
                 /**
                  * Gets the outer HTML of the provided jQuery object instance.
@@ -213,7 +226,8 @@ These are simply just extensions of the jQuery object, which are added to the ds
                  *                        the current element.
                  */
                 element.dsrt.inject = function (config) {
-                    if (typeof config === "object") {
+                    //null can be type 'object', so let's check for a truthy value.
+                    if (typeof config === "object" && config) {
                         var TYPE_COMPONENT = "component";
                         var TYPE_CONTROL = "control";
                         var TYPE_SRC = "src";

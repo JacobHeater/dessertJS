@@ -202,8 +202,9 @@
      * @param {String} url The URL of the view to render.
      * @param {Element} target The DOM Element to render the view into.
      * @param {Function} done The callback to call when the rendering is done.
+     * @param {Function} fail The callback to call when rendering an external module fails.
      */
-    function renderExternalModule(app, url, target, done) {
+    function renderExternalModule(app, url, target, done, fail) {
         url = utils.cleanPath(url);
         //Make sure that the url doesn't contain any undefined vars because something didn't get replaced properly.
         if (url && !((/undefined/g).test(url))) {
@@ -236,6 +237,8 @@
                                 .forEach(function externalModuleInitFailForEach(h) {
                                     h.handler(xhr, $routing);
                                 });
+                        } else if (utils.isFunction(fail)) {
+                            fail();
                         }
                     })
                     .always(utils.isFunction(done) ? done : function () {});
