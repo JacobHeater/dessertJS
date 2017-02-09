@@ -90,6 +90,17 @@
                 return isAny;
             };
 
+            /**
+             * Returns a boolean indicating if the element
+             * has the given attribute name.
+             * 
+             * @param {String} attrName The name of the attribute to verify.
+             * @returns {Boolean}
+             */
+            $.fn.hasAttr = function(attrName) {
+                return !!this.attr(attrName);
+            };
+
             if ($.fn.addBack && !$.fn.andSelf) {
                 //This version of jQuery does not support $.fn.andSelf.
                 //Let's add a pointer to andSelf.

@@ -296,6 +296,13 @@
      * @param {Boolean} isInjection Determines if the component is to be injected into or replace the target element.
      */
     function initializeComponent(view, component, componentId, $component, app, isInjection) {
+
+        var $;
+
+        if (app.providers.jquery) {
+            $ = app.providers.jquery;
+        }
+
         /*
         There must be both a component and $component (target element) to render and to be rendered to.
         The component is the dessert.component instance and the $component is the DOM element that the
@@ -309,7 +316,14 @@
             it into its constructor.
             */
             component.render(function (componentView) {
-                //The view is rendered, and we have the view.s
+
+                if (!(componentView instanceof $.fn.init)) {
+                    componentView = $(componentView);
+                }
+
+                $common.utils.shareElementAttrs($component, componentView, ['id']);
+
+                //The view is rendered, and we have the view.
                 //Replace the [dsrt-component] element with the view element.
                 if (isInjection) {
                     $component.append(componentView);

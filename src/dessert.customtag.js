@@ -76,7 +76,6 @@
                             $customTags.each(function $customTagEach() {
                                 var $customTag;
                                 var $customTagSwap;
-                                var $customTagAttrs;
                                 var swapHtml = tag.replaceWith.trim().length > 0 ? tag.replaceWith : "<div></div>";
                                 var excludeAttrs = ["id"];
                                 //Keep a reference to the jquery custom tag object.
@@ -103,16 +102,9 @@
                                 }
 
                                 //Get all of the attributes of the custom tag element.
-                                $customTagAttrs = common
+                                common
                                     .utils
-                                    .getElementAttrs($customTag, excludeAttrs);
-
-                                //Add all of the custom tag attributes to our new element. 
-                                Object
-                                    .keys($customTagAttrs)
-                                    .forEach(function $customTagAttrsEach(key) {
-                                        $customTagSwap.attr(key, $customTagAttrs[key]);
-                                    });
+                                    .shareElementAttrs($customTag, $customTagSwap, excludeAttrs);
 
                                 //Replace the custom tag with out new content.
                                 $customTag.replaceContent($customTagSwap);
