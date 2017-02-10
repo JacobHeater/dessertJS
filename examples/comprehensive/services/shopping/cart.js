@@ -41,6 +41,10 @@
             serialize() {
                 return JSON.stringify(this);
             }
+
+            saveTo(svc) {
+                svc.cart = this;
+            }
             
         }
 
@@ -48,7 +52,9 @@
             constructor(definition) {
                 Object.assign(this, definition);
 
-                this.Id = uuid();
+                if (!this.Id) {
+                    this.Id = uuid();
+                }
             }
         }
 
