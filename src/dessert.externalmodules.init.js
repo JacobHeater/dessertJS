@@ -106,10 +106,10 @@
                                 function externalModuleRenderFail() {
                                     /*
                                     When rendering of an external module fails, don't reprocess
-                                    it. Just remove it from the DOM so it doesn't get picked up
+                                    it. Just remove src attr so it doesn't get picked up
                                     again.
                                     */
-                                    $exMod.remove();
+                                    $exMod.removeAttr(attrs.src);
                                 }
                             );
                         }
