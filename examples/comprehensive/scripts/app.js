@@ -11,6 +11,7 @@
             "./todo/todo.js",
             './data-binding/data-binding.js',
             './authentication/authentication.js',
+            './shopping/shopping.js'
         ],
         main);
 
@@ -23,7 +24,8 @@
         initCountrySearch,
         initTodo,
         initDataBinding,
-        initAuthModule
+        initAuthModule,
+        initShopping
     ) {
         var app = dessert.app("dessertJSExamples", function () {
             this.src = "./views/";
@@ -42,6 +44,7 @@
         initTodo(app);
         initDataBinding(app);
         initAuthModule(app);
+        initShopping(app);
 
         app.init();
 
