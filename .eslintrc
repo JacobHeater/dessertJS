@@ -9,5 +9,8 @@
         "no-unreachable": 1,
         "strict": 2,
         "no-unused-vars": ["error", {"args": "all"}]
+    },
+    "parserOptions": {
+        "ecmaVersion": 6
     }
 }
