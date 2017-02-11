@@ -10,14 +10,12 @@
             $module.controller('store-controller', function() {
 
                 var view;
-                var controls;
                 var components;
                 var store;
                 var cart;
 
                 this.scope = function($scope) {
                     view = $scope.view;
-                    controls = view.controls;
                     components = view.components;
                 };
 

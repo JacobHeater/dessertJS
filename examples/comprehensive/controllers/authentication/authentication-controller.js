@@ -1,3 +1,5 @@
+/* eslint-disable */
+//REVIEW: Disabling for now until auth example gets more attention.
 (function() {
 
     'use strict';

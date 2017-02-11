@@ -4,7 +4,7 @@
 
 
     define([
-        '../../helpers/uuid',
+        '../../helpers/uuid'
     ], main);
 
     function main(uuid) {
