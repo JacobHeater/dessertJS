@@ -3,15 +3,29 @@
         {{ name }}
     </div>
     <div class="price">
-        {{ price }}
+        <span class="label">
+            Price:
+        </span>
+        <span class="value">
+            {{ price }}
+        </span>
     </div>
     <div class="quantity">
-        {{ quantity }} 
+        <span class="label">
+            Quantity:
+        </span>
+        <span class="value">
+            {{ quantity }} 
+        </span>
     </div>
     <div class="desc">
         {{ description }}
     </div>
     <div class="controls">
-        <input type="button" value="Add to Cart" class="btn-add" />
+        <!--<input type="button" value="Add to Cart" class="btn-add" />-->
+        <span class="btn-add">
+            <i class="fa fa-plus"></i>
+            <i class="fa fa-shopping-cart"></i>
+        </span>
     </div>
 </div>

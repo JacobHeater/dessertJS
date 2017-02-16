@@ -31,12 +31,14 @@
                         this.addItem({
                             name: "Ethiopain Yirgacheffe Beans",
                             price: "$9.99",
+                            numericalPrice: 9.99,
                             quantity: 20,
                             description: "Only the finest bean."
                         });
                         this.addItem({
                             name: 'AeroPress',
                             price: '$25.00',
+                            numericalPrice: 25,
                             quantity: 20,
                             description: 'AeroPress coffee maker.'
                         });
