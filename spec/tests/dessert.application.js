@@ -41,6 +41,8 @@
                 ], dessert => {
                     var app = dessert.app('TestApplication');
 
+                    app.name = 'Bogus name';
+
                     done(app.name === 'TestApplication');
                 });
             });
