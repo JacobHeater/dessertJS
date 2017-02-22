@@ -1,0 +1,10 @@
+html,
+body {
+    font-family: 'Ubuntu', Arial, Helvetica, sans-serif;
+}
+
+[dsrt-mask] {
+    display: none;
+}
+
+@import "./store/_store.scss";

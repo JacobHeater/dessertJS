@@ -53,7 +53,7 @@
                     };
 
                     function addItemEventListeners(elem, item) {
-                        var quantity = elem.find('.quantity');
+                        var quantity = elem.find('.quantity .value');
                         elem.find(".btn-add").click(function() {
                             var cart = cartService.cart;
                             var quant = parseInt(quantity.text());
@@ -70,7 +70,7 @@
                                 quantity.text(quant);
 
                                 if (quant === 0) {
-                                    $(this).attr('disabled', true);
+                                    $(this).addClass('disabled');
                                 }
                             }
                         });
