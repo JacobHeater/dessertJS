@@ -1,4 +1,4 @@
-(function () {
+(() => {
 
     'use strict';
 
@@ -8,8 +8,8 @@
 
     define(['helpers/event-helper', 'helpers/promise', 'dessert.application', 'dessert.component'], main);
 
-    var APP_CACHE = {};
-    var DESSERT = {
+    const APP_CACHE = {};
+    const DESSERT = {
         app: appFactory,
         promise: promiseFactory
     };
@@ -40,11 +40,7 @@
     }
 
     function onHashChange() {
-        Object.keys(APP_CACHE).map(function (k) {
-            return APP_CACHE[k];
-        }).forEach(function (app) {
-            return app.render();
-        });
+        Object.keys(APP_CACHE).map(k => APP_CACHE[k]).forEach(app => app.render());
     }
 
     function promiseFactory() {

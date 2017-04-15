@@ -1,11 +1,11 @@
-(function () {
+(() => {
 
     'use strict';
 
-    var AJAX = {
+    const AJAX = {
         get: get
     };
-    var STATUS_OK = 200;
+    const STATUS_OK = 200;
 
     var $Promise;
     var UrlHelper;
@@ -19,9 +19,7 @@
         return AJAX;
     }
 
-    function get(url) {
-        var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
+    function get(url, options = {}) {
         return XHR(Object.assign({
             method: 'GET',
             url: url
@@ -44,13 +42,9 @@
             });
         }
 
-        xhr.addEventListener('error', function (e) {
-            return promise.reject(e);
-        });
+        xhr.addEventListener('error', e => promise.reject(e));
 
-        xhr.addEventListener('load', function (e) {
-            return xhr.status === STATUS_OK ? promise.resolve(xhr.responseText) : promise.reject(xhr);
-        });
+        xhr.addEventListener('load', e => xhr.status === STATUS_OK ? promise.resolve(xhr.responseText) : promise.reject(xhr));
 
         xhr.timeout = 60000;
         xhr.open(config.method, config.url, true);

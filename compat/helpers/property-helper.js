@@ -1,8 +1,8 @@
-(function () {
+(() => {
 
     'use strict';
 
-    var HELPER = {
+    const HELPER = {
         addReadOnlyProperties: addReadOnlyProperties,
         addReadOnlyProperty: addReadOnlyProperty
     };

@@ -1,8 +1,6 @@
-(function () {
+(() => {
 
     'use strict';
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
     var PropertyHelper;
 
@@ -15,18 +13,19 @@
         return Route;
     }
 
-    var Route = function Route(path, controller, view) {
-        _classCallCheck(this, Route);
+    class Route {
+        constructor(path, controller, view) {
 
-        PropertyHelper.addReadOnlyProperties(this, [{
-            name: 'path',
-            value: path
-        }, {
-            name: 'controller',
-            value: controller
-        }, {
-            name: 'view',
-            value: view
-        }]);
-    };
+            PropertyHelper.addReadOnlyProperties(this, [{
+                name: 'path',
+                value: path
+            }, {
+                name: 'controller',
+                value: controller
+            }, {
+                name: 'view',
+                value: view
+            }]);
+        }
+    }
 })();

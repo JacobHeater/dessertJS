@@ -1,8 +1,8 @@
-(function () {
+(() => {
 
     'use strict';
 
-    var EVENT_HELPER = {
+    const EVENT_HELPER = {
         initHashChange: initHashChange
     };
 

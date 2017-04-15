@@ -2,5 +2,5 @@
     baseUrl: './compat/',
     name: 'dessert.core',
     out: 'dist/dessert.min.js',
-    optimize: 'none'
+    optimize: 'uglify'
 });

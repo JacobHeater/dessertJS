@@ -1,10 +1,6 @@
-(function () {
+(() => {
 
     'use strict';
-
-    var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
     var uuid;
     var PropertyHelper;
@@ -21,10 +17,8 @@
         return Component;
     }
 
-    var Component = function () {
-        function Component(state, element, id) {
-            _classCallCheck(this, Component);
-
+    class Component {
+        constructor(state, element, id) {
             PropertyHelper.addReadOnlyProperties(this, [{
                 name: 'instanceId',
                 value: uuid()
@@ -44,63 +38,48 @@
          * @abstract
          * @instance
          */
+        static get name() {}
 
+        /** 
+         * @abstract
+         * @instance
+         */
+        render() {}
 
-        _createClass(Component, [{
-            key: 'render',
+        /**
+         * @abstract
+         * @instance
+         */
+        init(element) {}
 
+        /**
+         * @abstract
+         * @virtual
+         * @instance
+         */
+        destroy() {
+            this.cleanupEventListeners();
+        }
 
-            /** 
-             * @abstract
-             * @instance
-             */
-            value: function render() {}
-
-            /**
-             * @abstract
-             * @instance
-             */
-
-        }, {
-            key: 'init',
-            value: function init(element) {}
-
-            /**
-             * @abstract
-             * @virtual
-             * @instance
-             */
-
-        }, {
-            key: 'destroy',
-            value: function destroy() {
-                this.cleanupEventListeners();
-            }
-        }], [{
-            key: 'name',
-            get: function get() {}
-        }]);
-
-        return Component;
-    }();
+    }
 
     function addBehaviorMethods(instance) {
-        var behaviors = {};
+        let behaviors = {};
 
-        var describe = function describe(name, action) {
+        let describe = (name, action) => {
             behaviors[name] = new Behavior(name, action);
         };
 
-        var fire = function fire(name, args) {
-            var behavior = behaviors[name];
+        let fire = (name, args) => {
+            let behavior = behaviors[name];
 
             if (behavior) {
                 behavior.fire(args);
             }
         };
 
-        var when = function when(name, action) {
-            var behavior = behaviors[name];
+        let when = (name, action) => {
+            let behavior = behaviors[name];
 
             if (behavior) {
                 behavior.addListener(action);
@@ -120,8 +99,8 @@
     }
 
     function addElementMethods(instance, element) {
-        var cleanupEventListeners = function cleanupEventListeners() {
-            var clone = element.cloneNode(true);
+        let cleanupEventListeners = () => {
+            let clone = element.cloneNode(true);
             element.parentNode.replaceChild(clone, element);
             clone.remove();
         };

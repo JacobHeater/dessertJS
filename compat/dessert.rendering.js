@@ -1,8 +1,8 @@
-(function () {
+(() => {
 
     'use strict';
 
-    var RENDERING = {
+    const RENDERING = {
         renderComponents: renderComponents
     };
 
@@ -22,14 +22,14 @@
     }
 
     function renderComponents(page, components, controller) {
-        var componentsArr = ArrayHelper.objectValues(components);
+        let componentsArr = ArrayHelper.objectValues(components);
 
-        componentsArr.forEach(function (c) {
-            var domElems = document.querySelectorAll(c.name);
+        componentsArr.forEach(c => {
+            let domElems = document.querySelectorAll(c.name);
 
-            ArrayHelper.enumerate(domElems, function (elem) {
-                var instance = new c(controller.state, elem, elem.getAttribute('id'));
-                var componentFrag = dom.createDocFrag(instance.render());
+            ArrayHelper.enumerate(domElems, elem => {
+                let instance = new c(controller.state, elem, elem.getAttribute('id'));
+                let componentFrag = dom.createDocFrag(instance.render());
                 instance.init(componentFrag);
 
                 controller.registerComponent(instance);

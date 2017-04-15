@@ -1,10 +1,6 @@
-(function () {
+(() => {
 
     'use strict';
-
-    var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
     var Controller;
     var PropertyHelper;
@@ -28,14 +24,12 @@
         return Application;
     }
 
-    var Application = function () {
-        function Application(name) {
-            _classCallCheck(this, Application);
-
-            var CONTROLLERS = {};
-            var ROUTE_MGR = new RouteManager();
-            var HTTP_HANDLER = new HttpHandler();
-            var COMPONENT_CACHE = {};
+    class Application {
+        constructor(name) {
+            const CONTROLLERS = {};
+            const ROUTE_MGR = new RouteManager();
+            const HTTP_HANDLER = new HttpHandler();
+            const COMPONENT_CACHE = {};
 
             PropertyHelper.addReadOnlyProperties(this, [{
                 name: 'name',
@@ -49,35 +43,25 @@
             setHttpHandlerFunctions(this, HTTP_HANDLER);
         }
 
-        _createClass(Application, [{
-            key: 'selector',
-            get: function get() {
-                return '[data-dsrt-app=' + this.name + ']';
-            }
-        }, {
-            key: 'element',
-            get: function get() {
-                return document.querySelector(this.selector);
-            }
-        }, {
-            key: 'page',
-            get: function get() {
-                return this.element.querySelector(Application.pageSelector);
-            }
-        }], [{
-            key: 'pageSelector',
-            get: function get() {
-                return '[data-dsrt-page]';
-            }
-        }]);
+        static get pageSelector() {
+            return `[data-dsrt-page]`;
+        }
 
-        return Application;
-    }();
+        get selector() {
+            return `[data-dsrt-app=${this.name}]`;
+        }
+
+        get element() {
+            return document.querySelector(this.selector);
+        }
+
+        get page() {
+            return this.element.querySelector(Application.pageSelector);
+        }
+    }
 
     function setControllerFunctions(instance, controllers) {
-        instance.getController = function (name) {
-            return controllers[name];
-        };
+        instance.getController = name => controllers[name];
 
         instance.controller = function controllerFactory(name, ctor) {
             var controller = controllers[name];
@@ -92,23 +76,15 @@
     }
 
     function setRouteManagerFunctions(instance, routeMgr) {
-        instance.mapRoute = function (path, controllerName, view) {
-            return routeMgr.route(path, controllerName, view);
-        };
+        instance.mapRoute = (path, controllerName, view) => routeMgr.route(path, controllerName, view);
 
-        instance.clearRoute = function (path) {
-            return routeMgr.clearRoute(path);
-        };
+        instance.clearRoute = path => routeMgr.clearRoute(path);
     }
 
     function setComponentCacheFunctions(instance, componentCache) {
-        instance.registerComponent = function (component) {
-            return componentCache[component.name] = component;
-        };
+        instance.registerComponent = component => componentCache[component.name] = component;
 
-        instance.removeComponent = function (name) {
-            return delete componentCache[name];
-        };
+        instance.removeComponent = name => delete componentCache[name];
     }
 
     function setRenderingFunctions(instance, controllers, routeMgr, components, httpHandler) {
@@ -117,30 +93,26 @@
             var route = routeMgr.getRoute(path);
 
             if (route && route.view && route.controller) {
-                var page = instance.page;
-                var controller = controllers[route.controller];
-                ajax.get(route.view).then(function (html) {
+                let page = instance.page;
+                let controller = controllers[route.controller];
+                ajax.get(route.view).then(html => {
                     dom.emptyElement(page);
                     var docFrag = dom.createDocFrag(html);
                     page.appendChild(docFrag);
                     var componentInstances = Rendering.renderComponents(page, components, controller);
                     controller.init(page);
-                }).fail(function (xhr) {
+                }).fail(xhr => {
                     var status = xhr.status;
                     httpHandler.fireHandlers(code, [status, xhr.statusText]);
                 });
             } else {
-                httpHandler.fireHandlers(404, ['Route not found for path ' + path]);
+                httpHandler.fireHandlers(404, [`Route not found for path ${path}`]);
             }
         };
     }
 
     function setHttpHandlerFunctions(instance, httpHandler) {
-        instance.addHttpHandler = function (code, handler) {
-            return httpHandler.addHandler(code, handler);
-        };
-        instance.getHttpHandlers = function (code) {
-            return httpHandler.getHandlers(code);
-        };
+        instance.addHttpHandler = (code, handler) => httpHandler.addHandler(code, handler);
+        instance.getHttpHandlers = code => httpHandler.getHandlers(code);
     }
 })();

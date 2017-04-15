@@ -1,8 +1,8 @@
-(function () {
+(() => {
 
     'use strict';
 
-    var COMMON = {
+    const COMMON = {
         get noop() {
             return function () {};
         }
