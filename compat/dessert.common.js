@@ -1,10 +1,10 @@
-(() => {
+(function () {
 
     'use strict';
 
-    const COMMON = {
+    var COMMON = {
         get noop() {
-            return function() { };
+            return function () {};
         }
     };
 
@@ -13,5 +13,4 @@
     function main() {
         return COMMON;
     }
-
 })();

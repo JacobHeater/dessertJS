@@ -1,1 +1,0 @@
-!function(){"use strict";define(["./dessert.routing","./dessert.common"],function(t,e){function o(t,e,o){this.app=t,this.$page=e,this.args=o||[]}return o.prototype.route=function(e,o){t.setRoute(e,o)},e.utils.addReadOnlyProperty(o.prototype,"currentRoute",t.CURRENT),o})}();

@@ -1,49 +1,28 @@
 {
   "name": "dessertjs",
-  "version": "0.0.1",
-  "description": "A powerful, feature-rich, easy-to-use client-side MVC framework for building awesome web applications!",
+  "version": "1.0.0",
+  "description": "An easy-to-use, powerful, feature-rich JavaScript MVC framework.",
   "main": "server.js",
-  "directories": {
-    "example": "examples"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "sass": "node scripts/sass.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JacobHeater/dessertJS.git"
+    "test": "node spec/main.js",
+    "build": "bash scripts/build.sh",
+    "build-windows": "scripts/build.bat",
+    "babel-cleanup": "node babel-cleanup"
   },
   "keywords": [
-    "MVC",
-    "JavaScript"
+    "JavaScript",
+    "MVC"
   ],
   "author": "Jacob Heater",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/JacobHeater/dessertJS/issues"
-  },
-  "homepage": "https://github.com/JacobHeater/dessertJS#readme",
-  "devDependencies": {
-    "express": "^4.13.4",
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-eslint": "^2.0.0",
-    "gulp-uglify": "^2.0.0",
-    "gulp-util": "^3.0.7",
-    "gulp-zip": "^3.2.0",
-    "jasmine": "^2.4.1",
-    "node-sass": "^4.5.0",
-    "requirejs": "^2.3.2"
-  },
   "dependencies": {
-    "express": "^4.14.0",
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-eslint": "^2.0.0",
-    "gulp-uglify": "^2.0.0",
-    "gulp-util": "^3.0.7",
-    "gulp-zip": "^3.2.0"
+    "express": "^4.15.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "bootstrap": "^3.3.7",
+    "glob-fs": "^0.1.6",
+    "requirejs": "^2.3.3"
   }
 }

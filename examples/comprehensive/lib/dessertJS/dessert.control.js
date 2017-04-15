@@ -1,1 +1,0 @@
-!function(){"use strict";function t(t){function n(n,e,r,s){return e.dsrt=e.dsrt||{},e.dsrt.name=n,e.dsrt.view=r,e.destroy=function(){e.off("**"),e.remove()},t(e,s,r),e}return n}define(["./dessert.control.extensions"],t)}();

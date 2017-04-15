@@ -1,1 +1,0 @@
-!function(){"use strict";function e(){function e(e){return n.forEach(function(r){e=e.replace(r.regex,r.repl)}),e}var r={cleanupDeferredAttrs:e},n=[{regex:/deferred-src/gim,repl:"src"}];return r}define(e)}();
