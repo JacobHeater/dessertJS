@@ -10,28 +10,9 @@
     var HttpHandler;
     var Rendering;
 
-    define(
-        [
-            'helpers/ajax-helper',
-            'helpers/property-helper',
-            'helpers/dom-helper',
-            'dessert.controller',
-            'dessert.routemanager',
-            'dessert.httphandler',
-            'dessert.rendering'
-        ],
-        main
-    );
+    define(['helpers/ajax-helper', 'helpers/property-helper', 'helpers/dom-helper', 'dessert.controller', 'dessert.routemanager', 'dessert.httphandler', 'dessert.rendering'], main);
 
-    function main(
-        $Ajax,
-        $PropertyHelper,
-        $DomHelper,
-        $Controller,
-        $RouteManager,
-        $HttpHandler,
-        $Rendering
-    ) {
+    function main($Ajax, $PropertyHelper, $DomHelper, $Controller, $RouteManager, $HttpHandler, $Rendering) {
         ajax = $Ajax;
         Controller = $Controller;
         PropertyHelper = $PropertyHelper;
@@ -80,7 +61,7 @@
     }
 
     function setControllerFunctions(instance, controllers) {
-        instance.getController = (name) => controllers[name];
+        instance.getController = name => controllers[name];
 
         instance.controller = function controllerFactory(name, ctor) {
             var controller = controllers[name];
@@ -91,7 +72,7 @@
             }
 
             return controller;
-        }
+        };
     }
 
     function setRouteManagerFunctions(instance, routeMgr) {
@@ -114,19 +95,16 @@
             if (route && route.view && route.controller) {
                 let page = instance.page;
                 let controller = controllers[route.controller];
-                ajax
-                    .get(route.view)
-                    .then(html => {
-                        dom.emptyElement(page);
-                        var docFrag = dom.createDocFrag(html);
-                        page.appendChild(docFrag);
-                        var componentInstances = Rendering.renderComponents(page, components, controller);
-                        controller.init(page);
-                    })
-                    .fail(xhr => {
-                        var status = xhr.status;
-                        httpHandler.fireHandlers(code, [status, xhr.statusText]);
-                    });
+                ajax.get(route.view).then(html => {
+                    dom.emptyElement(page);
+                    var docFrag = dom.createDocFrag(html);
+                    page.appendChild(docFrag);
+                    var componentInstances = Rendering.renderComponents(page, components, controller);
+                    controller.init(page);
+                }).fail(xhr => {
+                    var status = xhr.status;
+                    httpHandler.fireHandlers(code, [status, xhr.statusText]);
+                });
             } else {
                 httpHandler.fireHandlers(404, [`Route not found for path ${path}`]);
             }
@@ -137,5 +115,4 @@
         instance.addHttpHandler = (code, handler) => httpHandler.addHandler(code, handler);
         instance.getHttpHandlers = code => httpHandler.getHandlers(code);
     }
-
 })();

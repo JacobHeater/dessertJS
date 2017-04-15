@@ -1,9 +1,0 @@
-{
-    "todo": {
-        "title": "dessertJS TODO List Example"
-    },
-    "countrySearch": {
-        "title": "dessertJS Country Search Example",
-        "label": "Search for your country by name:"
-    }
-}

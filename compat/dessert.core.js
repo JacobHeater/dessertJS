@@ -1,20 +1,12 @@
 (() => {
-    
+
     'use strict';
 
     var Application;
     var EventHelper;
     var $Promise;
-    
-    define(
-        [
-            'helpers/event-helper',
-            'helpers/promise',
-            'dessert.application',
-            'dessert.component'
-        ],
-        main
-    );
+
+    define(['helpers/event-helper', 'helpers/promise', 'dessert.application', 'dessert.component'], main);
 
     const APP_CACHE = {};
     const DESSERT = {
@@ -22,17 +14,13 @@
         promise: promiseFactory
     };
 
-    function main(
-        $EventHelper,
-        _Promise,
-        $Application,
-    ) {
+    function main($EventHelper, _Promise, $Application) {
         Application = $Application;
         EventHelper = $EventHelper;
         $Promise = _Promise;
 
         initEvents();
-        
+
         return DESSERT;
     };
 
@@ -52,14 +40,10 @@
     }
 
     function onHashChange() {
-        Object
-            .keys(APP_CACHE)
-            .map(k => APP_CACHE[k])
-            .forEach(app => app.render());
+        Object.keys(APP_CACHE).map(k => APP_CACHE[k]).forEach(app => app.render());
     }
 
     function promiseFactory() {
         return new $Promise();
     }
-
 })();

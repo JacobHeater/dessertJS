@@ -6,20 +6,9 @@
     var PropertyHelper;
     var Behavior;
 
-    define(
-        [
-            'helpers/uuid',
-            'helpers/property-helper',
-            'dessert.behavior'
-        ],
-        main
-    );
+    define(['helpers/uuid', 'helpers/property-helper', 'dessert.behavior'], main);
 
-    function main(
-        $uuid,
-        $PropertyHelper,
-        $Behavior
-    ) {
+    function main($uuid, $PropertyHelper, $Behavior) {
 
         uuid = $uuid;
         PropertyHelper = $PropertyHelper;
@@ -43,7 +32,7 @@
 
             addElementMethods(this, element);
             addBehaviorMethods(this);
-        }   
+        }
 
         /**
          * @abstract
@@ -121,5 +110,4 @@
             value: cleanupEventListeners
         }]);
     }
-
 })();

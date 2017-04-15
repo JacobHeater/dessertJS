@@ -4,7 +4,7 @@
 
     const COMMON = {
         get noop() {
-            return function() { };
+            return function () {};
         }
     };
 
@@ -13,5 +13,4 @@
     function main() {
         return COMMON;
     }
-
 })();

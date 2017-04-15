@@ -5,18 +5,9 @@
     var PropertyHelper;
     var ArrayHelper;
 
-    define(
-        [
-            'helpers/property-helper',
-            'helpers/array-helper'
-        ],
-        main
-    );
+    define(['helpers/property-helper', 'helpers/array-helper'], main);
 
-    function main(
-        $PropertyHelper,
-        $ArrayHelper
-    ) {
+    function main($PropertyHelper, $ArrayHelper) {
 
         PropertyHelper = $PropertyHelper;
         ArrayHelper = $ArrayHelper;
@@ -39,7 +30,6 @@
             }]);
 
             this.state = {};
-
         }
 
         registerComponent(component) {
@@ -56,5 +46,4 @@
             components.forEach(c => c.destroy());
         }
     }
-
 })();
