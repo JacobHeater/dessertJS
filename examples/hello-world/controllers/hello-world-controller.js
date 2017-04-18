@@ -17,6 +17,8 @@
             hw.when('user clicks say hello', val => {
                 console.info(val);
             });
+
+            hw.setText(this.state.salutation || 'Hello, world!');
         });
     }
 

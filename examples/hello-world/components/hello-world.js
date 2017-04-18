@@ -15,18 +15,28 @@
             }
 
             render() {
-                return `<input type="text" class="hello-world-tb" placeholder="Enter a message" />
-                        <input type="button" class="btn-say-hello" value="Say Hello!" />
-                        <div class="output"></div>`;
+                return Component.resource('hello-world');
+            }
+
+            api(element) {
+                var tb = element.querySelector('.hello-world-tb');
+
+                Object.assign(this, {
+                    setText(text) {
+                        tb.value = text || tb.value;
+                    }
+                });
             }
 
             init(element) {
+                super.init(element);
+
                 var tb = element.querySelector('.hello-world-tb');
                 var btn = element.querySelector('.btn-say-hello');
                 var output = element.querySelector('.output');
                 var that = this;
 
-                this.describe('user clicks say hello', function(behavior) {
+                this.describe('user clicks say hello', behavior => {
                     btn.addEventListener('click', () => {
                         var val = tb.value;
                         that.state.salutation = val;
@@ -35,7 +45,10 @@
                 });
 
                 this.describe('user bind keystrokes', () => {
-                    tb.addEventListener('keyup', () => output.textContent = that.state.stuff = tb.value);
+                    tb.addEventListener('keyup', () => {
+                        output.textContent = tb.value;
+                        that.state.msg = tb.value;
+                    });
                 });
             }
         }

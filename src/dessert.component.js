@@ -5,12 +5,16 @@
     var uuid;
     var PropertyHelper;
     var Behavior;
+    var ResourceRequest;
+    var Status;
 
     define(
         [
             'helpers/uuid',
             'helpers/property-helper',
-            'dessert.behavior'
+            'dessert.behavior',
+            'dessert.resourcerequest',
+            'dessert.status'
         ],
         main
     );
@@ -18,18 +22,22 @@
     function main(
         $uuid,
         $PropertyHelper,
-        $Behavior
+        $Behavior,
+        $ResourceRequest,
+        $Status
     ) {
 
         uuid = $uuid;
         PropertyHelper = $PropertyHelper;
         Behavior = $Behavior;
+        ResourceRequest = $ResourceRequest;
+        Status = $Status;
 
         return Component;
     }
 
     class Component {
-        constructor(state, element, id) {
+        constructor(app, state, element, id) {
             PropertyHelper.addReadOnlyProperties(this, [{
                 name: 'instanceId',
                 value: uuid()
@@ -43,6 +51,7 @@
 
             addElementMethods(this, element);
             addBehaviorMethods(this);
+            addResourceMethods(this, app);
         }   
 
         /**
@@ -50,6 +59,14 @@
          * @instance
          */
         static get name() {}
+
+        /**
+         * @static
+         * @param {String} name The name of the resource.
+         */
+        static resource(name) {
+            return new ResourceRequest(name);
+        }
 
         /** 
          * @abstract
@@ -60,8 +77,17 @@
         /**
          * @abstract
          * @instance
+         * @param {Element} element The DOM element that represents this component.
          */
-        init(element) {}
+        api(element) {}
+
+        /**
+         * @abstract
+         * @instance
+         */
+        init(element) {
+            this.api(element);
+        }
 
         /**
          * @abstract
@@ -120,6 +146,18 @@
             name: 'cleanupEventListeners',
             value: cleanupEventListeners
         }]);
+    }
+
+    function addResourceMethods(instance, app) {
+         instance.requestResource = function requestResource(resourceName) {
+            let resource = app.resources()[resourceName];
+
+            if (resource) {
+                return resource.content;
+            } else {
+                return Status.NOT_FOUND;
+            }
+         };
     }
 
 })();

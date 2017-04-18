@@ -53,7 +53,9 @@
 
         xhr.addEventListener('error', e => promise.reject(e));
 
-        xhr.addEventListener('load', e => xhr.status === STATUS_OK ? promise.resolve(xhr.responseText) : promise.reject(xhr));
+        xhr.addEventListener('load', e => xhr.status === STATUS_OK ?
+            promise.resolve(/.json/.test(config.url) ? tryAsJson(xhr.responseText) : xhr.responseText) : 
+            promise.reject(xhr));
 
         xhr.timeout = 60000;
         xhr.open(config.method, config.url, true);
@@ -65,5 +67,13 @@
         }
 
         return promise;
+    }
+
+    function tryAsJson(responseText) {
+        try {
+            return JSON.parse(responseText);
+        } catch (e) {
+            return responseText;
+        }
     }
 })();

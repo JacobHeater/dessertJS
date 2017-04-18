@@ -29,7 +29,7 @@
         }
 
         static get cleanHash() {
-            return this.hash.replace('#', '');
+            return this.hash.replace('#', '').replace(/\:.*/g, '');
         }
     }
 

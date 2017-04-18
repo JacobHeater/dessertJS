@@ -15,9 +15,10 @@
 
                 var tb = element.querySelector('.hello-world-tb');
                 var output = element.querySelector('.output');
+                var resource = this.requestResource('hello-john-doe');
 
                 tb.setAttribute('readonly', '');
-                output.textContent = tb.value = 'Hello, John Doe!';
+                output.textContent = tb.value = resource.JohnDoe;
             }
         }
 

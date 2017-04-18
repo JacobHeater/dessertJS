@@ -10,8 +10,14 @@
     }
 
     function mapRoutes(app) {
-        app.mapRoute('/', 'hello-world-controller', 'views/hello-world.html');
-        app.mapRoute('/john-doe', 'hello-world-controller', 'views/hello-john-doe.html');
+        app.route({
+            '/': {
+                'hello-world-controller': 'views/hello-world.html'
+            },
+            '/john-doe': {
+                'hello-world-controller': 'views/hello-john-doe.html'
+            }
+        });
     }
 
 
