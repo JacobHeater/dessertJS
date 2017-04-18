@@ -39,18 +39,20 @@
         var idx = 0;
         var path = '';
         var name = '';
-        var loadResource = function(i) {
+        var loadResource = function (i) {
             if (i < resKeys.length) {
                 name = resKeys[i];
                 path = res[name];
                 if (path instanceof Resource) {
-                    path = path.path;
-                }
-                ajax.get(path).then(function(content) {
-                    res[name] = new Resource(name, path, content);
                     i++;
                     loadResource(i);
-                });
+                } else {
+                    ajax.get(path).then(function (content) {
+                        res[name] = new Resource(name, path, content);
+                        i++;
+                        loadResource(i);
+                    });
+                }
             } else {
                 prom.resolve();
             }
