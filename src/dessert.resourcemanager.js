@@ -44,8 +44,10 @@
                 name = resKeys[i];
                 path = res[name];
                 if (path instanceof Resource) {
-                    i++;
-                    loadResource(i);
+                    setTimeout(() => {
+                        i++;
+                        loadResource(i);
+                    }, 0);
                 } else {
                     ajax.get(path).then(function (content) {
                         res[name] = new Resource(name, path, content);
