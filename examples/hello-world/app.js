@@ -7,7 +7,8 @@
             'dessert.core',
             './controllers/hello-world-controller',
             './components/register',
-            './routing/route'
+            './routing/route',
+            './resources/resources'
         ],
         main
     );
@@ -16,7 +17,8 @@
         dessert,
         helloWorldController,
         registerComponents,
-        registerRoutes
+        registerRoutes,
+        resx
     ) {
         var app = dessert.app('hello-world');
 
@@ -28,6 +30,7 @@
         });
 
         registerRoutes(app);
+        resx(app);
         
         app.render();
     }

@@ -17,9 +17,7 @@
         StateMonitor
     ) {
         return function register(app) {
-            app.registerComponent(HelloWorld);
-            app.registerComponent(HelloJohnDoe);
-            app.registerComponent(StateMonitor);
+            app.registerComponents([HelloWorld, HelloJohnDoe, StateMonitor]);
         };
     }
 })();

@@ -38,7 +38,7 @@
                 value: {}
             }]);
 
-            this.state = {};
+            addStateMethods(this);
 
         }
 
@@ -55,6 +55,14 @@
 
             components.forEach(c => c.destroy());
         }
+    }
+
+    function addStateMethods(instance) {
+
+        PropertyHelper.addReadOnlyProperties(instance, [{
+            name: 'state',
+            value: {}
+        }]);
     }
 
 })();

@@ -7,6 +7,8 @@
     "test": "node spec/main.js",
     "build": "bash scripts/build.sh",
     "build-windows": "scripts/build.bat",
+    "build-debug": "bash scripts/build-debug.sh",
+    "build-debug-windows": "scripts/build-debug.bat",
     "babel-cleanup": "node babel-cleanup"
   },
   "keywords": [
