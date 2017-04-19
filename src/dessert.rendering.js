@@ -43,7 +43,8 @@
             let domElems = document.querySelectorAll(c.name);
 
             ArrayHelper.enumerate(domElems, elem => {
-                let instance = new c(app, controller.state, elem, elem.getAttribute('id'));
+                let id = elem.getAttribute('id');
+                let instance = new c(app, controller.state, elem, id);
                 let html = instance.render();
                 if (html instanceof ResourceRequest) {
                     let resource = app.resources()[html.name];
@@ -54,9 +55,16 @@
                     }
                 }
                 let componentFrag = dom.createDocFrag(html);
-                instance.init(componentFrag);
+                
+                if (instance.init) {
+                    instance.init(componentFrag);
+                }
 
-                controller.registerComponent(instance);
+                if (id) {
+                    //This is not a partial view.
+                    //Add it to the controller.
+                    controller.registerComponent(instance);
+                }
 
                 elem.parentNode.replaceChild(componentFrag, elem);
             });

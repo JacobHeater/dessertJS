@@ -6,18 +6,15 @@
         [
             './hello-world',
             './hello-john-doe',
-            './state-monitor'
+            './state-monitor',
+            './title',
+            './title-text'
         ],
         main
     );
 
-    function main(
-        HelloWorld,
-        HelloJohnDoe,
-        StateMonitor
-    ) {
-        return function register(app) {
-            app.registerComponents([HelloWorld, HelloJohnDoe, StateMonitor]);
-        };
+    function main() {
+        var dependencies = [].slice.call(arguments, 0);
+        return app => app.registerComponents(dependencies);
     }
 })();
