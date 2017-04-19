@@ -11,7 +11,8 @@
             'helpers/event-helper',
             'helpers/promise',
             'dessert.application',
-            'dessert.component'
+            'dessert.component',
+            'dessert.partialview'
         ],
         main
     );
