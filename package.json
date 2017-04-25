@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "An easy-to-use, powerful, feature-rich JavaScript MVC framework.",
   "main": "server.js",
+  "repository": {
+    "type": "GitHub",
+    "url": "https://github.com/JacobHeater/dessertJS.git"
+  },
   "scripts": {
     "test": "standard && node spec/main.js",
     "build": "bash scripts/build.sh",

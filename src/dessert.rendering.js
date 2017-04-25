@@ -38,12 +38,13 @@
 
     function renderComponents(app, page, components, controller) {
         let componentsArr = ArrayHelper.objectValues(components);
+        let DessertElement = app.DessertElement;
 
         componentsArr.forEach(c => {
-            let domElems = document.querySelectorAll(c.name);
+            let domElems = DessertElement.findAll(c.name);
 
             ArrayHelper.enumerate(domElems, elem => {
-                let id = elem.getAttribute('id');
+                let id = elem.attr('id');
                 let instance = new c(app, controller.state, elem, id);
                 let html = instance.render();
                 if (html instanceof ResourceRequest) {
@@ -54,7 +55,7 @@
                         html = `<span style="display: none;">resource not found</span>`;
                     }
                 }
-                let componentFrag = dom.createDocFrag(html);
+                let componentFrag = DessertElement.factory(html);
                 
                 if (instance.init) {
                     instance.init(componentFrag);
@@ -66,7 +67,7 @@
                     controller.registerComponent(instance);
                 }
 
-                elem.parentNode.replaceChild(componentFrag, elem);
+                elem.replaceWith(componentFrag.element);
             });
         });
 

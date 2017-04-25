@@ -137,8 +137,8 @@
 
     function addElementMethods(instance, element) {
         let cleanupEventListeners = () => {
-            let clone = element.cloneNode(true);
-            element.parentNode.replaceChild(clone, element);
+            let clone = element.clone();
+            element.replaceWith(clone);
             clone.remove();
         };
 

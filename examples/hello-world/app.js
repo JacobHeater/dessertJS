@@ -26,7 +26,7 @@
         registerComponents(app);
 
         app.addHttpHandler(404, function () {
-            app.page.innerHTML = '<h1>Whoops! Something went wrong!</h1>';
+            app.page.element.innerHTML = '<h1>Whoops! Something went wrong!</h1>';
         });
 
         registerRoutes(app);

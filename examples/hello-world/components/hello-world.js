@@ -19,7 +19,7 @@
             }
 
             api(element) {
-                var tb = element.querySelector('.hello-world-tb');
+                var tb = element.find('.hello-world-tb').element;
 
                 Object.assign(this, {
                     setText(text) {
@@ -31,9 +31,9 @@
             init(element) {
                 super.init(element);
 
-                var tb = element.querySelector('.hello-world-tb');
-                var btn = element.querySelector('.btn-say-hello');
-                var output = element.querySelector('.output');
+                var tb = element.find('.hello-world-tb').element;
+                var btn = element.find('.btn-say-hello').element;
+                var output = element.find('.output').element;
                 var that = this;
 
                 this.describe('user clicks say hello', behavior => {
