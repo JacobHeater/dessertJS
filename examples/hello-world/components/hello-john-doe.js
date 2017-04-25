@@ -13,8 +13,8 @@
             init(element) {
                 super.init(element);
 
-                var tb = element.querySelector('.hello-world-tb');
-                var output = element.querySelector('.output');
+                var tb = element.find('.hello-world-tb').element;
+                var output = element.find('.output').element;
                 var resource = this.requestResource('hello-john-doe');
 
                 tb.setAttribute('readonly', '');

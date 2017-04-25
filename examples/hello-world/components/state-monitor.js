@@ -21,7 +21,7 @@
             }
 
             init(element) {
-                var output = element.querySelector('.state-mon');
+                var output = element.find('.state-mon').element;
                 var that = this;
 
                 setInterval(() => {

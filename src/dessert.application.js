@@ -5,16 +5,19 @@
     var Controller;
     var PropertyHelper;
     var RouteManager;
+    var ArrayHelper;
     var ajax;
     var dom;
     var HttpHandler;
     var Rendering;
     var TypeHelper;
     var ResourceManager;
+    var DessertElement;
 
     define(
         [
             'helpers/ajax-helper',
+            'helpers/array-helper',
             'helpers/property-helper',
             'helpers/dom-helper',
             'helpers/type-helper',
@@ -22,13 +25,15 @@
             'dessert.routemanager',
             'dessert.httphandler',
             'dessert.rendering',
-            'dessert.resourcemanager'
+            'dessert.resourcemanager',
+            'dessert.element'
         ],
         main
     );
 
     function main(
         $Ajax,
+        $ArrayHelper,
         $PropertyHelper,
         $DomHelper,
         $TypeHelper,
@@ -36,9 +41,11 @@
         $RouteManager,
         $HttpHandler,
         $Rendering,
-        $ResourceManager
+        $ResourceManager,
+        $DessertElement
     ) {
         ajax = $Ajax;
+        ArrayHelper = $ArrayHelper;
         Controller = $Controller;
         PropertyHelper = $PropertyHelper;
         RouteManager = $RouteManager;
@@ -47,22 +54,45 @@
         Rendering = $Rendering;
         TypeHelper = $TypeHelper;
         ResourceManager = $ResourceManager;
+        DessertElement = $DessertElement;
 
         return Application;
     }
 
     class Application {
-        constructor(name) {
+        constructor(name, config) {
             const CONTROLLERS = {};
             const ROUTE_MGR = new RouteManager();
             const HTTP_HANDLER = new HttpHandler();
             const COMPONENT_CACHE = {};
             const RESOURCE_CACHE = {};
 
+            let _dessertElement = DessertElement;
+
             PropertyHelper.addReadOnlyProperties(this, [{
                 name: 'name',
                 value: name
             }]);
+
+            Object.defineProperties(this, {
+                DessertElement: {
+                    get: function getDessertElement() {
+                        return _dessertElement;
+                    },
+                    set: function(element) {
+                        if (Object.getPrototypeOf(element) === DessertElement && element.factory && element.prototype.replaceWith) {
+                            _dessertElement = element;
+                        }
+                    }
+                }
+            });
+
+            if (TypeHelper.isObject(config)) {
+                Object
+                    .keys(config)
+                    .filter(filterApplicableKeys)
+                    .forEach(key => this[key] = config[key]);                    
+            }
 
             setControllerMethods(this, CONTROLLERS);
             setRouteManagerMethods(this, ROUTE_MGR);
@@ -81,11 +111,11 @@
         }
 
         get element() {
-            return document.querySelector(this.selector);
+            return this.DessertElement.find(this.selector);
         }
 
         get page() {
-            return this.element.querySelector(Application.pageSelector);
+            return this.element.find(Application.pageSelector);
         }
     }
 
@@ -132,6 +162,8 @@
     }
 
     function setRenderingMethods(instance, controllers, routeMgr, components, httpHandler) {
+        var DessertElement = instance.DessertElement;
+
         instance.render = function render() {
             var path = RouteManager.cleanHash;
             var route = routeMgr.getRoute(path);
@@ -145,9 +177,9 @@
                         ajax
                             .get(route.view)
                             .then(html => {
-                                dom.emptyElement(page);
-                                var docFrag = dom.createDocFrag(html);
-                                page.appendChild(docFrag);
+                                page.empty();
+                                var docFrag = DessertElement.factory(html);
+                                page.append(docFrag.element);
                                 var componentInstances = Rendering.renderComponents(instance, page, components, controller);
                                 controller.init(page);
                             })
@@ -175,6 +207,14 @@
                 return resourceCache;
             }
         };
+    }
+
+    function filterApplicableKeys(key) {
+        let applicable = [
+            'DessertElement'
+        ];
+
+        return ArrayHelper.isInArray(key, applicable);
     }
 
 })();

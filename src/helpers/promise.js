@@ -142,20 +142,23 @@ SOFTWARE.
          * 
          * @return {$Promise} The current $Promise instance.
          */
-        this.resolve = function notify() {
+        this.resolve = function resolve() {
             if (pending) {
-                pending = false;
+                
                 var args = arguments;
 
-                //Iterate over the callstack and pass along all arguments to each function.
-                iterateStack(callstack, function (fn) {
-                    fn.apply(null, args);
-                });
+                setTimeout(function () {
+                    pending = false;
+                    //Iterate over the callstack and pass along all arguments to each function.
+                    iterateStack(callstack, function (fn) {
+                        fn.apply(null, args);
+                    });
 
-                //Iterate over the always callstack and pass along all arguments to each function.
-                iterateStack(alwaysHandlers, function (fn) {
-                    fn.apply(null, args);
-                });
+                    //Iterate over the always callstack and pass along all arguments to each function.
+                    iterateStack(alwaysHandlers, function (fn) {
+                        fn.apply(null, args);
+                    });
+                }, 0);
             }
 
             return this; //Chainable API

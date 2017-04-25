@@ -37,11 +37,11 @@
         return DESSERT;
     };
 
-    function appFactory(name) {
+    function appFactory(name, config) {
         var app = APP_CACHE[name];
 
         if (!app) {
-            app = new Application(name);
+            app = new Application(name, config);
             APP_CACHE[name] = app;
         }
 
