@@ -1,3 +1,8 @@
+/**
+ * @file A helper for creating and modifying URLs in dessertJS
+ * @author Jacob Heater
+ * @since 04/15/2017
+ */
 (() => {
 
     'use strict';
@@ -9,6 +14,11 @@
 
     define(main);
 
+    /**
+     * Main entry point for the UrlHelper module.
+     * 
+     * @returns {Object} The URL helper object.
+     */
     function main() {
         return URL_HELPER;
     }
@@ -44,6 +54,5 @@
     function hasQueryString(string) {
         return /\?/g.test(string);
     }
-
 
 })();

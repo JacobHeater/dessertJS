@@ -10,7 +10,7 @@
         [
             'helpers/ajax-helper',
             'helpers/promise',
-            'dessert.resource',
+            'dessert.resource'
         ],
         main
     );

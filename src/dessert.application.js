@@ -2,6 +2,7 @@
 
     'use strict';
 
+    var Page;
     var Controller;
     var PropertyHelper;
     var RouteManager;
@@ -21,6 +22,7 @@
             'helpers/property-helper',
             'helpers/dom-helper',
             'helpers/type-helper',
+            'dessert.page',
             'dessert.controller',
             'dessert.routemanager',
             'dessert.httphandler',
@@ -37,6 +39,7 @@
         $PropertyHelper,
         $DomHelper,
         $TypeHelper,
+        $Page,
         $Controller,
         $RouteManager,
         $HttpHandler,
@@ -44,6 +47,7 @@
         $ResourceManager,
         $DessertElement
     ) {
+        Page = $Page;
         ajax = $Ajax;
         ArrayHelper = $ArrayHelper;
         Controller = $Controller;
@@ -180,8 +184,9 @@
                                 page.empty();
                                 var docFrag = DessertElement.factory(html);
                                 page.append(docFrag.element);
-                                var componentInstances = Rendering.renderComponents(instance, page, components, controller);
-                                controller.init(page);
+                                Rendering.renderComponents(instance, page, components, controller);
+                                Rendering.renderControls(instance, page, controller);
+                                controller.init(new Page(page, route.argsHash(path)));
                             })
                             .fail(xhr => {
                                 var status = xhr.status;
