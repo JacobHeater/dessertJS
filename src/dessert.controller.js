@@ -36,6 +36,9 @@
             }, {
                 name: 'components',
                 value: {}
+            }, {
+                name: 'controls',
+                value: {}
             }]);
 
             addStateMethods(this);
@@ -46,8 +49,16 @@
             this.components[component.id] = component;
         }
 
-        deRegisterComponent(component) {
+        removeComponent(component) {
             delete this.components[component.id];
+        }
+
+        registerControl(name, control) {
+            this.controls[name] = control;
+        }
+
+        removeControl(name) {
+            delete this.controls[name];
         }
 
         destroy() {

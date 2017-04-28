@@ -1,5 +1,4 @@
 (() => {
-
     'use strict';
 
     define(main);
@@ -9,6 +8,10 @@
     }
 
     class ArrayHelper {
+        static castArray(arrayLike) {
+            return Array.prototype.slice.call(arrayLike, 0);
+        }
+
         static objectValues(obj) {
             return Object.keys(obj).map(k => obj[k]);
         }

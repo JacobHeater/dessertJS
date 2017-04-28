@@ -1,3 +1,35 @@
 {
-    "extends": "standard"
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "rules": {
+        "Require-jsdoc": "error",
+        "comma-dangle": "error",
+        "brace-style": "error",
+        "comma-style": "error",
+        "camelcase": "error",
+        "complexity": "error",
+        "curly": "error",
+        "eqeqeq": "error",
+        "no-console": "error",
+        "no-debugger": "error",
+        "no-alert": "error",
+        "no-eval": "error",
+        "no-dupe-keys": "error",
+        "no-dupe-args": "error",
+        "array-bracket-spacing": "warn",
+        "guard-for-in": "error",
+        "no-loop-func": "error"
+    },
+    "env": {
+        "amd": true,
+        "browser": true
+    },
+    "ignore": [
+        "dist",
+        "compat",
+        "examples",
+        "node_modules",
+        "spec"
+    ]
 }

@@ -87,6 +87,10 @@
         append(child) {
             this.element.appendChild(child);
         }
+
+        on(event, handler) {
+            this.element.addEventListener(event, handler);
+        }
     }
 
     function makeArray(nodeList) {

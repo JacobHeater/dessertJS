@@ -14,7 +14,7 @@
             '/': {
                 'hello-world-controller': 'views/hello-world.html'
             },
-            '/john-doe': {
+            '/john-doe/{int:id}/{date:name}': {
                 'hello-world-controller': 'views/hello-john-doe.html'
             }
         });

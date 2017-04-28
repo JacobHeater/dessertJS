@@ -3,8 +3,12 @@
     'use strict';
 
     const RENDERING = {
-        renderComponents: renderComponents
+        renderComponents: renderComponents,
+        renderControls: renderControls
     };
+
+    const ATTR_DSRT_CTRL = 'dsrtControl';
+    const SELECTOR_DSRT_CTRL = '[data-dsrt-control]';
 
     var ArrayHelper;
     var dom;
@@ -71,6 +75,14 @@
             });
         });
 
+    }
+
+    function renderControls(app, page, controller) {
+        let controls = page.element.querySelectorAll(SELECTOR_DSRT_CTRL);
+        let controlsArray = ArrayHelper.castArray(controls);
+        let DessertElement = app.DessertElement;
+
+        controlsArray.forEach(ctrl => controller.registerControl(ctrl.dataset[ATTR_DSRT_CTRL], new DessertElement(ctrl)));
     }
 
 })();
