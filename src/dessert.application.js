@@ -14,6 +14,8 @@
     var TypeHelper;
     var ResourceManager;
     var DessertElement;
+    var ResourceRequest;
+    var Status;
 
     define(
         [
@@ -28,7 +30,9 @@
             'dessert.httphandler',
             'dessert.rendering',
             'dessert.resourcemanager',
-            'dessert.element'
+            'dessert.element',
+            'dessert.resourcerequest',
+            'dessert.status'
         ],
         main
     );
@@ -45,7 +49,9 @@
         $HttpHandler,
         $Rendering,
         $ResourceManager,
-        $DessertElement
+        $DessertElement,
+        $ResourceRequest,
+        $Status
     ) {
         Page = $Page;
         ajax = $Ajax;
@@ -59,6 +65,8 @@
         TypeHelper = $TypeHelper;
         ResourceManager = $ResourceManager;
         DessertElement = $DessertElement;
+        ResourceRequest = $ResourceRequest;
+        Status = $Status;
 
         return Application;
     }
@@ -130,7 +138,7 @@
             var controller = controllers[name];
 
             if (!controller) {
-                controller = new Controller(name, ctor);
+                controller = new Controller(insstance, name, ctor);
                 controllers[name] = controller;
             }
 
@@ -210,6 +218,19 @@
                 Object.assign(resourceCache, config);
             } else {
                 return resourceCache;
+            }
+        };
+
+        instance.requestResource = function requestResource(resourceRequest) {
+            if (resourceRequest instanceof ResourceRequest) {
+                let resourceName = resourceRequest.name;
+                let match = instance.resources()[resourceName];
+
+                if (match) {
+                    return match.content;
+                } else {
+                    return Status.NOT_FOUND;
+                }
             }
         };
     }
