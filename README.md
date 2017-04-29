@@ -60,7 +60,7 @@ class TextBox extends Component {
 
 ```html
 <!-- Create a textbox element to get an instance of the component -->
-<!-- Ths id property will be how it is identified in the controller -->
+<!-- The id property will be how it is identified in the controller -->
 <textbox id="firstName"></textbox>
 <input type="button" data-dsrt-control="submit" value="Submit" />
 ```
