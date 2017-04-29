@@ -138,7 +138,7 @@
             var controller = controllers[name];
 
             if (!controller) {
-                controller = new Controller(insstance, name, ctor);
+                controller = new Controller(instance, name, ctor);
                 controllers[name] = controller;
             }
 

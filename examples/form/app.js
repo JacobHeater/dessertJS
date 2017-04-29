@@ -4,7 +4,7 @@
 
     require([
         'dessert.core',
-        './routing',
+        './routing/route.js',
         './controllers/form-controller',
         './components/register'
     ], main);
