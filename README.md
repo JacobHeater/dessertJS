@@ -1,7 +1,7 @@
 # dessertJS [![Build Status](https://travis-ci.org/JacobHeater/dessertJS.svg?branch=master)](https://travis-ci.org/JacobHeater/dessertJS)
 *A powerful, feature-rich, easy-to-use client-side MVC framework for building awesome web applications!*
 
-dessertJS is a light-weight, minimalistic MVC framework that provides a component based architecture out
+dessertJS is a light-weight (only 6 KB gzipped!), minimalistic MVC framework that provides a component based architecture out
 of the box. dessertJS is pluggable and extensible by offering abstract classes that can be implemented to
 to extend some of the features of dessert. dessertJS's component based architecture leverages some of the
 features if the most well-known JavaScript frameworks, but follows a template-based mechanism for
