@@ -84,8 +84,8 @@
     function addResourceMethods(instance, app) {
 
         PropertyHelper.addReadOnlyProperties(instance, [{
-            name: 'getResource',
-            value: getResource.bind(instance, app)
+            name: 'requestResource',
+            value: requestResource.bind(instance, app)
         }]);
     }
 
