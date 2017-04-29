@@ -4,28 +4,32 @@
 
     var PropertyHelper;
     var ArrayHelper;
+    var ResourceRequest;
 
     define(
         [
             'helpers/property-helper',
-            'helpers/array-helper'
+            'helpers/array-helper',
+            'dessert.resourcerequest'
         ],
         main
     );
 
     function main(
         $PropertyHelper,
-        $ArrayHelper
+        $ArrayHelper,
+        $ResourceRequest
     ) {
 
         PropertyHelper = $PropertyHelper;
         ArrayHelper = $ArrayHelper;
+        ResourceRequest = $ResourceRequest;
 
         return Controller;
     }
 
     class Controller {
-        constructor(name, init) {
+        constructor(app, name, init) {
 
             PropertyHelper.addReadOnlyProperties(this, [{
                 name: 'name',
@@ -42,6 +46,7 @@
             }]);
 
             addStateMethods(this);
+            addResourceMethods(this, app);
 
         }
 
@@ -74,6 +79,19 @@
             name: 'state',
             value: {}
         }]);
+    }
+
+    function addResourceMethods(instance, app) {
+
+        PropertyHelper.addReadOnlyProperties(instance, [{
+            name: 'getResource',
+            value: getResource.bind(instance, app)
+        }]);
+    }
+
+    function requestResource(app, resourceName) {
+        let request = new ResourceRequest(resourceName);
+        return app.requestResource(request);
     }
 
 })();

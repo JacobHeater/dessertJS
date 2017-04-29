@@ -49,7 +49,8 @@
 
             ArrayHelper.enumerate(domElems, elem => {
                 let id = elem.attr('id');
-                let instance = new c(app, controller.state, elem, id);
+                let resources = app.resources();
+                let instance = new c(resources, controller.state, elem, id);
                 let html = instance.render();
                 if (html instanceof ResourceRequest) {
                     let resource = app.resources()[html.name];

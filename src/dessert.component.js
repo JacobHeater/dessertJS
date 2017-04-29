@@ -37,7 +37,7 @@
     }
 
     class Component {
-        constructor(app, state, element, id) {
+        constructor(resources, state, element, id) {
             PropertyHelper.addReadOnlyProperties(this, [{
                 name: 'instanceId',
                 value: uuid()
@@ -51,7 +51,7 @@
 
             addElementMethods(this, element);
             addBehaviorMethods(this);
-            addResourceMethods(this, app);
+            addResourceMethods(this, resources);
         }   
 
         /**
@@ -148,9 +148,9 @@
         }]);
     }
 
-    function addResourceMethods(instance, app) {
+    function addResourceMethods(instance, resources) {
          instance.requestResource = function requestResource(resourceName) {
-            let resource = app.resources()[resourceName];
+            let resource = resources[resourceName];
 
             if (resource) {
                 return resource.content;
