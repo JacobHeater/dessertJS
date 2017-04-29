@@ -12,7 +12,6 @@
         app.controller('form-controller', function(page) {
             var components = this.components;
             
-            components.test.addFormControl(`<input type="text" placeholder="test" />`);
         });
     }
 

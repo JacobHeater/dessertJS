@@ -4,17 +4,17 @@
 
     define(
         [
-            './form'
+            './authenticate'
         ],
         main
     );
 
     function main(
-        Form
+        Authenticate
     ) {
 
         return function register(app) {
-            app.registerComponents([Form]);
+            app.registerComponents([Authenticate]);
         };
 
     }

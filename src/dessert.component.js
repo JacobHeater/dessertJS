@@ -104,7 +104,8 @@
         let behaviors = {};
 
         let describe = (name, action) => {
-            behaviors[name] = new Behavior(name, action);
+            let behavior = behaviors[name] = new Behavior(name, action);
+            return behavior;
         };
 
         let fire = (name, args) => {
