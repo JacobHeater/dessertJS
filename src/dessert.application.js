@@ -7,6 +7,7 @@
     var PropertyHelper;
     var RouteManager;
     var ArrayHelper;
+    var ResourceHelper;
     var ajax;
     var dom;
     var HttpHandler;
@@ -24,6 +25,7 @@
             'helpers/property-helper',
             'helpers/dom-helper',
             'helpers/type-helper',
+            'helpers/resource-helper',
             'dessert.page',
             'dessert.controller',
             'dessert.routemanager',
@@ -43,6 +45,7 @@
         $PropertyHelper,
         $DomHelper,
         $TypeHelper,
+        $ResourceHelper,
         $Page,
         $Controller,
         $RouteManager,
@@ -56,6 +59,7 @@
         Page = $Page;
         ajax = $Ajax;
         ArrayHelper = $ArrayHelper;
+        ResourceHelper = $ResourceHelper;
         Controller = $Controller;
         PropertyHelper = $PropertyHelper;
         RouteManager = $RouteManager;
@@ -103,7 +107,7 @@
                 Object
                     .keys(config)
                     .filter(filterApplicableKeys)
-                    .forEach(key => this[key] = config[key]);                    
+                    .forEach(key => this[key] = config[key]);
             }
 
             setControllerMethods(this, CONTROLLERS);
@@ -167,7 +171,8 @@
     function setComponentCacheMethods(instance, componentCache) {
         instance.registerComponent = component => componentCache[component.name] = component;
         instance.registerComponents = components => {
-            components.forEach(instance.registerComponent);
+            var componentArray = ArrayHelper.castArray(components);
+            componentArray.forEach(instance.registerComponent);
         };
 
         instance.removeComponent = name => delete componentCache[name];
@@ -192,8 +197,8 @@
                                 page.empty();
                                 var docFrag = DessertElement.factory(html);
                                 page.append(docFrag.element);
-                                Rendering.renderComponents(instance, page, components, controller);
                                 Rendering.renderControls(instance, page, controller);
+                                Rendering.renderComponents(instance, components, controller);
                                 controller.init(new Page(page, route.argsHash(path)));
                             })
                             .fail(xhr => {
@@ -222,16 +227,7 @@
         };
 
         instance.requestResource = function requestResource(resourceRequest) {
-            if (resourceRequest instanceof ResourceRequest) {
-                let resourceName = resourceRequest.name;
-                let match = instance.resources()[resourceName];
-
-                if (match) {
-                    return match.content;
-                } else {
-                    return Status.NOT_FOUND;
-                }
-            }
+            return ResourceHelper.requestResource(instance.resources(), resourceRequest);
         };
     }
 

@@ -12,6 +12,8 @@ easy to remember, and dessert is built using AMD modules making it easy to bundl
 into existing JavaScript modules. dessertJS uses some of the latest ES2015 features and backports
 them using Babel. Feel free to grab the source and recompile without Babel.
 
+**[Live Demo](http://dessertjs.herokuapp.com)**
+
 ## Examples of a Component in dessertJS
 
 Components are the backbone of dessertJS. They are reusable pieces of functionality that are

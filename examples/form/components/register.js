@@ -4,17 +4,19 @@
 
     define(
         [
-            './authenticate'
+            './authenticate',
+            './repeater',
+            './button'
         ],
         main
     );
 
-    function main(
-        Authenticate
-    ) {
+    function main() {
+
+        var components = arguments;
 
         return function register(app) {
-            app.registerComponents([Authenticate]);
+            app.registerComponents(components);
         };
 
     }

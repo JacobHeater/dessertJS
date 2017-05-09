@@ -17,6 +17,7 @@
 
             render() {
                 return `<h3>Controller State Bag</h3>
+                        <my-title></my-title>
                         <div class="state-mon"></div>`;
             }
 

@@ -26,7 +26,7 @@
     function main(
         $EventHelper,
         _Promise,
-        $Application,
+        $Application
     ) {
         Application = $Application;
         EventHelper = $EventHelper;

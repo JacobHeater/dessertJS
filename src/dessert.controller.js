@@ -43,6 +43,9 @@
             }, {
                 name: 'controls',
                 value: {}
+            }, {
+                name: 'type',
+                value: 'controller'
             }]);
 
             addStateMethods(this);
