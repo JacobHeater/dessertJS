@@ -5,21 +5,25 @@
     var dom;
     var types;
     var PropertyHelper;
+    var ArrayHelper;
 
     define([
         './helpers/dom-helper',
         './helpers/type-helper',
-        './helpers/property-helper'
+        './helpers/property-helper',
+        './helpers/array-helper'
     ], main);
 
     function main(
         $dom,
         $types,
-        $PropertyHelper
+        $PropertyHelper,
+        $ArrayHelper
     ) {
         dom = $dom;
         types = $types;
         PropertyHelper = $PropertyHelper;
+        ArrayHelper = $ArrayHelper;
 
         return DessertElement;
     }
@@ -39,12 +43,12 @@
             return html;
         }
 
-        static find(selector) {
-            return new DessertElement(document.querySelector(selector));
+        static find(selector, context = document) {
+            return new DessertElement(context.querySelector(selector));
         }
 
-        static findAll(selector) {
-            let matches = document.querySelectorAll(selector);
+        static findAll(selector, context = document) {
+            let matches = context.querySelectorAll(selector);
             let arrayLike = makeArray(matches);
 
             return arrayLike.map(toDessertElement);
@@ -73,6 +77,16 @@
             dom.emptyElement(this.element);
         }
 
+        data(name, value) {
+            var elem = this.element;
+            if (name && value !== undefined) {
+                elem.dataset[name] = value;
+                return this;
+            }
+
+            return elem.dataset[name];
+        }
+
         find(selector) {
             return new DessertElement(this.element.querySelector(selector));
         }
@@ -91,10 +105,18 @@
         on(event, handler) {
             this.element.addEventListener(event, handler);
         }
+
+        value(value) {
+            if (value) {
+                this.element.value = value;
+                return this;
+            }
+            return this.element.value;
+        }
     }
 
     function makeArray(nodeList) {
-        return Array.from(nodeList);
+        return ArrayHelper.castArray(nodeList);
     }
 
     function toDessertElement(elem) {

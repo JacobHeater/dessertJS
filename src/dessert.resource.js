@@ -6,7 +6,8 @@
 
     define(
         [
-            'helpers/property-helper'
+            'helpers/property-helper',
+            'dessert.status'
         ],
         main
     );

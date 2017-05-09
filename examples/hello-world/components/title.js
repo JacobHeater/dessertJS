@@ -6,7 +6,9 @@
 
     function main(PartialView) {
         class Title extends PartialView {
-            static get name() { return 'my-title' }
+            static get name() {
+                return 'my-title';
+            }
 
             render() {
                 return `<h3><my-title-text></my-title-text></h3>`;

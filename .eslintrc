@@ -3,7 +3,6 @@
         "ecmaVersion": 6
     },
     "rules": {
-        "Require-jsdoc": "error",
         "comma-dangle": "error",
         "brace-style": "error",
         "comma-style": "error",
